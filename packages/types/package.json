@@ -3,12 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "types": "index.d.ts",
+  "dependencies": {},
   "devDependencies": {
     "@poll/prisma": "workspace:*",
     "stripe": "^13.7.0"
-  },
-  "dependencies": {
-    "socket.io": "^4.7.2",
-    "socket.io-client": "^4.7.2"
   }
 }

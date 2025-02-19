@@ -5,6 +5,7 @@ import prisma from "@poll/prisma/edge";
 import type { Poll } from "@poll/types";
 import { PollValidator } from "@poll/validators";
 import { Hono } from "hono";
+import { streamSSE } from "hono/streaming";
 import httpError from "http-errors";
 import { z } from "zod";
 
@@ -41,6 +42,38 @@ polls.get(
     const data = await getPoll(pollId);
     // await c.var.cache.set(data);
     return c.json(data);
+  }
+);
+
+polls.get(
+  apiUrls.poll.getLiveResults(":pollId"),
+  zValidator("param", z.object({ pollId: z.string().nonempty() })),
+  async (c) => {
+    const { pollId } = c.req.valid("param");
+
+    return streamSSE(c, async (stream) => {
+      while (true) {
+        // TODO check if user voted
+        // TODO not send when nothing changed
+        // const cacheKey = `poll:${pollId}:live-results`;
+        // const cacheDataRaw = await redis.get(cacheKey);
+        const cacheDataRaw = null; //TODO fix caching
+
+        const data =
+          cacheDataRaw !== null
+            ? JSON.parse(cacheDataRaw)
+            : await getPoll(pollId);
+
+        if (cacheDataRaw === null) {
+          // await redis.set(cacheKey, JSON.stringify(data), "EX", 5);
+        }
+        await stream.writeSSE({
+          data: JSON.stringify(data),
+          id: data.id,
+        });
+        await stream.sleep(5000); // update every 5s
+      }
+    });
   }
 );
 

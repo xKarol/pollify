@@ -20,6 +20,7 @@ export const apiUrls = {
     getVoters: (pollId) => `/polls/${pollId}/vote/users` as const,
     getUserAnswerChoice: (pollId) =>
       `/polls/${pollId}/answers/user-choice` as const,
+    getLiveResults: (pollId) => `/polls/${pollId}/live` as const,
   },
   payment: {
     getPricingPlans: "/payments/plan",

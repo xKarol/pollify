@@ -3,7 +3,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { useLocalStorage } from "react-use";
 
-import { socket } from "../lib/socket";
 import { pollKeys } from "../queries/poll";
 import { votePoll } from "../services/api";
 
@@ -51,9 +50,6 @@ export const useVotePoll = () => {
         updatedAt: new Date().toDateString(),
       });
       setLocalStorageValue([...oldValue, [pollId, answerId]]);
-
-      socket.connect();
-      socket.emit("poll-vote-trigger", { pollId });
     },
   });
 };

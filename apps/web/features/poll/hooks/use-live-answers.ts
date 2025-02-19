@@ -1,39 +1,31 @@
-import type { Poll, Answer } from "@poll/prisma/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 
-import { socket } from "../../../lib/socket";
 import { pollKeys } from "../../../queries/poll";
 
 export const useLiveAnswers = (pollId: string) => {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    socket.connect();
-    socket.on("poll-vote-update", (updatedData) => {
-      queryClient.setQueryData(
-        pollKeys.single(pollId),
-        (old: Poll & { answers: Answer[] }) => {
-          return {
-            ...old,
-            totalVotes:
-              updatedData
-                .map((answer) => answer.votes)
-                .reduce((prev, next) => prev + next) || old.totalVotes,
-            answers: updatedData,
-          };
-        }
-      );
-    });
+    if (!pollId) return;
+    const eventSource = new EventSource(`/api/polls/${pollId}/live`);
+
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      queryClient.setQueryData(pollKeys.single(pollId), () => {
+        return {
+          ...data,
+        };
+      });
+    };
+
+    eventSource.onerror = (error) => {
+      console.error("SSE error:", error);
+      eventSource.close();
+    };
+
     return () => {
-      socket.close();
-      socket.off("poll-vote-update");
+      eventSource.close();
     };
   }, [pollId, queryClient]);
-
-  useEffect(() => {
-    if (pollId) {
-      socket.emit("join-poll", pollId);
-    }
-  }, [pollId]);
 };
