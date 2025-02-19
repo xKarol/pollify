@@ -1,5 +1,5 @@
 import { cn } from "@poll/lib";
-import type { Poll } from "@poll/prisma";
+import type { Poll } from "@poll/prisma/client";
 import {
   Badge,
   DropdownMenu,

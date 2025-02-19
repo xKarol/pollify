@@ -1,4 +1,4 @@
-import type { Plan } from "@poll/prisma";
+import type { Plan } from "@poll/prisma/client";
 import type { Auth } from "@poll/types";
 import { type DefaultSession } from "next-auth";
 

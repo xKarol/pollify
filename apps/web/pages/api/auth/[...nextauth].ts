@@ -1,4 +1,5 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { prisma } from "@poll/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -6,7 +7,6 @@ import GoogleProvider from "next-auth/providers/google";
 
 import { routes } from "../../../config/routes";
 import { defaultCookies } from "../../../lib/default-cookies";
-import prisma from "../../../lib/prisma";
 
 const isSecure = process.env.NODE_ENV === "production";
 

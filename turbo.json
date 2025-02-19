@@ -16,7 +16,7 @@
         "ANALYZE"
       ]
     },
-    "@poll/backend": {
+    "@poll/api": {
       "env": [
         "PORT",
         "ORIGIN_URL",
@@ -41,7 +41,7 @@
     },
     "lint": {},
     "start": {},
-    "type-check": {},
+    "typecheck": {},
     "post-install": {},
     "dev": {
       "cache": false,

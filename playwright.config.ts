@@ -72,13 +72,8 @@ export default defineConfig({
   /* Run your local dev server before starting the tests */
   webServer: [
     {
-      command: "yarn workspace @poll/web start",
+      command: "bun dev",
       port: 3000,
-      reuseExistingServer: !process.env.CI,
-    },
-    {
-      command: "yarn workspace @poll/backend dev",
-      port: 4000,
       reuseExistingServer: !process.env.CI,
     },
   ],

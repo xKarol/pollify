@@ -1,4 +1,4 @@
-import type { Plan } from "@poll/prisma";
+import type { Plan } from "@poll/prisma/client";
 
 export type JWTPayload = {
   id: string;

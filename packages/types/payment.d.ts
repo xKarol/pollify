@@ -1,4 +1,4 @@
-import type { Plan } from "@poll/prisma";
+import type { Plan } from "@poll/prisma/client";
 import type { Stripe } from "stripe";
 
 export type PaymentCycle = Extract<

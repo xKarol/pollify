@@ -9,15 +9,15 @@
     "start": "next start",
     "lint": "next lint --report-unused-disable-directives=warn",
     "lint:fix": "next lint --fix",
-    "type-check": "tsc --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
     "@next-auth/prisma-adapter": "^1.0.7",
     "@next/bundle-analyzer": "^14.0.4",
-    "@poll/prisma": "*",
-    "@poll/ui": "*",
-    "@poll/validators": "*",
+    "@poll/prisma": "workspace:*",
+    "@poll/ui": "workspace:*",
+    "@poll/validators": "workspace:*",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
@@ -59,13 +59,13 @@
     "socket.io-client": "^4.7.2",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "3.21.4"
+    "zod": "3.24.2"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^14.0.4",
-    "@poll/config": "*",
-    "@poll/tsconfig": "*",
-    "@poll/types": "*",
+    "@poll/config": "workspace:*",
+    "@poll/tsconfig": "workspace:*",
+    "@poll/types": "workspace:*",
     "@types/http-proxy": "^1.17.13",
     "@types/node": "^17.0.12",
     "@types/numeral": "^2.0.4",
@@ -74,7 +74,7 @@
     "@types/react-google-recaptcha": "^2.1.5",
     "autoprefixer": "^10.4.14",
     "cross-env": "^7.0.3",
-    "eslint-config-custom": "*",
+    "eslint-config-custom": "workspace:*",
     "postcss": "^8.4.26",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.2.2"

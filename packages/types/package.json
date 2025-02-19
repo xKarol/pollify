@@ -4,7 +4,7 @@
   "private": true,
   "types": "index.d.ts",
   "devDependencies": {
-    "@poll/prisma": "*",
+    "@poll/prisma": "workspace:*",
     "stripe": "^13.7.0"
   },
   "dependencies": {

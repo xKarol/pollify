@@ -5,18 +5,11 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Set Node.js 18.x
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
 
       - name: Install Dependencies
-        run: yarn install
-
-      - name: Build packages
-        run: yarn turbo run build --filter=./packages/*
+        run: bun install
 
       - name: Test
         env:
@@ -24,4 +17,4 @@ jobs:
           ORIGIN_URL: http://localhost:4000
           FRONTEND_URL: http://localhost:3000
           REDIS_URL: ${{ secrets.REDIS_URL }}
-        run: yarn test
+        run: bun run test

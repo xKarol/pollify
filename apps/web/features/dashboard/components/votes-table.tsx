@@ -1,4 +1,4 @@
-import type { Vote, Answer, Poll } from "@poll/prisma";
+import type { Vote, Answer, Poll } from "@poll/prisma/client";
 import {
   Badge,
   DropdownMenu,

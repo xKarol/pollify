@@ -5,25 +5,25 @@ type Route = {
 
 export const apiUrls = {
   user: {
-    getCurrentUser: "/@me",
-    delete: "/@me",
-    update: "/@me",
-    getPolls: "/@me/poll",
-    getVotes: "/@me/vote",
+    getCurrentUser: "/me",
+    delete: "/me",
+    update: "/me",
+    getPolls: "/me/poll",
+    getVotes: "/me/vote",
   },
   poll: {
-    getOne: (pollId) => `/poll/${pollId}` as const,
-    getAll: "/poll",
-    create: "/poll",
-    delete: (pollId) => `/poll/${pollId}` as const,
-    vote: (pollId, answerId) => `/poll/${pollId}/vote/${answerId}` as const,
-    getVoters: (pollId) => `/poll/${pollId}/vote/users` as const,
+    getOne: (pollId) => `/polls/${pollId}` as const,
+    getAll: "/polls",
+    create: "/polls",
+    delete: (pollId) => `/polls/${pollId}` as const,
+    vote: (pollId, answerId) => `/polls/${pollId}/vote/${answerId}` as const,
+    getVoters: (pollId) => `/polls/${pollId}/vote/users` as const,
     getUserAnswerChoice: (pollId) =>
-      `/poll/${pollId}/answers/user-choice` as const,
+      `/polls/${pollId}/answers/user-choice` as const,
   },
   payment: {
-    getPricingPlans: "/payment/plan",
-    createPlanCheckoutSession: "/payment/plan/checkout-session",
+    getPricingPlans: "/payments/plan",
+    createPlanCheckoutSession: "/payments/plan/checkout-session",
   },
   analytics: {
     userPollVotes: "/analytics/poll/vote",
@@ -34,6 +34,6 @@ export const apiUrls = {
     getQRCode: `/qr`,
   },
   webhooks: {
-    stripe: "/webhook/stripe",
+    stripe: "/webhooks/stripe",
   },
 } as const satisfies Route;

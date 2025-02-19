@@ -1,13 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 
-const isProduction = (process.env.NODE_ENV as string) === "production";
-const isDevelopment = (process.env.NODE_ENV as string) === "development";
-
-const prisma = new PrismaClient({
-  log: isDevelopment ? ["query"] : [],
-  errorFormat: isProduction ? "minimal" : "colorless",
-});
+export const prisma = global.prisma || new PrismaClient();
+declare global {
+  var prisma: PrismaClient | undefined;
+}
+if (process.env.NODE_ENV === "development") global.prisma = prisma;
 
 export default prisma;
-
-export * from "@prisma/client";

@@ -1,5 +1,5 @@
 import { cn } from "@poll/lib";
-import type { Plan } from "@poll/prisma";
+import type { Plan } from "@poll/prisma/client";
 import type { Payment } from "@poll/types";
 import {
   Alert,

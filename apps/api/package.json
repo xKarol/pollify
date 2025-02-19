@@ -1,0 +1,31 @@
+{
+  "name": "@app/api",
+  "scripts": {
+    "dev:api": "bun run --hot src/index.ts"
+  },
+  "dependencies": {
+    "@chronark/zod-bird": "^0.3.10",
+    "@hono/sentry": "^1.2.0",
+    "@hono/zod-validator": "^0.4.3",
+    "@poll/prisma": "workspace:*",
+    "axios": "^1.7.9",
+    "bullmq": "^5.41.2",
+    "dayjs": "^1.11.13",
+    "hono": "^4.6.20",
+    "hono-rate-limiter": "^0.4.2",
+    "http-errors": "^2.0.0",
+    "ioredis": "^5.5.0",
+    "qrcode": "^1.5.4",
+    "request-ip": "^3.3.0",
+    "socket.io": "^4.8.1",
+    "stripe": "^17.6.0",
+    "ua-parser-js": "^2.0.2",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/http-errors": "^2.0.4",
+    "@types/qrcode": "^1.5.5",
+    "@types/request-ip": "^0.0.41"
+  }
+}

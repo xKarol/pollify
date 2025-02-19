@@ -1,5 +1,5 @@
 import { hasUserPermission } from "@poll/lib";
-import type { Plan } from "@poll/prisma";
+import type { Plan } from "@poll/prisma/client";
 import { useSession } from "next-auth/react";
 
 export const useHasPermission = () => {

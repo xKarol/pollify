@@ -1,4 +1,5 @@
 import { cn } from "@poll/lib";
+import { prisma } from "@poll/prisma";
 import { Button, Icon } from "@poll/ui";
 import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useSession } from "next-auth/react";
@@ -7,7 +8,6 @@ import Link from "next/link";
 
 import { routes } from "../config/routes";
 import { BaseLayout } from "../layouts";
-import prisma from "../lib/prisma";
 import HeroImage from "../public/hero-image.png";
 import { getLayout } from "../utils/get-layout";
 import { nFormatter } from "../utils/misc";
@@ -66,7 +66,7 @@ export default function HomePage({
               Polls
             </p>
           </div>
-          <div className="hidden h-[50px] w-[1px] bg-neutral-100 dark:bg-neutral-800 md:block"></div>
+          <div className="hidden h-[50px] w-[1px] bg-neutral-100 md:block dark:bg-neutral-800"></div>
           <div className="flex flex-1 flex-col items-center">
             <p className="text-4xl font-bold uppercase md:text-5xl">
               {nFormatter(stats.totalVotes)}
@@ -75,7 +75,7 @@ export default function HomePage({
               Votes
             </p>
           </div>
-          <div className="hidden h-[50px] w-[1px] bg-neutral-100 dark:bg-neutral-800 md:block"></div>
+          <div className="hidden h-[50px] w-[1px] bg-neutral-100 md:block dark:bg-neutral-800"></div>
 
           <div className="flex flex-1 flex-col items-center">
             <p className="text-4xl font-bold uppercase md:text-5xl">

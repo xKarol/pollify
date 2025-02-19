@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MAX_POLL_OPTIONS } from "@poll/config";
 import { cn } from "@poll/lib";
-import type { Plan } from "@poll/prisma";
+import type { Plan } from "@poll/prisma/client";
 import type { Poll } from "@poll/types";
 import {
   Button,
@@ -213,7 +213,7 @@ function PollOptionField({
       <FormField
         {...props}
         render={({ field }) => (
-          <FormItem className="flex flex-row items-center justify-between rounded-sm border-2 border-neutral-100 bg-white px-4 py-6 dark:border-none dark:bg-neutral-800 sm:pl-0">
+          <FormItem className="flex flex-row items-center justify-between rounded-sm border-2 border-neutral-100 bg-white px-4 py-6 sm:pl-0 dark:border-none dark:bg-neutral-800">
             <div className="flex">
               <div className="my-auto hidden justify-center px-4 sm:flex">
                 {IconElement}

@@ -1,4 +1,4 @@
-import type { Answer, User, Vote, Poll } from "@poll/prisma";
+import type { Answer, User, Vote, Poll } from "@poll/prisma/client";
 
 import type {
   PaginationParams,

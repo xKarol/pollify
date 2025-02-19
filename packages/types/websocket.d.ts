@@ -1,4 +1,4 @@
-import type { Answer } from "@poll/prisma";
+import type { Answer } from "@poll/prisma/client";
 import type { Server } from "socket.io";
 import type { Socket } from "socket.io-client";
 

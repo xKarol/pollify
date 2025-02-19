@@ -2,19 +2,19 @@
   "name": "@poll/prisma",
   "version": "0.0.0",
   "license": "MIT",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist/**"
-  ],
+  "main": "./index.ts",
+  "module": "./index.ts",
+  "types": "./index.ts",
+  "exports": {
+    ".": "./index.ts",
+    "./edge": "./edge.ts",
+    "./client": "./client.ts"
+  },
   "scripts": {
-    "build": "tsup index.ts --target node18 --format cjs,esm --dts",
     "db:generate": "prisma generate",
     "db:studio": "prisma studio",
     "db:push": "prisma db push",
-    "db:seed": "prisma db seed",
-    "post-install": "prisma generate"
+    "db:seed": "prisma db seed"
   },
   "prisma": {
     "seed": "ts-node --transpile-only ./seed.ts"
@@ -22,10 +22,12 @@
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
     "prisma": "^5.0.0",
-    "ts-node": "^10.9.1",
-    "tsup": "^7.1.0"
+    "ts-node": "^10.9.1"
   },
   "dependencies": {
-    "@prisma/client": "^5.0.0"
+    "@neondatabase/serverless": "^0.10.4",
+    "@prisma/adapter-neon": "^6.3.1",
+    "@prisma/client": "^5.0.0",
+    "ws": "^8.18.0"
   }
 }

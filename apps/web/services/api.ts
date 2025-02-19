@@ -139,5 +139,5 @@ export const getQRCodeImage: QR.Api["getQRCodeImage"] = async (text) => {
     },
     responseType: "arraybuffer",
   });
-  return `data:image/png;base64,${Buffer.from(buffer).toString("base64")}`;
+  return `data:image/svg+xml;base64,${Buffer.from(buffer).toString("base64")}`;
 };

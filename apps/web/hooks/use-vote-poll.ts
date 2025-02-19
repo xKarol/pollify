@@ -1,4 +1,4 @@
-import type { Answer, Poll } from "@poll/prisma";
+import type { Answer, Poll } from "@poll/prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { useLocalStorage } from "react-use";
