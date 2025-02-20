@@ -1,144 +1,55 @@
-import { faker } from "@faker-js/faker";
-import type { PrismaPromise, User } from "@prisma/client";
 import { PrismaClient } from "@prisma/client";
+import { gray } from "colorette";
+import ms from "ms";
+import ora from "ora";
 
 import {
-  generateFakePollData,
-  generateFakeUserData,
-  shuffle,
+  clearDatabase,
+  getContext,
+  seedPolls,
+  seedUsers,
+  seedVotes,
 } from "./seed.utils";
 
 const prisma = new PrismaClient();
 
-const main = async () => {
-  const count = await clearDB();
-  console.log(`Database has been cleared. (removed ${count} records)`);
+async function main() {
+  const ctx = getContext();
+  const steps = {
+    "Clearing database...": clearDatabase,
+    "Seeding users...": seedUsers,
+    "Seeding polls...": seedPolls,
+    "Seeding votes...": seedVotes,
+  };
 
-  const users = await prisma.$transaction(seedUsers(50));
-  console.log(`Created ${users.length} users`);
+  const start = performance.now();
+  console.log();
 
-  const data = await getPollsData(50);
-
-  const transactions: PrismaPromise<unknown>[] = [];
-  for (const pollData of data) {
-    transactions.push(
-      prisma.poll.create({
-        data: {
-          userId: faker.datatype.boolean()
-            ? users[Math.floor(Math.random() * users.length)].id
-            : undefined,
-          ...pollData,
-          question: pollData.question,
-          answers: {
-            createMany: {
-              data: pollData.answers,
-            },
-          },
-        },
+  for await (const [stepLabel, callback] of Object.entries(steps)) {
+    ctx.spinner = ora(stepLabel).start();
+    const start = performance.now();
+    await callback(ctx)
+      .catch((e) => {
+        ctx.spinner.fail();
+        throw e;
       })
-    );
+      .then(() => {
+        const time = Math.round(performance.now() - start);
+        ctx.spinner.succeed(`${ctx.spinner.text} ${gray(ms(time))}`);
+      });
   }
 
-  const response = await prisma.$transaction(transactions);
-  console.log(`Created ${response.length} polls`);
-
-  const votes = await seedVotes();
-  console.log(`Created ${votes.length} poll votes`);
-};
-
-main();
-
-function seedUsers(limit: number = 100) {
-  const usersData = Array.from({ length: limit }, generateFakeUserData);
-  const promises: PrismaPromise<User>[] = [];
-  for (const userData of usersData) {
-    promises.push(prisma.user.create({ data: userData }));
-  }
-  return promises;
+  const time = Math.round(performance.now() - start);
+  ctx.spinner.succeed(`Finished seeding in ${gray(ms(time))}`);
+  console.log();
 }
 
-async function seedVotes() {
-  const users = await prisma.user.findMany({});
-  const polls = await prisma.poll.findMany({ include: { answers: true } });
-  const transactions: PrismaPromise<unknown>[] = [];
-  for await (const poll of polls) {
-    Array.from(
-      {
-        length: faker.number.int({ min: 0, max: 10 }),
-      },
-      (_, index) => {
-        const answerId =
-          poll.answers[Math.floor(Math.random() * poll.answers.length)].id;
-        const pollId = polls[index].id;
-        transactions.push(
-          prisma.vote.create({
-            data: {
-              pollId: poll.id,
-              answerId: answerId,
-              userId: users[Math.floor(Math.random() * users.length)].id,
-            },
-          })
-        );
-        transactions.push(
-          prisma.answer.update({
-            where: {
-              id: answerId,
-            },
-            data: {
-              votes: { increment: 1 },
-            },
-          })
-        );
-        transactions.push(
-          prisma.poll.update({
-            where: {
-              id: pollId,
-            },
-            data: {
-              totalVotes: { increment: 1 },
-            },
-          })
-        );
-      }
-    );
-  }
-  const data = await prisma.$transaction(transactions);
-  return data;
-}
-
-async function getPollsData(limit: number = 25) {
-  try {
-    const res = await fetch(
-      `https://opentdb.com/api.php?amount=${limit}&category=9&difficulty=medium&type=multiple`
-    );
-    const data = await res.json();
-    const results = data.results;
-    return Array.from({ length: results.length }, generateFakePollData).map(
-      (poll, index) => {
-        const result = results[index];
-        const answers = shuffle([
-          result.correct_answer,
-          ...result.incorrect_answers,
-        ]);
-
-        return {
-          ...poll,
-          question: result.question,
-          answers: poll.answers.map((answer, index) => ({
-            ...answer,
-            text: answers[index] as string,
-          })),
-        };
-      }
-    );
-  } catch {
-    console.log("WARN: API doesn't response. Using fake data...");
-    return Array.from({ length: limit }, generateFakePollData);
-  }
-}
-
-async function clearDB() {
-  const { count: countPolls } = await prisma.poll.deleteMany({});
-  const { count: countUsers } = await prisma.user.deleteMany({});
-  return countPolls + countUsers;
-}
+main()
+  .then(async () => {
+    await prisma.$disconnect();
+  })
+  .catch(async (e) => {
+    console.error(e);
+    await prisma.$disconnect();
+    process.exit(1);
+  });
