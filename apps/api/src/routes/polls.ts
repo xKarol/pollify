@@ -38,6 +38,11 @@ const polls = new Hono()
       const { pollId } = c.req.valid("param");
 
       const data = await getPoll(pollId);
+
+      if (!data) {
+        throw httpError.NotFound();
+      }
+
       // await c.var.cache.set(data);
       return c.json(data);
     }

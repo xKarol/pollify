@@ -1,4 +1,4 @@
-import { handle } from "@app/api/vercel";
+import { handle } from "@pollify/api/vercel";
 import type { PageConfig } from "next";
 
 export const config: PageConfig = {
