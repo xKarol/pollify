@@ -1,4 +1,4 @@
-import type { Analytics } from "@poll/types";
+import type { Analytics } from "@pollify/types";
 import type { UseQueryOptions } from "@tanstack/react-query";
 
 import {

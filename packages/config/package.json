@@ -1,5 +1,5 @@
 {
-  "name": "@poll/config",
+  "name": "@pollify/config",
   "version": "0.0.0",
   "main": "./index.ts",
   "module": "./index.ts",
@@ -16,6 +16,6 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "@poll/types": "workspace:*"
+    "@pollify/types": "workspace:*"
   }
 }

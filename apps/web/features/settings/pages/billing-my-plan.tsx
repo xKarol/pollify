@@ -1,4 +1,4 @@
-import { Alert, AlertTitle, Skeleton } from "@poll/ui";
+import { Alert, AlertTitle, Skeleton } from "@pollify/ui";
 import { useSession } from "next-auth/react";
 import React from "react";
 

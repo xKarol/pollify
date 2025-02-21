@@ -1,5 +1,5 @@
 {
-  "name": "@poll/prettier-config",
+  "name": "@pollify/prettier-config",
   "version": "0.0.0",
   "main": "index.js",
   "license": "MIT",

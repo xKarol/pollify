@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { MAX_POLL_OPTIONS } from "@poll/config";
-import { cn } from "@poll/lib";
-import type { Plan } from "@poll/prisma/client";
-import type { Poll } from "@poll/types";
+import { MAX_POLL_OPTIONS } from "@pollify/config";
+import { cn } from "@pollify/lib";
+import type { Plan } from "@pollify/prisma/client";
+import type { Poll } from "@pollify/types";
 import {
   Button,
   LoadingButton,
@@ -15,8 +15,8 @@ import {
   TooltipContent,
   ScrollArea,
   toast,
-} from "@poll/ui";
-import { PollValidator } from "@poll/validators";
+} from "@pollify/ui";
+import { PollValidator } from "@pollify/validations";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";

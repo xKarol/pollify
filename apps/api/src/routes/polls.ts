@@ -1,9 +1,9 @@
 import { zValidator } from "@hono/zod-validator";
-import { apiUrls } from "@poll/config";
-import { hasUserPermission } from "@poll/lib";
-import prisma from "@poll/prisma/edge";
-import type { Poll } from "@poll/types";
-import { PollValidator } from "@poll/validators";
+import { apiUrls } from "@pollify/config";
+import { hasUserPermission } from "@pollify/lib";
+import prisma from "@pollify/prisma/edge";
+import type { Poll } from "@pollify/types";
+import { PollValidator } from "@pollify/validations";
 import { Hono } from "hono";
 import { streamSSE } from "hono/streaming";
 import httpError from "http-errors";

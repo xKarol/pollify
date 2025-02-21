@@ -1,4 +1,4 @@
-import { DEFAULT_ANALYTICS_INTERVAL } from "@poll/config";
+import { DEFAULT_ANALYTICS_INTERVAL } from "@pollify/config";
 import dayjs from "dayjs";
 import { z } from "zod";
 

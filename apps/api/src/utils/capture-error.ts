@@ -1,4 +1,4 @@
-import { Prisma } from "@poll/prisma/client";
+import { Prisma } from "@pollify/prisma/client";
 import httpError from "http-errors";
 import { ZodError } from "zod";
 

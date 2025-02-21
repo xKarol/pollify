@@ -1,4 +1,4 @@
-import type { OrderBy } from "@poll/types";
+import type { OrderBy } from "@pollify/types";
 import { createMiddleware } from "hono/factory";
 import { z } from "zod";
 

@@ -1,5 +1,5 @@
 {
-  "name": "@poll/ui",
+  "name": "@pollify/ui",
   "version": "0.0.0",
   "main": "./index.tsx",
   "types": "./index.tsx",
@@ -8,8 +8,8 @@
     "lint": "eslint \"**/*.ts*\""
   },
   "dependencies": {
-    "@poll/config": "workspace:*",
-    "@poll/lib": "workspace:*",
+    "@pollify/config": "workspace:*",
+    "@pollify/lib": "workspace:*",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
@@ -24,7 +24,7 @@
     "react-hot-toast": "^2.4.1"
   },
   "devDependencies": {
-    "@poll/tsconfig": "workspace:*",
+    "@pollify/tsconfig": "workspace:*",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "@vitejs/plugin-react": "^4.2.1",

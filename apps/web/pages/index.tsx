@@ -1,6 +1,6 @@
-import { cn } from "@poll/lib";
-import { prisma } from "@poll/prisma";
-import { Button, Icon } from "@poll/ui";
+import { cn } from "@pollify/lib";
+import { prisma } from "@pollify/prisma";
+import { Button, Icon } from "@pollify/ui";
 import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useSession } from "next-auth/react";
 import Image from "next/image";

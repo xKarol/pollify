@@ -1,4 +1,4 @@
-import type { Auth } from "@poll/types";
+import type { Auth } from "@pollify/types";
 import { getCookie } from "hono/cookie";
 import { createMiddleware } from "hono/factory";
 import { decode } from "next-auth/jwt";

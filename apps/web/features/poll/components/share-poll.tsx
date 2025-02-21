@@ -1,5 +1,5 @@
-import { cn } from "@poll/lib";
-import { Icon, Input, toast } from "@poll/ui";
+import { cn } from "@pollify/lib";
+import { Icon, Input, toast } from "@pollify/ui";
 import {
   EmailShareButton,
   FacebookShareButton,

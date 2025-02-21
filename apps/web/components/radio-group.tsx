@@ -1,4 +1,4 @@
-import { cn } from "@poll/lib";
+import { cn } from "@pollify/lib";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 import { Circle } from "lucide-react";
 import * as React from "react";

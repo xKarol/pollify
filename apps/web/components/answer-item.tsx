@@ -1,5 +1,5 @@
-import { cn } from "@poll/lib";
-import { Progress } from "@poll/ui";
+import { cn } from "@pollify/lib";
+import { Progress } from "@pollify/ui";
 import { CheckCircle2 } from "lucide-react";
 import React, { useId } from "react";
 

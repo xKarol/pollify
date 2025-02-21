@@ -1,4 +1,4 @@
-import { Icon } from "@poll/ui";
+import { Icon } from "@pollify/ui";
 import React from "react";
 
 import { getErrorMessage } from "../../../utils/get-error-message";

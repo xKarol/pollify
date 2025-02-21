@@ -1,5 +1,5 @@
-import { cn } from "@poll/lib";
-import type { Analytics } from "@poll/types";
+import { cn } from "@pollify/lib";
+import type { Analytics } from "@pollify/types";
 import dayjs from "dayjs";
 import React, { useCallback } from "react";
 import {

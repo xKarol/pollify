@@ -1,4 +1,4 @@
-import type { Analytics } from "@poll/types";
+import type { Analytics } from "@pollify/types";
 import dayjs from "dayjs";
 import { createMiddleware } from "hono/factory";
 import type { z } from "zod";

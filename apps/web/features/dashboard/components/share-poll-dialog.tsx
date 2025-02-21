@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   Separator,
   toast,
-} from "@poll/ui";
+} from "@pollify/ui";
 import React, { useRef, useState } from "react";
 import {
   EmailShareButton,

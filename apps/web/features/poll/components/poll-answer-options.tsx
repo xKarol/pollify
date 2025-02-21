@@ -1,4 +1,4 @@
-import type { Answer } from "@poll/prisma/client";
+import type { Answer } from "@pollify/prisma/client";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 import React, { useMemo } from "react";
 

@@ -1,4 +1,4 @@
-import { Button, Icon } from "@poll/ui";
+import { Button, Icon } from "@pollify/ui";
 import dynamic from "next/dynamic";
 import React from "react";
 

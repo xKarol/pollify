@@ -1,5 +1,5 @@
 {
-  "name": "@poll/validators",
+  "name": "@pollify/validations",
   "version": "0.0.0",
   "main": "./src/index.ts",
   "module": "./src/index.ts",
@@ -10,10 +10,10 @@
   "private": true,
   "scripts": {},
   "dependencies": {
-    "@poll/config": "workspace:*",
+    "@pollify/config": "workspace:*",
     "zod": "3.24.2"
   },
   "devDependencies": {
-    "@poll/types": "workspace:*"
+    "@pollify/types": "workspace:*"
   }
 }

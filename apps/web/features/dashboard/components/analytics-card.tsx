@@ -1,5 +1,5 @@
-import { cn } from "@poll/lib";
-import { Icon } from "@poll/ui";
+import { cn } from "@pollify/lib";
+import { Icon } from "@pollify/ui";
 import numeral from "numeral";
 import React from "react";
 

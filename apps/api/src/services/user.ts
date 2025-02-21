@@ -1,5 +1,5 @@
-import { prisma } from "@poll/prisma/edge";
-import type { User } from "@poll/types";
+import { prisma } from "@pollify/prisma/edge";
+import type { User } from "@pollify/types";
 
 export const updateUserData: User.Services["updateUser"] = async (
   userId,

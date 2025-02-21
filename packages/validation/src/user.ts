@@ -1,4 +1,4 @@
-import type { User } from "@poll/types";
+import type { User } from "@pollify/types";
 import { z } from "zod";
 
 export const updateUserSchema: z.ZodSchema<User.UpdateUserData> = z.object({

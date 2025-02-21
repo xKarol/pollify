@@ -1,5 +1,5 @@
 {
-  "name": "@poll/prisma",
+  "name": "@pollify/prisma",
   "version": "0.0.0",
   "license": "MIT",
   "main": "./index.ts",

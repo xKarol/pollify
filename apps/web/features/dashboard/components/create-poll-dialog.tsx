@@ -4,7 +4,7 @@ import {
   DialogContent,
   DialogTrigger,
   ScrollArea,
-} from "@poll/ui";
+} from "@pollify/ui";
 import React from "react";
 
 import { CreatePollForm } from "../../../components/create-poll-form";

@@ -1,4 +1,4 @@
-import type { OrderBy, Poll } from "@poll/types";
+import type { OrderBy, Poll } from "@pollify/types";
 import {
   Avatar,
   LoadingButton,
@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
   Skeleton,
-} from "@poll/ui";
+} from "@pollify/ui";
 import { NextSeo } from "next-seo";
 import { useQueryState } from "next-usequerystate";
 import Link from "next/link";

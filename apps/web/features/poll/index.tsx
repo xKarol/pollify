@@ -13,7 +13,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   AvatarGroup,
-} from "@poll/ui";
+} from "@pollify/ui";
 import { useSession } from "next-auth/react";
 import { NextSeo } from "next-seo";
 import Link from "next/link";

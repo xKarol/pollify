@@ -1,4 +1,4 @@
-import { Icon } from "@poll/ui";
+import { Icon } from "@pollify/ui";
 import { useQueryState } from "next-usequerystate";
 import React from "react";
 

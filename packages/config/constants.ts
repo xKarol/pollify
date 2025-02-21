@@ -1,4 +1,4 @@
-import type { Analytics } from "@poll/types";
+import type { Analytics } from "@pollify/types";
 
 export const DEFAULT_ANALYTICS_INTERVAL: Analytics.Interval = "7d" as const;
 // @ts-ignore

@@ -1,4 +1,4 @@
-import { cn } from "@poll/lib";
+import { cn } from "@pollify/lib";
 import * as AvatarPrimitive from "@radix-ui/react-avatar";
 import * as React from "react";
 

@@ -1,4 +1,4 @@
-import type { Prisma } from "@poll/types";
+import type { Prisma } from "@pollify/types";
 
 const plans: Prisma.Plan[] = ["FREE", "BASIC", "PRO"];
 

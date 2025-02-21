@@ -1,11 +1,11 @@
 {
-  "name": "@poll/types",
+  "name": "@pollify/types",
   "version": "0.0.0",
   "private": true,
   "types": "index.d.ts",
   "dependencies": {},
   "devDependencies": {
-    "@poll/prisma": "workspace:*",
+    "@pollify/prisma": "workspace:*",
     "stripe": "^13.7.0"
   }
 }

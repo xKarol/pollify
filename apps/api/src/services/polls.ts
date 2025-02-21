@@ -1,5 +1,5 @@
-import { prisma } from "@poll/prisma/edge";
-import type { Poll } from "@poll/types";
+import { prisma } from "@pollify/prisma/edge";
+import type { Poll } from "@pollify/types";
 
 // @ts-expect-error TODO fix
 export const getPolls: Poll.Services["getPolls"] = async ({

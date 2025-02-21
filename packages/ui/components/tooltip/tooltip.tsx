@@ -1,4 +1,4 @@
-import { cn } from "@poll/lib";
+import { cn } from "@pollify/lib";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import * as React from "react";
 

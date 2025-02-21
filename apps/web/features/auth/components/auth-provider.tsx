@@ -1,5 +1,5 @@
-import { cn } from "@poll/lib";
-import { Icon, LoadingButton } from "@poll/ui";
+import { cn } from "@pollify/lib";
+import { Icon, LoadingButton } from "@pollify/ui";
 import React from "react";
 
 import type { Providers } from "../types";

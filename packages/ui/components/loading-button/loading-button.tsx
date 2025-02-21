@@ -1,4 +1,4 @@
-import { cn } from "@poll/lib";
+import { cn } from "@pollify/lib";
 import { Loader2 } from "lucide-react";
 import React from "react";
 

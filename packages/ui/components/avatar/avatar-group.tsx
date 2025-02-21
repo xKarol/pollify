@@ -1,4 +1,4 @@
-import { cn } from "@poll/lib";
+import { cn } from "@pollify/lib";
 import React from "react";
 
 import type { Avatar } from "./avatar";

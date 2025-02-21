@@ -20,13 +20,13 @@
       },
     },
     "apps/api": {
-      "name": "@app/api",
+      "name": "@pollify/api",
       "version": "0.0.0",
       "dependencies": {
         "@chronark/zod-bird": "^0.3.10",
         "@hono/sentry": "^1.2.0",
         "@hono/zod-validator": "^0.4.3",
-        "@poll/prisma": "workspace:*",
+        "@pollify/prisma": "workspace:*",
         "@upstash/redis": "^1.34.4",
         "axios": "^1.7.9",
         "bullmq": "^5.41.2",
@@ -49,15 +49,15 @@
       },
     },
     "apps/web": {
-      "name": "@poll/web",
+      "name": "@pollify/web",
       "version": "1.0.0",
       "dependencies": {
-        "@app/api": "workspace:*",
         "@hookform/resolvers": "^4.1.0",
         "@next-auth/prisma-adapter": "^1.0.7",
-        "@poll/prisma": "workspace:*",
-        "@poll/ui": "workspace:*",
-        "@poll/validators": "workspace:*",
+        "@pollify/api": "workspace:*",
+        "@pollify/prisma": "workspace:*",
+        "@pollify/ui": "workspace:*",
+        "@pollify/validations": "workspace:*",
         "@radix-ui/react-avatar": "^1.0.4",
         "@radix-ui/react-dialog": "^1.0.5",
         "@radix-ui/react-dropdown-menu": "^2.0.6",
@@ -103,9 +103,9 @@
       },
       "devDependencies": {
         "@next/bundle-analyzer": "^15.1.7",
-        "@poll/config": "workspace:*",
-        "@poll/tsconfig": "workspace:*",
-        "@poll/types": "workspace:*",
+        "@pollify/config": "workspace:*",
+        "@pollify/tsconfig": "workspace:*",
+        "@pollify/types": "workspace:*",
         "@types/http-proxy": "^1.17.13",
         "@types/node": "^22.13.4",
         "@types/numeral": "^2.0.4",
@@ -121,14 +121,14 @@
       },
     },
     "packages/config": {
-      "name": "@poll/config",
+      "name": "@pollify/config",
       "version": "0.0.0",
       "dependencies": {
         "tailwindcss": "^3.3.3",
         "tailwindcss-animate": "^1.0.7",
       },
       "devDependencies": {
-        "@poll/types": "workspace:*",
+        "@pollify/types": "workspace:*",
       },
     },
     "packages/eslint-config-custom": {
@@ -148,18 +148,18 @@
       },
     },
     "packages/lib": {
-      "name": "@poll/lib",
+      "name": "@pollify/lib",
       "version": "0.0.0",
       "dependencies": {
         "clsx": "^2.0.0",
         "tailwind-merge": "^1.14.0",
       },
       "devDependencies": {
-        "@poll/types": "workspace:*",
+        "@pollify/types": "workspace:*",
       },
     },
     "packages/prettier-config": {
-      "name": "@poll/prettier-config",
+      "name": "@pollify/prettier-config",
       "version": "0.0.0",
       "dependencies": {
         "@trivago/prettier-plugin-sort-imports": "^4.2.0",
@@ -167,7 +167,7 @@
       },
     },
     "packages/prisma": {
-      "name": "@poll/prisma",
+      "name": "@pollify/prisma",
       "version": "0.0.0",
       "dependencies": {
         "@neondatabase/serverless": "^0.10.4",
@@ -189,23 +189,23 @@
       },
     },
     "packages/tsconfig": {
-      "name": "@poll/tsconfig",
+      "name": "@pollify/tsconfig",
       "version": "0.0.0",
     },
     "packages/types": {
-      "name": "@poll/types",
+      "name": "@pollify/types",
       "version": "0.0.0",
       "devDependencies": {
-        "@poll/prisma": "workspace:*",
+        "@pollify/prisma": "workspace:*",
         "stripe": "^13.7.0",
       },
     },
     "packages/ui": {
-      "name": "@poll/ui",
+      "name": "@pollify/ui",
       "version": "0.0.0",
       "dependencies": {
-        "@poll/config": "workspace:*",
-        "@poll/lib": "workspace:*",
+        "@pollify/config": "workspace:*",
+        "@pollify/lib": "workspace:*",
         "@radix-ui/react-avatar": "^1.0.4",
         "@radix-ui/react-dialog": "^1.0.5",
         "@radix-ui/react-dropdown-menu": "^2.0.6",
@@ -220,7 +220,7 @@
         "react-hot-toast": "^2.4.1",
       },
       "devDependencies": {
-        "@poll/tsconfig": "workspace:*",
+        "@pollify/tsconfig": "workspace:*",
         "@types/react": "^18.2.0",
         "@types/react-dom": "^18.2.0",
         "@vitejs/plugin-react": "^4.2.1",
@@ -230,15 +230,15 @@
         "typescript": "^5.7.3",
       },
     },
-    "packages/validators": {
-      "name": "@poll/validators",
+    "packages/validation": {
+      "name": "@pollify/validations",
       "version": "0.0.0",
       "dependencies": {
-        "@poll/config": "workspace:*",
+        "@pollify/config": "workspace:*",
         "zod": "3.24.2",
       },
       "devDependencies": {
-        "@poll/types": "workspace:*",
+        "@pollify/types": "workspace:*",
       },
     },
   },
@@ -248,8 +248,6 @@
     "@alloc/quick-lru": ["@alloc/quick-lru@5.2.0", "", {}, "sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw=="],
 
     "@ampproject/remapping": ["@ampproject/remapping@2.3.0", "", { "dependencies": { "@jridgewell/gen-mapping": "^0.3.5", "@jridgewell/trace-mapping": "^0.3.24" } }, "sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw=="],
-
-    "@app/api": ["@app/api@workspace:apps/api"],
 
     "@babel/code-frame": ["@babel/code-frame@7.26.2", "", { "dependencies": { "@babel/helper-validator-identifier": "^7.25.9", "js-tokens": "^4.0.0", "picocolors": "^1.0.0" } }, "sha512-RJlIHRueQgwWitWgF8OdFYGZX328Ax5BCemNGlqHfplnRT9ESi8JkFlvaVYbS+UubVY6dpv87Fs2u5M29iNFVQ=="],
 
@@ -499,23 +497,25 @@
 
     "@polka/url": ["@polka/url@1.0.0-next.28", "", {}, "sha512-8LduaNlMZGwdZ6qWrKlfa+2M4gahzFkprZiAt2TF8uS0qQgBizKXpXURqvTJ4WtmupWxaLqjRb2UCTe72mu+Aw=="],
 
-    "@poll/config": ["@poll/config@workspace:packages/config"],
+    "@pollify/api": ["@pollify/api@workspace:apps/api"],
 
-    "@poll/lib": ["@poll/lib@workspace:packages/lib"],
+    "@pollify/config": ["@pollify/config@workspace:packages/config"],
 
-    "@poll/prettier-config": ["@poll/prettier-config@workspace:packages/prettier-config"],
+    "@pollify/lib": ["@pollify/lib@workspace:packages/lib"],
 
-    "@poll/prisma": ["@poll/prisma@workspace:packages/prisma"],
+    "@pollify/prettier-config": ["@pollify/prettier-config@workspace:packages/prettier-config"],
 
-    "@poll/tsconfig": ["@poll/tsconfig@workspace:packages/tsconfig"],
+    "@pollify/prisma": ["@pollify/prisma@workspace:packages/prisma"],
 
-    "@poll/types": ["@poll/types@workspace:packages/types"],
+    "@pollify/tsconfig": ["@pollify/tsconfig@workspace:packages/tsconfig"],
 
-    "@poll/ui": ["@poll/ui@workspace:packages/ui"],
+    "@pollify/types": ["@pollify/types@workspace:packages/types"],
 
-    "@poll/validators": ["@poll/validators@workspace:packages/validators"],
+    "@pollify/ui": ["@pollify/ui@workspace:packages/ui"],
 
-    "@poll/web": ["@poll/web@workspace:apps/web"],
+    "@pollify/validations": ["@pollify/validations@workspace:packages/validation"],
+
+    "@pollify/web": ["@pollify/web@workspace:apps/web"],
 
     "@prisma/adapter-neon": ["@prisma/adapter-neon@6.4.0", "", { "dependencies": { "@prisma/driver-adapter-utils": "6.4.0", "postgres-array": "3.0.2" }, "peerDependencies": { "@neondatabase/serverless": "^0.6.0 || ^0.7.0 || ^0.8.0 || ^0.9.0 || ^0.10.0" } }, "sha512-iRaNmzESQLltEb51hv9jChNFnUDx4VbDvpcyI25kLYwh/RJJR18KjtYCrq4WX22ruFxatlXKXKGZ/XS+bOY2kQ=="],
 
@@ -2371,9 +2371,9 @@
 
     "@next/eslint-plugin-next/fast-glob": ["fast-glob@3.3.1", "", { "dependencies": { "@nodelib/fs.stat": "^2.0.2", "@nodelib/fs.walk": "^1.2.3", "glob-parent": "^5.1.2", "merge2": "^1.3.0", "micromatch": "^4.0.4" } }, "sha512-kNFPyjhh5cKjrUltxs+wFx+ZkbRaxxmZ+X0ZU31SOsxCEtP9VPgtq2teZw1DebupL5GmDaNQ6yKMMVcM41iqDg=="],
 
-    "@poll/types/stripe": ["stripe@13.11.0", "", { "dependencies": { "@types/node": ">=8.1.0", "qs": "^6.11.0" } }, "sha512-yPxVJxUzP1QHhHeFnYjJl48QwDS1+5befcL7ju7+t+i88D5r0rbsL+GkCCS6zgcU+TiV5bF9eMGcKyJfLf8BZQ=="],
+    "@pollify/types/stripe": ["stripe@13.11.0", "", { "dependencies": { "@types/node": ">=8.1.0", "qs": "^6.11.0" } }, "sha512-yPxVJxUzP1QHhHeFnYjJl48QwDS1+5befcL7ju7+t+i88D5r0rbsL+GkCCS6zgcU+TiV5bF9eMGcKyJfLf8BZQ=="],
 
-    "@poll/web/@types/node": ["@types/node@22.13.4", "", { "dependencies": { "undici-types": "~6.20.0" } }, "sha512-ywP2X0DYtX3y08eFVx5fNIw7/uIv8hYUKgXoK8oayJlLnKcRfEYCxWMVE1XagUdVtCJlZT1AU4LXEABW+L1Peg=="],
+    "@pollify/web/@types/node": ["@types/node@22.13.4", "", { "dependencies": { "undici-types": "~6.20.0" } }, "sha512-ywP2X0DYtX3y08eFVx5fNIw7/uIv8hYUKgXoK8oayJlLnKcRfEYCxWMVE1XagUdVtCJlZT1AU4LXEABW+L1Peg=="],
 
     "@rollup/plugin-commonjs/estree-walker": ["estree-walker@2.0.2", "", {}, "sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w=="],
 
@@ -2615,7 +2615,7 @@
 
     "@next/eslint-plugin-next/fast-glob/glob-parent": ["glob-parent@5.1.2", "", { "dependencies": { "is-glob": "^4.0.1" } }, "sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow=="],
 
-    "@poll/web/@types/node/undici-types": ["undici-types@6.20.0", "", {}, "sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg=="],
+    "@pollify/web/@types/node/undici-types": ["undici-types@6.20.0", "", {}, "sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg=="],
 
     "@rollup/plugin-commonjs/glob/minimatch": ["minimatch@5.1.6", "", { "dependencies": { "brace-expansion": "^2.0.1" } }, "sha512-lKwV/1brpG6mBUFHtb7NUmtABCb2WZZmm2wNiOA5hAb8VdCS4B3dtMWyvcoViccwAW/COERjXLt0zP1zXUN26g=="],
 

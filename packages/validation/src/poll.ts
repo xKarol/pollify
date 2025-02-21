@@ -1,4 +1,4 @@
-import { MAX_POLL_OPTIONS } from "@poll/config";
+import { MAX_POLL_OPTIONS } from "@pollify/config";
 import { z } from "zod";
 
 export const createPollSchema = z.object({

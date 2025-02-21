@@ -1,4 +1,4 @@
-import { cn } from "@poll/lib";
+import { cn } from "@pollify/lib";
 import Image from "next/image";
 import React, { useId, useRef } from "react";
 

@@ -1,4 +1,4 @@
-import { cn } from "@poll/lib";
+import { cn } from "@pollify/lib";
 import { cva, type VariantProps } from "class-variance-authority";
 import {
   AlertCircleIcon,

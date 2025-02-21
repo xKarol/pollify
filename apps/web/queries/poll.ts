@@ -1,4 +1,4 @@
-import type { SortingParams, Poll } from "@poll/types";
+import type { SortingParams, Poll } from "@pollify/types";
 import type {
   UseInfiniteQueryOptions,
   UseQueryOptions,

@@ -1,4 +1,4 @@
-import { cn } from "@poll/lib";
+import { cn } from "@pollify/lib";
 import * as SwitchPrimitives from "@radix-ui/react-switch";
 import React from "react";
 

@@ -1,5 +1,5 @@
-import { cn } from "@poll/lib";
-import { Skeleton } from "@poll/ui";
+import { cn } from "@pollify/lib";
+import { Skeleton } from "@pollify/ui";
 import React from "react";
 
 type SkeletonLoadingProps = React.ComponentPropsWithoutRef<"div">;

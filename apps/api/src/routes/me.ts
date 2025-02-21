@@ -1,7 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
-import { apiUrls } from "@poll/config";
-import type { User } from "@poll/types";
-import { UserValidator } from "@poll/validators";
+import { apiUrls } from "@pollify/config";
+import type { User } from "@pollify/types";
+import { UserValidator } from "@pollify/validations";
 import { Hono } from "hono";
 
 import { requireAuth } from "../middlewares/require-auth";

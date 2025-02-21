@@ -1,5 +1,5 @@
 {
-  "name": "@poll/web",
+  "name": "@pollify/web",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -12,12 +12,12 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@app/api": "workspace:*",
+    "@pollify/api": "workspace:*",
     "@hookform/resolvers": "^4.1.0",
     "@next-auth/prisma-adapter": "^1.0.7",
-    "@poll/prisma": "workspace:*",
-    "@poll/ui": "workspace:*",
-    "@poll/validators": "workspace:*",
+    "@pollify/prisma": "workspace:*",
+    "@pollify/ui": "workspace:*",
+    "@pollify/validations": "workspace:*",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
@@ -63,9 +63,9 @@
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^15.1.7",
-    "@poll/config": "workspace:*",
-    "@poll/tsconfig": "workspace:*",
-    "@poll/types": "workspace:*",
+    "@pollify/config": "workspace:*",
+    "@pollify/tsconfig": "workspace:*",
+    "@pollify/types": "workspace:*",
     "@types/http-proxy": "^1.17.13",
     "@types/node": "^22.13.4",
     "@types/numeral": "^2.0.4",

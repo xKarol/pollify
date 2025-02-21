@@ -1,5 +1,5 @@
-import { apiUrls } from "@poll/config";
-import { prisma } from "@poll/prisma/edge";
+import { apiUrls } from "@pollify/config";
+import { prisma } from "@pollify/prisma/edge";
 import { Hono, type Context } from "hono";
 
 import { stripe } from "../lib/stripe";

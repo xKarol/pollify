@@ -1,4 +1,4 @@
-import { DEFAULT_ANALYTICS_INTERVAL } from "@poll/config";
+import { DEFAULT_ANALYTICS_INTERVAL } from "@pollify/config";
 import {
   Icon,
   Select,
@@ -10,7 +10,7 @@ import {
   TooltipContent,
   TooltipPortal,
   TooltipTrigger,
-} from "@poll/ui";
+} from "@pollify/ui";
 import React from "react";
 
 type AnalyticsIntervalSelectProps = {

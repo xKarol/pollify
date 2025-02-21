@@ -1,6 +1,6 @@
 import { createClient } from "@app/api/client";
-import { apiUrls } from "@poll/config/api-urls";
-import type { Poll, Payment, User, Analytics, QR } from "@poll/types";
+import { apiUrls } from "@pollify/config/api-urls";
+import type { Poll, Payment, User, Analytics, QR } from "@pollify/types";
 
 import axios from "../lib/axios";
 

@@ -1,4 +1,4 @@
-import { Button } from "@poll/ui";
+import { Button } from "@pollify/ui";
 import { NextSeo } from "next-seo";
 import Link from "next/link";
 

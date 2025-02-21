@@ -10,7 +10,7 @@ import {
   Icon,
   LoadingButton,
   toast,
-} from "@poll/ui";
+} from "@pollify/ui";
 import { useQueryClient } from "@tanstack/react-query";
 import React from "react";
 

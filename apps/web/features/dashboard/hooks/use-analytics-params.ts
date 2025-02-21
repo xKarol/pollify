@@ -1,8 +1,8 @@
 import {
   DEFAULT_ANALYTICS_INTERVAL,
   validAnalyticsIntervals,
-} from "@poll/config";
-import type { Analytics } from "@poll/types";
+} from "@pollify/config";
+import type { Analytics } from "@pollify/types";
 import dayjs from "dayjs";
 import { useQueryState } from "next-usequerystate";
 import { useMemo } from "react";

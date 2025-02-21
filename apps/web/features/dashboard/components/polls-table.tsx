@@ -1,5 +1,5 @@
-import { cn } from "@poll/lib";
-import type { Poll } from "@poll/prisma/client";
+import { cn } from "@pollify/lib";
+import type { Poll } from "@pollify/prisma/client";
 import {
   Badge,
   DropdownMenu,
@@ -14,7 +14,7 @@ import {
   TableHeader,
   TableRow,
   toast,
-} from "@poll/ui";
+} from "@pollify/ui";
 import { type FetchNextPageOptions } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import Link from "next/link";

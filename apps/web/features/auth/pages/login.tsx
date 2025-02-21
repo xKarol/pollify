@@ -1,5 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Alert, AlertTitle, Input, LoadingButton, Separator } from "@poll/ui";
+import {
+  Alert,
+  AlertTitle,
+  Input,
+  LoadingButton,
+  Separator,
+} from "@pollify/ui";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";

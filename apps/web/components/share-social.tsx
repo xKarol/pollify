@@ -1,4 +1,4 @@
-import { cn } from "@poll/lib";
+import { cn } from "@pollify/lib";
 
 export type ShareSocialProps<T extends React.ElementType> = {
   as?: T;

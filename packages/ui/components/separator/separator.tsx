@@ -1,4 +1,4 @@
-import { cn } from "@poll/lib";
+import { cn } from "@pollify/lib";
 import * as SeparatorPrimitive from "@radix-ui/react-separator";
 import * as React from "react";
 

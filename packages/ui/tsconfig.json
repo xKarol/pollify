@@ -1,5 +1,5 @@
 {
-  "extends": "@poll/tsconfig/react-library.json",
+  "extends": "@pollify/tsconfig/react-library.json",
   "include": ["."],
   "exclude": ["dist", "build", "node_modules"]
 }

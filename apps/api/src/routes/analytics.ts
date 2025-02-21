@@ -1,7 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
-import { apiUrls } from "@poll/config";
-import { hasUserPermission } from "@poll/lib";
-import type { Plan } from "@poll/prisma/client";
+import { apiUrls } from "@pollify/config";
+import { hasUserPermission } from "@pollify/lib";
+import type { Plan } from "@pollifyify/prisma/client";
 import dayjs from "dayjs";
 import { Hono } from "hono";
 import httpError from "http-errors";

@@ -1,5 +1,5 @@
-import type { Plan } from "@poll/prisma/client";
-import type { Auth } from "@poll/types";
+import type { Plan } from "@pollify/prisma/client";
+import type { Auth } from "@pollify/types";
 import { type DefaultSession } from "next-auth";
 
 declare module "next-auth" {

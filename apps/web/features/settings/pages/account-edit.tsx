@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { User } from "@poll/types";
+import type { User } from "@pollify/types";
 import {
   Button,
   Dialog,
@@ -15,8 +15,8 @@ import {
   Separator,
   Skeleton,
   toast,
-} from "@poll/ui";
-import { UserValidator } from "@poll/validators";
+} from "@pollify/ui";
+import { UserValidator } from "@pollify/validations";
 import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";

@@ -1,5 +1,5 @@
 import { zValidator } from "@hono/zod-validator";
-import { apiUrls } from "@poll/config";
+import { apiUrls } from "@pollify/config";
 import { Hono } from "hono";
 import { z } from "zod";
 

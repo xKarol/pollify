@@ -1,5 +1,5 @@
 {
-  "name": "@poll/lib",
+  "name": "@pollify/lib",
   "version": "0.0.0",
   "main": "./index.ts",
   "module": "./index.ts",
@@ -17,6 +17,6 @@
     "tailwind-merge": "^1.14.0"
   },
   "devDependencies": {
-    "@poll/types": "workspace:*"
+    "@pollify/types": "workspace:*"
   }
 }

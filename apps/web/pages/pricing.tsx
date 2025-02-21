@@ -1,5 +1,5 @@
-import type { Payment } from "@poll/types";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@poll/ui";
+import type { Payment } from "@pollify/types";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@pollify/ui";
 import { NextSeo } from "next-seo";
 import React from "react";
 

@@ -1,4 +1,4 @@
-import { TooltipProvider } from "@poll/ui";
+import { TooltipProvider } from "@pollify/ui";
 import {
   Hydrate,
   QueryClient,

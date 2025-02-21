@@ -1,5 +1,5 @@
 {
-  "extends": "@poll/tsconfig/base",
+  "extends": "@pollify/tsconfig/base",
   "include": ["."],
   "exclude": ["dist", "build", "node_modules"]
 }

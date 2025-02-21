@@ -1,5 +1,5 @@
-import { cn } from "@poll/lib";
-import { LoadingButton, toast } from "@poll/ui";
+import { cn } from "@pollify/lib";
+import { LoadingButton, toast } from "@pollify/ui";
 import { Check } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";

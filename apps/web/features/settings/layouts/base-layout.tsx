@@ -1,5 +1,5 @@
-import { cn } from "@poll/lib";
-import { Icon, Sheet, SheetContent, SheetTrigger } from "@poll/ui";
+import { cn } from "@pollify/lib";
+import { Icon, Sheet, SheetContent, SheetTrigger } from "@pollify/ui";
 import React, { useEffect, useState } from "react";
 import { useMedia } from "react-use";
 

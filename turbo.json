@@ -3,7 +3,7 @@
   "globalDependencies": ["**/.env.*local"],
   "globalEnv": ["CI", "NODE_ENV", "NEXTAUTH_SECRET"],
   "tasks": {
-    "@poll/web": {
+    "@pollify/web": {
       "env": [
         "NEXT_PUBLIC_BACKEND_URL",
         "GOOGLE_OAUTH_ID",
@@ -16,7 +16,7 @@
         "ANALYZE"
       ]
     },
-    "@poll/api": {
+    "@pollify/api": {
       "env": [
         "PORT",
         "ORIGIN_URL",

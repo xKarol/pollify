@@ -1,4 +1,4 @@
-import { cn } from "@poll/lib";
+import { cn } from "@pollify/lib";
 import React from "react";
 
 import logoTextLight from "../../../../apps/web/public/logo-with-label-dark.svg";

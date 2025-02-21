@@ -1,4 +1,4 @@
-import { cn } from "@poll/lib";
+import { cn } from "@pollify/lib";
 import {
   Icon,
   Table,
@@ -7,7 +7,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@poll/ui";
+} from "@pollify/ui";
 import React from "react";
 
 export type PricingTableProps = React.ComponentProps<typeof Table> & {

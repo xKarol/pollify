@@ -1,4 +1,4 @@
-import type { QR } from "@poll/types";
+import type { QR } from "@pollify/types";
 import { z } from "zod";
 
 export const getQRCode: z.Schema<{ query: QR.GetQRParams }> = z.object({

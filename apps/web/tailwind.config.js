@@ -1,1 +1,1 @@
-module.exports = require("@poll/config/tailwind.config");
+module.exports = require("@pollify/config/tailwind.config");

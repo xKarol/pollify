@@ -1,4 +1,4 @@
-import { cn } from "@poll/lib";
+import { cn } from "@pollify/lib";
 import {
   Avatar,
   Button,
@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
   ScrollArea,
-} from "@poll/ui";
+} from "@pollify/ui";
 import type { Session } from "next-auth";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";

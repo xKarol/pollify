@@ -1,4 +1,4 @@
-import { toast } from "@poll/ui";
+import { toast } from "@pollify/ui";
 import { useMutation } from "@tanstack/react-query";
 import { signOut } from "next-auth/react";
 

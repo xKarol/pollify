@@ -1,6 +1,6 @@
-import { cn } from "@poll/lib";
-import type { Analytics } from "@poll/types";
-import { Icon, Skeleton } from "@poll/ui";
+import { cn } from "@pollify/lib";
+import type { Analytics } from "@pollify/types";
+import { Icon, Skeleton } from "@pollify/ui";
 import React from "react";
 
 import { nFormatter } from "../../../utils/misc";

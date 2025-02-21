@@ -8,7 +8,7 @@ import {
   SelectValue,
   Skeleton,
   toast,
-} from "@poll/ui";
+} from "@pollify/ui";
 import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";

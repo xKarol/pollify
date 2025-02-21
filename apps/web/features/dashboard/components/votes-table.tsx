@@ -1,4 +1,4 @@
-import type { Vote, Answer, Poll } from "@poll/prisma/client";
+import type { Vote, Answer, Poll } from "@pollify/prisma/client";
 import {
   Badge,
   DropdownMenu,
@@ -12,7 +12,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@poll/ui";
+} from "@pollify/ui";
 import { type FetchNextPageOptions } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";

@@ -1,4 +1,4 @@
-import { Icon, toast } from "@poll/ui";
+import { Icon, toast } from "@pollify/ui";
 import { NextSeo } from "next-seo";
 import { useQueryState } from "next-usequerystate";
 import { useRouter } from "next/router";

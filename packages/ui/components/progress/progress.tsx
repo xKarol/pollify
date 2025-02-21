@@ -1,4 +1,4 @@
-import { cn } from "@poll/lib";
+import { cn } from "@pollify/lib";
 import * as ProgressPrimitive from "@radix-ui/react-progress";
 import * as React from "react";
 

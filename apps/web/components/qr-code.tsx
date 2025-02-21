@@ -1,5 +1,5 @@
-import { cn } from "@poll/lib";
-import { Button, Icon } from "@poll/ui";
+import { cn } from "@pollify/lib";
+import { Button, Icon } from "@pollify/ui";
 import Image from "next/image";
 import React from "react";
 

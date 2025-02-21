@@ -1,5 +1,5 @@
-import type { Poll } from "@poll/types";
-import { PollValidator } from "@poll/validators";
+import type { Poll } from "@pollify/types";
+import { PollValidator } from "@pollify/validations";
 import { z } from "zod";
 
 export const getPoll: z.Schema<{ params: Poll.GetPollData }> = z.object({

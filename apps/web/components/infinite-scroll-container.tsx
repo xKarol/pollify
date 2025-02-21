@@ -1,5 +1,5 @@
-import { cn } from "@poll/lib";
-import { LoadingButton } from "@poll/ui";
+import { cn } from "@pollify/lib";
+import { LoadingButton } from "@pollify/ui";
 import React from "react";
 
 export type InfiniteScrollContainerProps<T extends React.ElementType> = {

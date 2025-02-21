@@ -1,5 +1,5 @@
-import { cn } from "@poll/lib";
-import { Avatar } from "@poll/ui";
+import { cn } from "@pollify/lib";
+import { Avatar } from "@pollify/ui";
 import React from "react";
 
 export type SidebarProps = React.ComponentPropsWithoutRef<"aside">;
