@@ -1,43 +1,13 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["**/.env.*local"],
-  "globalEnv": ["CI", "NODE_ENV", "NEXTAUTH_SECRET"],
+  "globalDependencies": ["**/.env"],
   "tasks": {
-    "@pollify/web": {
-      "env": [
-        "NEXT_PUBLIC_BACKEND_URL",
-        "GOOGLE_OAUTH_ID",
-        "GOOGLE_OAUTH_SECRET",
-        "NEXT_PUBLIC_RECAPTCHA_SITE_KEY",
-        "NEXT_PUBLIC_API_URL",
-        "SENTRY_DSN",
-        "SENTRY_ORG",
-        "SENTRY_PROJECT",
-        "ANALYZE"
-      ]
-    },
-    "@pollify/api": {
-      "env": [
-        "PORT",
-        "ORIGIN_URL",
-        "FRONTEND_URL",
-        "STRIPE_SECRET_API_KEY",
-        "STRIPE_WEBHOOK_SECRET",
-        "RECAPTCHA_SECRET_TOKEN",
-        "TINYBIRD_TOKEN",
-        "TINYBIRD_PIPE_USER_ALL_VOTES_ID",
-        "TINYBIRD_PIPE_USER_POLL_VOTES_ID",
-        "TINYBIRD_PIPE_USER_TOP_DEVICES_ID",
-        "TINYBIRD_PIPE_USER_TOP_COUNTRIES_ID",
-        "SENTRY_DSN",
-        "REDIS_URL"
-      ]
-    },
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
     "lint": {},
+    "lint:fix": {},
     "start": {},
     "typecheck": {},
     "post-install": {},

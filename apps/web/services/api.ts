@@ -1,4 +1,4 @@
-import { createClient } from "@app/api/client";
+import { createClient } from "@pollify/api/client";
 import { apiUrls } from "@pollify/config/api-urls";
 import type { Poll, Payment, User, Analytics, QR } from "@pollify/types";
 
