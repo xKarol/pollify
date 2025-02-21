@@ -1,7 +1,7 @@
 import { createMiddleware } from "hono/factory";
 
 import { createQueue, createWorker } from "../lib/queue";
-import redis from "../lib/redis";
+import { redis } from "../lib/redis";
 import type { withAuth } from "../middlewares/with-auth";
 import type { MiddlewareEnv } from "../types";
 
@@ -33,9 +33,8 @@ export function withCache(
       return next();
     }
 
-    const cacheDataRaw = await redis.get(cacheKey);
-    if (cacheDataRaw) {
-      const cacheData = JSON.parse(cacheDataRaw);
+    const cacheData = await redis.get(cacheKey);
+    if (cacheData) {
       return c.json(cacheData); // TODO should not be json
     }
 

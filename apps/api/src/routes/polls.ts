@@ -10,7 +10,7 @@ import httpError from "http-errors";
 import { z } from "zod";
 
 import { getGeoData } from "../lib/geoip";
-// import redis from "../lib/redis";
+import { redis } from "../lib/redis";
 import { ua } from "../lib/useragent";
 import { withAuth } from "../middlewares/with-auth";
 import { withCache } from "../middlewares/with-cache";
@@ -47,27 +47,34 @@ const polls = new Hono()
     zValidator("param", z.object({ pollId: z.string().nonempty() })),
     async (c) => {
       const { pollId } = c.req.valid("param");
+      let lastSentData: unknown;
 
       return streamSSE(c, async (stream) => {
         while (true) {
           // TODO check if user voted
-          // TODO not send when nothing changed
-          // const cacheKey = `poll:${pollId}:live-results`;
-          // const cacheDataRaw = await redis.get(cacheKey);
-          const cacheDataRaw = null; //TODO fix caching
+          const cacheKey = `poll:${pollId}:live-results`;
+          const cacheData =
+            await redis.get<Awaited<ReturnType<typeof getPoll>>>(cacheKey);
 
-          const data =
-            cacheDataRaw !== null
-              ? JSON.parse(cacheDataRaw)
-              : await getPoll(pollId);
+          const data = cacheData ? cacheData : await getPoll(pollId);
 
-          if (cacheDataRaw === null) {
-            // await redis.set(cacheKey, JSON.stringify(data), "EX", 5);
+          if (!cacheData) {
+            await redis.set(cacheKey, data, {
+              ex: 6,
+            });
           }
-          await stream.writeSSE({
-            data: JSON.stringify(data),
-            id: data.id,
-          });
+
+          const dataString = JSON.stringify(data);
+          // send only when data changed
+          if (dataString !== lastSentData) {
+            await stream.writeSSE({
+              data: dataString,
+              id: data.id,
+            });
+
+            lastSentData = dataString; // Update the last sent data
+          }
+
           await stream.sleep(5000); // update every 5s
         }
       });

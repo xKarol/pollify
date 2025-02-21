@@ -14,7 +14,8 @@ import { z } from "zod";
 const envSchema = z.object({
   NODE_ENV: z.string().optional().default("development"),
   DATABASE_URL: z.string().url(),
-  REDIS_URL: z.string(),
+  UPSTASH_REDIS_REST_URL: z.string(),
+  UPSTASH_REDIS_REST_TOKEN: z.string(),
   STRIPE_WEBHOOK_SECRET: z.string(),
   SENTRY_DSN: z.string().optional(),
 });
