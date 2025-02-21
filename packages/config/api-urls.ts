@@ -23,8 +23,8 @@ export const apiUrls = {
     getLiveResults: (pollId) => `/polls/${pollId}/live` as const,
   },
   payment: {
-    getPricingPlans: "/payments/plan",
-    createPlanCheckoutSession: "/payments/plan/checkout-session",
+    getPricingPlans: "/payments/plans",
+    checkoutSession: "/payments/checkout-sessions",
   },
   analytics: {
     userPollVotes: "/analytics/poll/vote",

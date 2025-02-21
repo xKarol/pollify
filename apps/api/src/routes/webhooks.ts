@@ -1,12 +1,9 @@
 import { apiUrls } from "@poll/config";
-import type { Plan } from "@poll/prisma/client";
 import { prisma } from "@poll/prisma/edge";
 import { Hono, type Context } from "hono";
 
-import { productIds } from "../constants";
 import { stripe } from "../lib/stripe";
-
-const planNames: readonly Plan[] = ["BASIC", "PRO"] as const;
+import { getPlanNameFromPriceId, PaymentMetdata } from "../services/payments";
 
 const webhooks = new Hono().post(
   apiUrls.webhooks.stripe,
@@ -21,30 +18,24 @@ const webhooks = new Hono().post(
 
     switch (event.type) {
       case "customer.subscription.created": {
-        const { userId, productId } = event.data.object.metadata as {
-          userId: string;
-          priceId: string;
-          productId: string;
-        };
+        const { userId, priceId } = event.data.object
+          .metadata as PaymentMetdata;
 
-        const planIndex = productIds.findIndex(
-          (findProductId) => findProductId === productId
-        );
+        const planName = await getPlanNameFromPriceId(priceId);
 
-        if (planIndex === -1) throw new Error("Invalid plan productId.");
-
+        // TODO import service function
         await prisma.user.update({
           where: { id: userId },
-          data: { plan: planNames[planIndex] },
+          // @ts-expect-error
+          data: { plan: planName },
         });
         break;
       }
-      case "customer.subscription.deleted": {
-        const { userId } = event.data.object.metadata as {
-          userId: string;
-          planName: Plan;
-        };
 
+      case "customer.subscription.deleted": {
+        const { userId } = event.data.object.metadata as PaymentMetdata;
+
+        // TODO import service function
         await prisma.user.update({
           where: { id: userId },
           data: { plan: "FREE" },

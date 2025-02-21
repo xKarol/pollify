@@ -28,7 +28,7 @@ export const getPolls: Poll.Services["getPolls"] = async ({
 };
 
 export const getPoll = async (pollId: string) => {
-  const response = await prisma.poll.findUniqueOrThrow({
+  const response = await prisma.poll.findUnique({
     where: {
       id: pollId,
     },

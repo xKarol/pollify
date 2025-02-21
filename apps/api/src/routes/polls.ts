@@ -58,6 +58,10 @@ const polls = new Hono()
 
           const data = cacheData ? cacheData : await getPoll(pollId);
 
+          if (data === null) {
+            throw httpError.NotFound();
+          }
+
           if (!cacheData) {
             await redis.set(cacheKey, data, {
               ex: 6,
@@ -72,7 +76,7 @@ const polls = new Hono()
               id: data.id,
             });
 
-            lastSentData = dataString; // Update the last sent data
+            lastSentData = dataString;
           }
 
           await stream.sleep(5000); // update every 5s
@@ -110,7 +114,7 @@ const polls = new Hono()
         const hasPermission = hasUserPermission("BASIC", userPlan);
         if (!hasPermission)
           throw httpError.Forbidden(
-            "Basic plan or higher is required to use reCAPTCHA."
+            "Basic plan or higher is required to use reCAPTCHA option."
           );
       }
 
@@ -150,18 +154,21 @@ const polls = new Hono()
       const { reCaptchaToken } = c.req.valid("json");
       const { session: user } = c.get("user");
 
-      const { requireRecaptcha: isReCaptchaRequired, userId: ownerId } =
-        await prisma.poll.findUniqueOrThrow({
-          where: { id: pollId },
-          select: { requireRecaptcha: true, userId: true },
-        });
-      if (isReCaptchaRequired) {
-        const { success: isValidCaptcha } =
-          await verifyReCaptcha(reCaptchaToken);
-        if (!isValidCaptcha) throw new Error("Invalid reCAPTCHA verification.");
+      const poll = await prisma.poll.findUnique({
+        where: { id: pollId },
+        select: { requireRecaptcha: true, userId: true },
+      });
+
+      if (!poll) {
+        throw httpError.NotFound();
       }
 
-      const data = await votePoll({ userId: user?.id, pollId, answerId });
+      if (poll.requireRecaptcha) {
+        const { success } = await verifyReCaptcha(reCaptchaToken);
+        if (!success) throw new Error("Invalid reCAPTCHA verification.");
+      }
+
+      const vote = await votePoll({ userId: user?.id, pollId, answerId });
 
       const ip = getIP(c.req);
       const geo = await getGeoData(ip!).catch(() => null);
@@ -176,8 +183,8 @@ const polls = new Hono()
       await Analytics.sendPollVoteData({
         user_id: user?.id,
         poll_id: pollId,
-        owner_id: ownerId || undefined,
-        vote_id: data.id,
+        owner_id: poll.userId || undefined,
+        vote_id: vote.id,
         answer_id: answerId,
         timestamp: new Date().toISOString(),
         browser: ua.getBrowser().name,
@@ -193,11 +200,12 @@ const polls = new Hono()
         longitude: geo?.longitude,
         region: geo?.region,
       }).catch((e) => {
+        // TODO use logger here
         console.log("Vote Analytics error:", e);
         return null;
       });
 
-      return c.json(data);
+      return c.json(vote);
     }
   )
   .get(
