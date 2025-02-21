@@ -12,6 +12,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@app/api": "workspace:*",
     "@hookform/resolvers": "^4.1.0",
     "@next-auth/prisma-adapter": "^1.0.7",
     "@poll/prisma": "workspace:*",
@@ -38,6 +39,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "dayjs": "^1.11.9",
+    "hono": "^4.7.2",
     "http-proxy": "^1.18.1",
     "jotai": "^2.4.0",
     "lucide-react": "^0.475.0",

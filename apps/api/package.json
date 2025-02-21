@@ -1,5 +1,12 @@
 {
   "name": "@app/api",
+  "version": "0.0.0",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./client": "./src/client.ts",
+    "./vercel": "./src/vercel.ts"
+  },
   "scripts": {
     "dev:api": "bun run --hot src/index.ts"
   },
@@ -11,7 +18,7 @@
     "axios": "^1.7.9",
     "bullmq": "^5.41.2",
     "dayjs": "^1.11.13",
-    "hono": "^4.6.20",
+    "hono": "^4.7.2",
     "hono-rate-limiter": "^0.4.2",
     "http-errors": "^2.0.0",
     "ioredis": "^5.5.0",

@@ -8,14 +8,13 @@ import polls from "./polls";
 import qr from "./qr";
 import webhooks from "./webhooks";
 
-const routes = new Hono();
-
-routes.route("/", healthCheck);
-routes.route("/", analytics);
-routes.route("/", me);
-routes.route("/", polls);
-routes.route("/", payments);
-routes.route("/", qr);
-routes.route("/", webhooks);
+const routes = new Hono()
+  .route("/", healthCheck)
+  .route("/", analytics)
+  .route("/", me)
+  .route("/", polls)
+  .route("/", payments)
+  .route("/", qr)
+  .route("/", webhooks);
 
 export default routes;

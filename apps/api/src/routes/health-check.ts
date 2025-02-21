@@ -1,11 +1,9 @@
 import { Hono } from "hono";
 
-import type { App } from "..";
-
-const healthCheck: App = new Hono();
+const healthCheck = new Hono();
 
 healthCheck.get("/health-check", (c) => {
-  return c.json({ ok: "ok" });
+  return c.json({ ok: true });
 });
 
 export default healthCheck;

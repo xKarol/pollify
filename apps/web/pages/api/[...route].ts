@@ -1,10 +1,8 @@
-import { handle } from "hono/vercel";
+import { handle } from "@app/api/vercel";
 import type { PageConfig } from "next";
-
-import app from "../../../api/src/index";
 
 export const config: PageConfig = {
   runtime: "edge",
 };
 
-export default handle(app);
+export default handle();

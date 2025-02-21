@@ -1,8 +1,10 @@
+import { createClient } from "@app/api/client";
 import { apiUrls } from "@poll/config/api-urls";
 import type { Poll, Payment, User, Analytics, QR } from "@poll/types";
 
 import axios from "../lib/axios";
 
+export const client = createClient(process.env.NEXT_PUBLIC_API_URL!);
 // POLL
 export const createPoll: Poll.Api["createPoll"] = async (pollData) => {
   const { data } = await axios.post(apiUrls.poll.create, pollData);
