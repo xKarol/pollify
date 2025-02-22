@@ -42,8 +42,6 @@ const polls = new Hono()
       if (!data) {
         throw httpError.NotFound();
       }
-
-      // await c.var.cache.set(data);
       return c.json(data);
     }
   )
@@ -96,12 +94,11 @@ const polls = new Hono()
       allowedFields: ["createdAt", "totalVotes"],
       defaultField: "createdAt",
     }),
-    // withCache(60 * 30),
+    withCache(60 * 5),
     async (c) => {
       const { page, limit, skip } = c.get("pagination");
       const { sortBy, orderBy } = c.get("sorting");
       const data = await getPolls({ page, limit, skip, sortBy, orderBy });
-      // await c.var.cache.set(data);
 
       return c.json(data);
     }
@@ -216,11 +213,10 @@ const polls = new Hono()
   .get(
     apiUrls.poll.getVoters(":pollId"),
     zValidator("param", z.object({ pollId: z.string() })),
-    // withCache(60 * 60), // 1 hour
+    withCache(60 * 5), // 1 hour
     async (c) => {
       const { pollId } = c.req.valid("param");
       const data = await getPollVoters(pollId);
-      // await c.var.cache.set(data);
 
       return c.json(data);
     }
@@ -229,16 +225,13 @@ const polls = new Hono()
     apiUrls.poll.getUserAnswerChoice(":pollId"),
     zValidator("param", z.object({ pollId: z.string() })),
     withAuth,
-    // withCache(60 * 60 * 12, { requireUser: true }), //12 hours
+    withCache(60 * 60 * 12, { requireUser: true }), //12 hours
     async (c) => {
       const { pollId } = c.req.valid("param");
       const { isLoggedIn, session: user } = c.get("user");
 
       if (!isLoggedIn) return c.json({}); //TODO check if this is correct
       const data = await getPollUserAnswerChoice(user.id, pollId);
-      if (data) {
-        // await c.var.cache.set(data);
-      }
 
       if (!data) return c.json({}); //TODO check if this is correct
       return c.json(data);

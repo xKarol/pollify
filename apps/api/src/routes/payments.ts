@@ -15,11 +15,9 @@ import {
 const payments = new Hono()
   .get(
     apiUrls.payment.getPricingPlans,
-    // withCache(60 * 60 * 24), //1 day
+    withCache(60 * 60 * 24), //1 day
     async (c) => {
       const plans = await getSubscriptionPlans();
-      // await c.var.cache.set(data);
-
       return c.json(plans);
     }
   )
