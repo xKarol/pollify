@@ -1,7 +1,7 @@
 import { cn } from "@pollify/lib";
 import { prisma } from "@pollify/prisma";
 import { Button, Icon } from "@pollify/ui";
-import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import type { GetStaticProps, InferGetStaticPropsType } from "next";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,20 +18,20 @@ type Stats = {
   totalUsers: number;
 };
 
-export const getServerSideProps = (async () => {
+export const getStaticProps = (async () => {
   const stats = {
     totalPolls: await prisma.poll.count().catch(() => 0),
     totalVotes: await prisma.vote.count().catch(() => 0),
     totalUsers: await prisma.user.count().catch(() => 0),
   };
   return { props: { stats } };
-}) satisfies GetServerSideProps<{
+}) satisfies GetStaticProps<{
   stats: Stats;
 }>;
 
 export default function HomePage({
   stats,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   const { data: session } = useSession();
 
   console.log({ session });
