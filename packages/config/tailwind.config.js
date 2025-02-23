@@ -24,7 +24,11 @@ module.exports = {
     },
     extend: {
       colors: {
-        dark: "#1b1b1b",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: "hsl(var(--primary))",
+        accent: "hsl(var(--accent))",
+        border: "hsl(var(--border))",
       },
       fontFamily: {
         sans: ["var(--font-inter)"],

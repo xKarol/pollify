@@ -1,6 +1,5 @@
 import { cn } from "@pollify/lib";
-import { LoadingButton, toast } from "@pollify/ui";
-import { Check } from "lucide-react";
+import { Icon, LoadingButton, toast } from "@pollify/ui";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
@@ -59,34 +58,33 @@ export function PricingCard({
   return (
     <div
       className={cn(
-        "dark:bg-dark flex min-w-[240px] flex-col justify-between rounded-[8px] border-2 border-neutral-100 bg-white px-4 py-8 dark:border-neutral-800",
+        "bg-foreground border-border flex min-w-[240px] flex-col justify-between rounded-2xl border p-6",
         className
       )}
       {...props}>
       <div className="mb-6 space-y-4">
         <div>
-          <h2 className="mb-4 text-xl font-medium capitalize">{planName}</h2>
+          <h2 className="mb-16 text-lg font-medium capitalize">{planName}</h2>
 
-          <p className="mb-2 text-xl font-medium">
-            {currencySymbol}
-            {price}{" "}
-            <span className="text-base text-neutral-400">
-              per {interval === "month" ? "month" : "year"}
+          <p className="mb-2 font-medium">
+            <span className="mr-1 text-4xl">
+              {currencySymbol}
+              {price}
+            </span>
+            <span className="text-accent text-sm">
+              /{interval === "month" ? "month" : "year"}
             </span>
           </p>
-          <p className="mb-2 text-base font-medium text-neutral-500">
-            {description}
-          </p>
+
+          <p className="text-accent mb-12 text-sm">{description}</p>
         </div>
         <ul className="space-y-2">
           {features.map((feature) => (
-            <li
-              key={feature.text}
-              className="flex items-center space-x-4 text-sm">
+            <li key={feature.text} className="flex items-center space-x-3 ">
               {/* TODO fix icon from props */}
               {/* {feature.icon} */}
-              <Check />
-              <span>{feature.text}</span>
+              <Icon.CheckIcon size={16} className="text-primary" />
+              <span className="text-sm">{feature.text}</span>
             </li>
           ))}
         </ul>

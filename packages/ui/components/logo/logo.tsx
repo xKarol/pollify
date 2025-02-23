@@ -1,9 +1,7 @@
 import { cn } from "@pollify/lib";
 import React from "react";
 
-import logoTextLight from "../../../../apps/web/public/logo-with-label-dark.svg";
-import logoTextDark from "../../../../apps/web/public/logo-with-label-light.svg";
-import logo from "../../../../apps/web/public/logo.svg";
+import { LogoSVG, LogoWithTextSVG } from "./svg";
 
 export type LogoProps = {
   href?: string | null;
@@ -21,22 +19,7 @@ export const Logo = ({
   return (
     <div className={cn("w-max", className)} {...rest}>
       <Component {...(href && { href: href })}>
-        {variant === "text" ? (
-          <>
-            <img
-              src={logoTextLight.src}
-              className="hidden dark:block"
-              alt="logo"
-            />
-            <img
-              src={logoTextDark.src}
-              className="block dark:hidden"
-              alt="logo"
-            />
-          </>
-        ) : (
-          <img src={logo.src} alt="logo" />
-        )}
+        {variant === "text" ? <LogoWithTextSVG /> : <LogoSVG />}
       </Component>
     </div>
   );

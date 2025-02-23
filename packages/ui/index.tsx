@@ -1,3 +1,4 @@
+export * from "./components/accordion";
 export * from "./components/button";
 export * from "./components/loading-button";
 export * from "./components/switch";

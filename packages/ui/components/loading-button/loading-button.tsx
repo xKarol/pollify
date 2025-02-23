@@ -16,7 +16,7 @@ const LoadingButton = React.forwardRef<HTMLButtonElement, LoadingButtonProps>(
         ref={ref}
         {...props}
         disabled={isLoading || props.disabled}>
-        {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+        {isLoading && <Loader2 size={16} className="mr-2 animate-spin" />}
         {children}
       </Button>
     );

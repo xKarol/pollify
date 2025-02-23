@@ -31,12 +31,7 @@ import { useVotePoll } from "../../hooks/use-vote-poll";
 import dayjs from "../../lib/dayjs";
 import { getBaseUrl } from "../../utils/get-base-url";
 import { nFormatter } from "../../utils/misc";
-import {
-  PollAnswerOptions,
-  SharePoll,
-  SkeletonLoading,
-  VotesChart,
-} from "./components";
+import { PollAnswerOptions, SharePoll, SkeletonLoading } from "./components";
 import { useLiveAnswers } from "./hooks";
 
 const PollPage = () => {
@@ -77,14 +72,9 @@ const PollPage = () => {
     setSelectedAnswerId(answer.id);
   };
 
-  const dataChart = data?.answers.map((answer) => ({
-    name: answer.text,
-    value: (answer.votes / data.totalVotes) * 100,
-  }));
-
   if (isError)
     return (
-      <div className="container flex h-96 flex-col items-center space-y-4 xl:max-w-6xl">
+      <div className="container flex h-96 max-w-4xl flex-col items-center space-y-4">
         <h1 className="text-center">Something went wrong...</h1>
         <LoadingButton isLoading={isFetching} onClick={() => refetch()}>
           Try again
@@ -92,7 +82,7 @@ const PollPage = () => {
       </div>
     );
   return (
-    <div className="container m-auto flex flex-col space-y-16 xl:max-w-6xl">
+    <div className="container flex max-w-4xl flex-col">
       {isLoading && <SkeletonLoading />}
       {isSuccess && (
         <>
@@ -105,12 +95,17 @@ const PollPage = () => {
           <NextSeo title={data.question} />
           <form onSubmit={handleSubmit} className="flex flex-col">
             <div className="flex justify-between space-x-2">
-              <div className="w-full space-y-2 leading-[2]">
-                <h1 className="text-[22px] font-normal leading-[1.2] md:text-2xl xl:text-[32px]">
+              <div className="w-full space-y-2">
+                <h1 className="mb-2 text-2xl font-medium lg:text-3xl">
                   {data.question}
                 </h1>
-                <div className="flex flex-wrap items-center gap-4">
-                  <span className="text-base font-normal text-neutral-400">
+                <div className="flex flex-wrap items-center space-x-2">
+                  <Avatar
+                    src={data.user?.image}
+                    className="border-border size-6 border">
+                    {data.user?.name[0]}
+                  </Avatar>
+                  <span className="text-accent text-sm">
                     by a {data.user?.name || "guest"} ·{" "}
                     {dayjs(data.createdAt).fromNow()}
                   </span>
@@ -123,9 +118,9 @@ const PollPage = () => {
                   {isVoted ? (
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <span className="relative flex h-2.5 w-2.5">
-                          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-300 opacity-75"></span>
-                          <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-400"></span>
+                        <span className="relative flex size-2.5">
+                          <span className="absolute inline-flex size-full animate-ping rounded-full bg-green-300 opacity-75"></span>
+                          <span className="relative inline-flex size-2.5 rounded-full bg-green-400"></span>
                         </span>
                       </TooltipTrigger>
                       <TooltipContent>
@@ -145,7 +140,7 @@ const PollPage = () => {
                   <DropdownMenuContent align="end">
                     <DropdownMenuItem className="space-x-2" asChild>
                       <Link href={routes.DASHBOARD.ANALYTICS.poll(pollId)}>
-                        <Icon.BarChart2 className="h-4 w-4" />
+                        <Icon.BarChart2 className="size-4" />
                         <span>Analytics</span>
                       </Link>
                     </DropdownMenuItem>
@@ -159,7 +154,7 @@ const PollPage = () => {
                       <DropdownMenuItem
                         className="space-x-2 text-red-400"
                         onSelect={(e) => e.preventDefault()}>
-                        <Icon.Trash2 className="h-4 w-4" />
+                        <Icon.Trash2 className="size-4" />
                         <span>Delete poll</span>
                       </DropdownMenuItem>
                     </DeletePollDialog>
@@ -181,14 +176,14 @@ const PollPage = () => {
                         key={voter.id}
                         alt={`${voter.name} voter`}
                         src={voter.image}
-                        className="h-8 w-8 border-2 border-white">
+                        className="border-border size-8 border">
                         {voter.name[0]}
                       </Avatar>
                     ))}
                   </AvatarGroup>
                 ) : null}
-                <p className="text-sm font-normal">
-                  Total Votes: {nFormatter(data.totalVotes)}
+                <p className="text-accent text-sm font-normal">
+                  {nFormatter(data.totalVotes)} votes
                 </p>
               </div>
               {!isVoted ? (
@@ -201,8 +196,7 @@ const PollPage = () => {
               ) : null}
             </div>
           </form>
-          {isVoted && <VotesChart data={dataChart} />}
-          <SharePoll shareUrl={shareUrl} />
+          <SharePoll className="mt-8 lg:mt-16" shareUrl={shareUrl} />
         </>
       )}
     </div>

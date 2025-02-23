@@ -79,7 +79,7 @@ export default function LoginPage() {
             </AlertTitle>
           </Alert>
         ) : null}
-        <h1 className="mb-16 text-center text-[32px] font-bold">Log In</h1>
+        <h1 className="mb-16 text-center text-3xl font-medium">Log In</h1>
         <AuthProvider
           variant="google"
           isLoading={isLoading.google}
@@ -128,18 +128,18 @@ export default function LoginPage() {
                 <LoadingButton
                   isLoading={false}
                   type="submit"
-                  className="w-full">
+                  className="w-full rounded-xl">
                   Submit
                 </LoadingButton>
                 <Link
                   href="/"
-                  className="text-center text-sm font-medium text-neutral-400 underline">
+                  className="text-accent ml-auto text-center text-xs font-medium">
                   Forgot Password?
                 </Link>
               </form>
             </Form>
           </div>
-          <span className="text-center text-sm font-normal text-neutral-400 [&>a]:underline">
+          <span className="text-accent text-center text-sm font-normal [&>a]:underline">
             By logging in, you agree to our{" "}
             <Link href={routes.TERMS_AND_CONDITIONS}>Terms and Conditions</Link>
             , including our{" "}

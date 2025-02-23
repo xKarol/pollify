@@ -1,5 +1,6 @@
-import type { Payment } from "@pollify/types";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@pollify/ui";
+import { Home } from "lucide-react";
+import type { InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import React from "react";
 
@@ -23,27 +24,30 @@ const tableFeatures: [string, boolean, boolean, boolean][] = [
 
 const planFeatures = {
   free: [
-    { text: "feature 1" },
-    { text: "feature 2" },
-    { text: "feature 3" },
+    { icon: <Home />, text: "Create unlimited polls" },
+    { icon: <Home />, text: "View basic poll results" },
+    { icon: <Home />, text: "Public and private polls" },
     {
-      text: "feature 4",
+      icon: <Home />,
+      text: "Up to 6 answers per poll",
     },
   ],
   basic: [
-    { text: "feature 1" },
-    { text: "feature 2" },
-    { text: "feature 3" },
+    { icon: <Home />, text: "Basic poll analytics" },
+    { icon: <Home />, text: "10 active polls at a time" },
+    { icon: <Home />, text: "Results export (CSV)" },
     {
-      text: "feature 4",
+      icon: <Home />,
+      text: "Set a voting time limit",
     },
   ],
   pro: [
-    { text: "feature 1" },
-    { text: "feature 2" },
-    { text: "feature 3" },
+    { icon: <Home />, text: "Advanced poll analytics" },
+    { icon: <Home />, text: "Unlimited active polls" },
+    { icon: <Home />, text: "Unlimited poll answers" },
     {
-      text: "feature 4",
+      icon: <Home />,
+      text: "Priority support",
     },
   ],
 } as const;
@@ -66,25 +70,27 @@ export async function getStaticProps() {
   };
 }
 
-export default function PricingPage({ plans }: { plans: Payment.Plan[] }) {
+export default function PricingPage({
+  plans,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <>
       <NextSeo title="Pricing" />
       <div className="container">
-        <div className="mx-auto my-4 flex max-w-4xl flex-col items-center space-y-8 md:my-8 xl:my-16">
-          <div className="flex flex-col items-center space-y-2">
-            <h1 className="text-2xl font-semibold">Pricing</h1>
-            <p className="text-center text-lg text-neutral-400">
+        <div className="mx-auto flex max-w-5xl flex-col items-center">
+          <div className="mx-auto mb-8 flex max-w-3xl flex-col space-y-4">
+            <h1 className="text-center text-2xl font-medium xl:text-3xl">
+              Pricing
+            </h1>
+            <p className="text-accent text-center xl:text-lg">
               Find your ideal plan and unleash the full potential of our poll
               platform
             </p>
           </div>
-          <Tabs
-            defaultValue="month"
-            className="mt-8 flex flex-col items-center">
+          <Tabs defaultValue="year" className="mt-8 flex flex-col items-center">
             <TabsList>
+              <TabsTrigger value="year">Annualy</TabsTrigger>
               <TabsTrigger value="month">Monthly</TabsTrigger>
-              <TabsTrigger value="year">Yearly</TabsTrigger>
             </TabsList>
             <div className="flex space-x-8">
               {plans.map((plan) => {
@@ -92,11 +98,11 @@ export default function PricingPage({ plans }: { plans: Payment.Plan[] }) {
                   <TabsContent
                     key={`${plan.planName}.${price.interval}`}
                     value={price.interval}
-                    className="mt-12">
+                    className="mt-12 w-full md:max-w-[calc((100%/2)-1rem)] xl:max-w-[calc((100%/3)-1rem)]">
                     <PricingCard
-                      // TODO fix features
-                      // features={planFeatures[plan.planName.toLowerCase()]}
-                      features={[]}
+                      className="h-full"
+                      // @ts-expect-error
+                      features={planFeatures[plan.planName.toLowerCase()]}
                       description={plan.description}
                       variant={
                         plan.planName === "Pro" ? "recommended" : "default"
@@ -104,6 +110,7 @@ export default function PricingPage({ plans }: { plans: Payment.Plan[] }) {
                       planName={plan.planName}
                       priceId={price.id}
                       currencySymbol={price.currencySymbol}
+                      // @ts-expect-error
                       interval={price.interval}
                       price={price.unitAmount / 100}
                     />

@@ -12,7 +12,7 @@ export default function Sidebar({
   return (
     <aside
       className={cn(
-        "dark:bg-dark sticky left-0 top-0 flex h-[100dvh] min-w-[220px] flex-col border-r border-neutral-200/50 bg-neutral-100 px-2 py-4 dark:border-neutral-800/50",
+        "dark:bg-background sticky left-0 top-0 flex h-[100dvh] min-w-[220px] flex-col border-r border-neutral-200/50 bg-neutral-100 px-2 py-4 dark:border-neutral-800/50",
         className
       )}
       {...props}>
@@ -96,7 +96,7 @@ export function SidebarProfile({
         className
       )}
       {...props}>
-      <Avatar className="h-5 w-5" src={avatarUrl} alt={`${username}'s profile`}>
+      <Avatar className="size-5" src={avatarUrl} alt={`${username}'s profile`}>
         {username[0]}
       </Avatar>
       <div className="flex items-center space-x-2">

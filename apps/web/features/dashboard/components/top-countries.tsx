@@ -25,14 +25,14 @@ export default function TopCountries({
       <div className="flex max-h-[192px] flex-col overflow-y-auto">
         {isError && (
           <div className="flex">
-            <span className="mx-auto my-10 text-xs text-neutral-400 dark:text-neutral-300">
+            <span className="text-accent mx-auto my-10 text-xs">
               Something went wrong...
             </span>
           </div>
         )}
         {isEmpty && (
           <div className="flex">
-            <span className="mx-auto my-10 text-xs text-neutral-400 dark:text-neutral-300">
+            <span className="text-accent mx-auto my-10 text-xs">
               No data available
             </span>
           </div>
@@ -76,7 +76,7 @@ function Country({ countryCode, countryName, value, className }: CountryProps) {
   return (
     <div
       className={cn(
-        "relative flex w-full items-center justify-between rounded bg-neutral-100 px-4 py-2 text-xs dark:bg-neutral-800",
+        "bg-foreground relative flex w-full items-center justify-between rounded px-4 py-2 text-xs",
         className
       )}>
       <div className="flex items-center space-x-4">

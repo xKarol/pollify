@@ -15,7 +15,7 @@ const alertVariants = cva(
       variant: {
         error: "bg-red-300 dark:bg-red-500",
         warning: "bg-orange-300 dark:bg-orange-500",
-        info: "dark:bg-dark border border-neutral-100 bg-white dark:border-neutral-800",
+        info: "dark:bg-background border border-neutral-100 bg-white dark:border-neutral-800",
         success: "bg-green-300 dark:bg-green-500",
       },
     },

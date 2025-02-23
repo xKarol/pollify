@@ -32,7 +32,7 @@ const MyPollsPage = () => {
           <DynamicCreatePollDialog>
             <Button size="sm">
               <Icon.Plus />
-              <span>Create a poll</span>
+              <span>Create poll</span>
             </Button>
           </DynamicCreatePollDialog>
         }

@@ -4,17 +4,18 @@ import { cva, type VariantProps } from "class-variance-authority";
 import React from "react";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center space-x-2 rounded text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-auto disabled:cursor-not-allowed disabled:opacity-50 [&_svg]:h-4 [&_svg]:w-4",
+  "inline-flex rounded-full text-sm items-center justify-center space-x-2 font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-auto disabled:cursor-not-allowed disabled:opacity-50 [&_svg]:size-4",
   {
     variants: {
       variant: {
         default:
           "bg-neutral-900 text-white hover:bg-neutral-900/90 dark:bg-white dark:text-neutral-900 hover:dark:bg-white/50",
+        primary: "bg-primary hover:opacity-80 transition-opacity text-black",
         text: "hover:bg-neutral-900/5 hover:dark:bg-white/5",
         destructive:
           "bg-red-500 text-neutral-900 hover:bg-red-500/90 dark:bg-red-700 hover:dark:bg-red-700/90",
         outline:
-          "dark:bg-dark border border-neutral-200 bg-white dark:border-neutral-800",
+          "dark:bg-background border border-neutral-200 bg-white dark:border-neutral-800",
         secondary: "bg-white text-neutral-900 hover:bg-white/50",
         // ghost: "hover:bg-accent hover:text-accent-foreground",
         // link: "text-primary underline-offset-4 hover:underline",
@@ -23,7 +24,7 @@ const buttonVariants = cva(
         default: "h-10 px-6 py-3",
         sm: "h-9 px-3",
         lg: "h-11 px-8",
-        icon: "h-10 w-10",
+        icon: "size-10",
       },
     },
     defaultVariants: {

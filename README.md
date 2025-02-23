@@ -1,9 +1,9 @@
-# Quick Poll 📊
+# Pollify 📊
 
-![QuickPoll](./apps/web/public/hero-image.png)
+![Pollify](./apps/web/public/hero-image.png)
 [![Demo](https://img.shields.io/website?url=https://poll-web-three.vercel.app/&style=for-the-badge)](https://poll-web-three.vercel.app/)
-![CIMain](https://github.com/xKarol/poll/actions/workflows/main.yml/badge.svg?event=push&branch=main)
-![CITest](https://github.com/xKarol/poll/actions/workflows/test.yml/badge.svg?event=push&branch=main)
+![CIMain](https://github.com/xKarol/pollify/actions/workflows/main.yml/badge.svg?event=push&branch=main)
+![CITest](https://github.com/xKarol/pollify/actions/workflows/test.yml/badge.svg?event=push&branch=main)
 
 This project is designed to create a simple and interactive poll website where users can create, participate in, and view poll questions and results. It combines the power of Next.js for the frontend and Express.js for the backend to deliver a seamless and responsive user experience.
 
@@ -63,26 +63,26 @@ This project is designed to create a simple and interactive poll website where u
   - [/tsconfig](./packages/tsconfig)
   - [/types](./packages/types)
   - [/ui](./packages/ui)
-  - [/validators](./packages/validators)
+  - [/validation](./packages/validation)
 
 ## 🛠️ Installation Steps
 
 1. Clone the repository
 
    ```bash
-   git clone https://github.com/xkarol/poll.git
+   git clone https://github.com/xkarol/pollify.git
    ```
 
 2. Change directory
 
    ```bash
-   cd poll
+   cd pollify
    ```
 
 3. Install dependencies
 
    ```bash
-   yarn install
+   bun install
    ```
 
 4. Create `.env` file based on `.env.example`
@@ -96,11 +96,11 @@ This project is designed to create a simple and interactive poll website where u
 6. Sync prisma schema
 
    ```bash
-   yarn turbo run db:push
+   bun turbo run db:push
    ```
 
 7. Run the app
 
    ```bash
-   yarn dev
+   bun dev
    ```

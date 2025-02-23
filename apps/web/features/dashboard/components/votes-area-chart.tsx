@@ -65,10 +65,7 @@ export default function VotesAreaChart({
       width="100%"
       height="100%"
       aspect={16 / 9}
-      className={cn(
-        "rounded border border-neutral-300 dark:border-neutral-800",
-        className
-      )}
+      className={cn("border-border rounded-xl border", className)}
       {...props}>
       <AreaChart data={chartData} margin={{ left: 8, bottom: 8 }}>
         <defs>

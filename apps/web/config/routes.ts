@@ -8,7 +8,7 @@ export const routes = {
   CREATE_POLL: "/create",
   PRICING: "/pricing",
   FEATURES: "/features",
-  PUBLIC_POLLS: "/public",
+  EXPLORE_POLLS: "/explore",
   LOGIN: "/login",
   TERMS_AND_CONDITIONS: "/terms",
   PRIVACY_POLICY: "/privacy",

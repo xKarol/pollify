@@ -1,6 +1,7 @@
 import type { OrderBy, Poll } from "@pollify/types";
 import {
   Avatar,
+  Icon,
   LoadingButton,
   Select,
   SelectContent,
@@ -52,8 +53,8 @@ export default function PublicPage() {
 
   return (
     <>
-      <NextSeo title="Public Polls" />
-      <div className="container mt-8 space-y-8 md:max-w-2xl lg:mt-16 xl:max-w-4xl">
+      <NextSeo title="Explore polls" />
+      <div className="container space-y-8 md:max-w-2xl xl:max-w-4xl">
         {!isError ? (
           <>
             <div className="flex items-center justify-between">
@@ -89,10 +90,11 @@ export default function PublicPage() {
         {isLoading && (
           <div className="flex flex-col space-y-8">
             {Array.from({ length: 5 }).map((_, index) => (
-              <Skeleton key={index} className="space-y-5 px-3 py-4">
-                <Skeleton className="h-6 w-3/4 max-w-full" />
+              <Skeleton key={index} className="px-6 py-8">
+                <Skeleton className="mb-2 h-4 w-1/4 max-w-full" />
+                <Skeleton className="mb-5 h-6 w-3/4 max-w-full" />
                 <span className="flex items-center space-x-2">
-                  <Skeleton className="h-6 w-6 rounded-full" />
+                  <Skeleton className="size-6 rounded-full" />
                   <Skeleton className="h-4 w-40 max-w-full" />
                 </span>
               </Skeleton>
@@ -112,27 +114,40 @@ export default function PublicPage() {
             fetchNextPage={fetchNextPage}
             isFetchingNextPage={isFetchingNextPage}
             hasNextPage={hasNextPage}>
-            <ul className="flex min-h-[40vh] flex-col space-y-8">
+            <ul className="flex min-h-[40vh] flex-col space-y-3 lg:space-y-4">
               {data?.map((poll) => (
                 <Link
                   key={poll.id}
                   href={routes.poll(poll.id)}
-                  className="dark:bg-dark space-y-4 rounded border border-neutral-100 bg-white px-6 py-8  dark:border-neutral-800">
-                  <h1 className="text-lg">{poll.question}</h1>
-                  <div className="flex items-center justify-between text-sm font-normal text-neutral-400">
-                    <div className="flex items-center space-x-2">
-                      <Avatar
-                        className="h-6 w-6"
-                        src={poll.user?.image}
-                        alt={`${poll.user?.name || "guest"}'s profile`}>
-                        {poll.user?.name[0]}
-                      </Avatar>
-                      <span>
-                        by {poll.user?.name || "guest"} ·{" "}
+                  className="bg-foreground border-border rounded-2xl border px-6 py-8">
+                  <div className="text-accent mb-2 flex items-center text-xs">
+                    <Avatar
+                      className="size-5"
+                      src={poll.user?.image}
+                      alt={`${poll.user?.name || "guest"}'s profile`}>
+                      {poll.user?.name[0]}
+                    </Avatar>
+                    <span className="ml-2">{poll.user?.name || "guest"}</span>
+                    <span className="ml-1.5 text-[#737373]">
+                      {dayjs(poll.createdAt).format("DD MMM")}
+                    </span>
+                  </div>
+                  <h1 className="mb-3 truncate text-lg font-medium">
+                    {poll.question}
+                  </h1>
+                  <div className="flex items-center justify-between">
+                    <div className="text-accent flex items-center space-x-1">
+                      <Icon.Clock size={16} />
+                      <span className="text-xs">
                         {dayjs(poll.createdAt).fromNow()}
                       </span>
                     </div>
-                    <span>{nFormatter(poll.totalVotes)} votes</span>
+                    <div className="text-accent flex items-center space-x-1">
+                      <Icon.ChartNoAxesColumn size={16} />
+                      <span className="text-xs">
+                        {nFormatter(poll.totalVotes)} votes
+                      </span>
+                    </div>
                   </div>
                 </Link>
               ))}

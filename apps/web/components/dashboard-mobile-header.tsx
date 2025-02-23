@@ -16,7 +16,7 @@ export function DashboardMobileHeader({
   return (
     <header
       className={cn(
-        "dark:bg-dark container fixed left-0 right-0 top-0 flex max-w-5xl items-center border border-neutral-200/50 bg-neutral-100 py-2 dark:border-neutral-800/50",
+        "dark:bg-background container fixed left-0 right-0 top-0 flex max-w-5xl items-center border border-neutral-200/50 bg-neutral-100 py-2 dark:border-neutral-800/50",
         className
       )}
       {...props}>

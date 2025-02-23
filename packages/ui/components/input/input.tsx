@@ -3,13 +3,11 @@ import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
 const inputVariants = cva(
-  "flex h-10 w-full rounded border px-4 py-3 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-neutral-400 disabled:cursor-not-allowed disabled:opacity-50 dark:placeholder:text-neutral-400",
+  "flex w-full rounded-xl border px-4 py-3 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-accent disabled:cursor-not-allowed disabled:opacity-50",
   {
     variants: {
       variant: {
-        default:
-          "dark:bg-dark border-neutral-200 bg-white placeholder:text-neutral-500 dark:border-neutral-800 dark:placeholder:text-neutral-400",
-        fill: "dark:border-0 border-2 border-neutral-100 dark:bg-neutral-800",
+        default: "border-border bg-foreground ",
       },
     },
     defaultVariants: {

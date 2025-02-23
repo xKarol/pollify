@@ -9,13 +9,7 @@ const Avatar = React.forwardRef<
     alt?: string;
   }
 >(({ src, alt, className, children, ...props }, ref) => (
-  <AvatarRoot
-    ref={ref}
-    className={cn(
-      "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full",
-      className
-    )}
-    {...props}>
+  <AvatarRoot ref={ref} className={className} {...props}>
     <AvatarImage src={src} alt={alt} />
     <AvatarFallback>{children}</AvatarFallback>
   </AvatarRoot>
@@ -29,13 +23,13 @@ const AvatarRoot = React.forwardRef<
   <AvatarPrimitive.Root
     ref={ref}
     className={cn(
-      "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full",
+      "relative flex size-10 shrink-0 overflow-hidden rounded-full",
       className
     )}
     {...props}
   />
 ));
-AvatarRoot.displayName = AvatarPrimitive.Root.displayName;
+Avatar.displayName = AvatarPrimitive.Root.displayName;
 
 const AvatarImage = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Image>,
@@ -43,7 +37,7 @@ const AvatarImage = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <AvatarPrimitive.Image
     ref={ref}
-    className={cn("aspect-square h-full w-full", className)}
+    className={cn("aspect-square size-full", className)}
     {...props}
   />
 ));
@@ -56,7 +50,7 @@ const AvatarFallback = React.forwardRef<
   <AvatarPrimitive.Fallback
     ref={ref}
     className={cn(
-      "flex h-full w-full items-center justify-center rounded-full bg-neutral-200 dark:bg-neutral-700",
+      "flex size-full items-center justify-center rounded-full bg-neutral-200 dark:bg-neutral-800",
       className
     )}
     {...props}
@@ -64,4 +58,4 @@ const AvatarFallback = React.forwardRef<
 ));
 AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName;
 
-export { Avatar, AvatarRoot, AvatarImage, AvatarFallback };
+export { Avatar, AvatarImage, AvatarFallback };

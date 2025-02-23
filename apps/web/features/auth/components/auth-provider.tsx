@@ -27,7 +27,7 @@ export default function AuthProvider({
       type="button"
       variant="secondary"
       className={cn(
-        "space-x-4 border border-neutral-200 dark:border-none dark:bg-neutral-700 dark:text-white hover:dark:bg-neutral-700/50",
+        "space-x-4 rounded-xl bg-[#d9d9d9] py-5 hover:bg-[#d9d9d9]/80 dark:bg-[#262626] dark:text-white dark:hover:bg-[#262626]/50",
         isLoading && "animate-pulse opacity-75 [&_svg:last-child]:hidden",
         className
       )}

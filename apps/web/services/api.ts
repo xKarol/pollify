@@ -4,7 +4,7 @@ import type { Poll, Payment, User, Analytics, QR } from "@pollify/types";
 
 import axios from "../lib/axios";
 
-export const client = createClient(process.env.NEXT_PUBLIC_API_URL!);
+export const client = createClient(process.env.NEXT_PUBLIC_ORIGIN_URL!);
 // POLL
 export const createPoll: Poll.Api["createPoll"] = async (pollData) => {
   const { data } = await axios.post(apiUrls.poll.create, pollData);

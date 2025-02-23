@@ -26,20 +26,20 @@ export default function AnalyticsCard({
   return (
     <section
       className={cn(
-        "rounded border border-neutral-300 p-6 dark:border-neutral-800",
+        "border-border bg-foreground rounded-xl border p-6",
         className
       )}>
       <div className="mb-2 flex items-center justify-between">
         <h1 className="text-sm font-medium">{heading}</h1>
         {StatIcon}
       </div>
-      <h2 className="text-xl font-bold">{nFormatter(statsValue)}</h2>
-      <p className="flex items-center space-x-1 text-xs text-neutral-400">
+      <h2 className="text-xl font-medium">{nFormatter(statsValue)}</h2>
+      <p className="text-accent flex items-center space-x-1 text-xs">
         {status === "increase" && (
-          <Icon.ArrowUpRight className="h-3 w-3 text-green-400" />
+          <Icon.ArrowUpRight className="size-3 text-green-400" />
         )}
         {status === "decrease" && (
-          <Icon.ArrowDownRight className="h-3 w-3 text-red-400" />
+          <Icon.ArrowDownRight className="size-3 text-red-400" />
         )}
         <span>{monthDiffPercent} from last month</span>
       </p>

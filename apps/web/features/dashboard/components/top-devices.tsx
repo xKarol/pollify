@@ -27,7 +27,7 @@ export default function TopDevices({ className, ...props }: TopDevicesProps) {
       <h1 className="text-sm font-medium">Top devices</h1>
       {isError && (
         <div className="flex">
-          <span className="mx-auto my-10 text-xs text-neutral-400 dark:text-neutral-300">
+          <span className="text-accent mx-auto my-10 text-xs">
             Something went wrong...
           </span>
         </div>
@@ -49,7 +49,7 @@ export default function TopDevices({ className, ...props }: TopDevicesProps) {
           {Object.entries(data).map(([deviceName, total]) => (
             <div
               key={deviceName}
-              className="relative flex w-full items-center justify-between rounded bg-neutral-100 px-4 py-2 text-xs dark:bg-neutral-800">
+              className="bg-foreground relative flex w-full items-center justify-between rounded px-4 py-2 text-xs">
               <div className="flex items-center space-x-4">
                 {deviceIcon[deviceName]}
                 <span className="capitalize">{deviceName}</span>
@@ -57,7 +57,7 @@ export default function TopDevices({ className, ...props }: TopDevicesProps) {
 
               <div className="flex items-center space-x-1">
                 <span className="font-medium">{nFormatter(total)}</span>
-                <Icon.BarChart2 className="h-3 w-3" />
+                <Icon.BarChart2 className="size-3" />
               </div>
             </div>
           ))}

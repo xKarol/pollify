@@ -48,7 +48,7 @@ export const AnswerItem = ({
             {text}
           </Label>
           {variant === "selected" && (
-            <CheckCircle2 className="text-neutral-900 dark:text-green-500" />
+            <CheckCircle2 className="dark:text-primary text-neutral-900" />
           )}
         </div>
         {showProgressElement && (
@@ -56,7 +56,7 @@ export const AnswerItem = ({
             value={value}
             className={cn(
               variant === "selected" &&
-                "bg-neutral-900/5 dark:bg-green-500/5 [&>*]:bg-neutral-900 [&>*]:dark:bg-green-500"
+                "dark:bg-primary/5 [&>*]:dark:bg-primary bg-neutral-900/5 [&>*]:bg-neutral-900"
             )}
           />
         )}

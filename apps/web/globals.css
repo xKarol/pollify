@@ -3,7 +3,24 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --background: 0 0% 94%;
+    --foreground: 0 0% 96.1%;
+    --foreground: 0 0% 92%;
+    --primary: 143 100% 35%;
+    --accent: 0 0% 36%;
+    --border: 0 0% 88%;
+  }
+  :root.dark {
+    --background: 0 0% 6%;
+    --foreground: 0 0% 3.9%;
+    --foreground: 0 0% 8%;
+    --primary: 143 100% 35%;
+    --accent: 0 0% 64%;
+    --border: 0 0% 12%;
+  }
+
   body {
-    @apply bg-neutral-50 text-neutral-900 dark:bg-neutral-900 dark:text-white;
+    @apply bg-background text-black dark:text-white;
   }
 }

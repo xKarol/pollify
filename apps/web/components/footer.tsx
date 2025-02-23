@@ -29,7 +29,7 @@ const navLinks = [
     heading: "Actions",
     links: [
       { name: "Create Poll", href: routes.CREATE_POLL },
-      { name: "Public Polls", href: routes.PUBLIC_POLLS },
+      { name: "Explore Polls", href: routes.EXPLORE_POLLS },
     ],
   },
   {
@@ -50,12 +50,12 @@ const navLinks = [
 
 const Footer = ({ className, ...props }: FooterProps) => {
   return (
-    <footer className={cn("container pb-8 pt-16", className)} {...props}>
+    <footer className={cn("container pb-8", className)} {...props}>
       <div className="flex flex-col md:flex-row md:justify-between md:space-x-16">
         <div className="mb-8 flex flex-wrap items-center gap-4 md:mb-0 md:flex-col md:flex-nowrap md:items-start">
-          <Logo className="shrink-0" />
+          <Logo className="shrink-0" variant="text" />
           <p className="max-w-[240px] text-sm text-neutral-600 dark:text-neutral-300">
-            Discover, Share, and Engage with Quick Poll – Your Polling Partner!
+            Discover, Share, and Engage with Pollify – Your Polling Partner!
           </p>
         </div>
         <nav className="mb-8 grid grid-cols-2 gap-4 sm:grid-cols-4 md:mb-0">
@@ -85,27 +85,26 @@ const Footer = ({ className, ...props }: FooterProps) => {
           <ul className="flex space-x-4 text-neutral-600 dark:text-neutral-300">
             <li className="transition-colors hover:text-black hover:dark:text-white">
               <Link href={"https://x.com"}>
-                <Icon.XTwitter className="h-5 w-5" />
+                <Icon.XTwitter className="size-5" />
               </Link>
             </li>
             <li className="transition-colors hover:text-black hover:dark:text-white">
               <Link href={"https://instagram.com"}>
-                <Icon.Instagram className="h-5 w-5" />
+                <Icon.Instagram className="size-5" />
               </Link>
             </li>
             <li className="transition-colors hover:text-black hover:dark:text-white">
               <Link href={"https://facebook.com"}>
-                <Icon.Facebook className="h-5 w-5" />
+                <Icon.Facebook className="size-5" />
               </Link>
             </li>
           </ul>
           <ThemeSelect />
         </div>
-        <LanguageSelect />
       </div>
       <div className="flex justify-center">
         <span className="text-xs text-neutral-600 dark:text-neutral-300">
-          © {new Date().getFullYear()} Quick Poll. All rights reserved.
+          © {new Date().getFullYear()} Pollify. All rights reserved.
         </span>
       </div>
     </footer>
@@ -138,9 +137,9 @@ function ThemeSelect({
         )}>
         <div className="flex items-center space-x-2">
           {resolvedTheme === "dark" ? (
-            <Icon.Moon className="h-4 w-4" />
+            <Icon.Moon size={16} />
           ) : (
-            <Icon.Sun className="h-4 w-4" />
+            <Icon.Sun size={16} />
           )}
           <SelectValue defaultValue="system" />
         </div>
@@ -155,32 +154,6 @@ function ThemeSelect({
         <SelectItem className="text-xs" value="light">
           Light
         </SelectItem>
-      </SelectContent>
-    </Select>
-  );
-}
-
-function LanguageSelect({
-  className,
-  ...props
-}: React.ComponentProps<typeof Select> & { className?: string }) {
-  return (
-    <Select defaultValue="english" {...props}>
-      <SelectTrigger
-        className={cn(
-          "w-[100px] border-none !bg-transparent text-xs [&>svg]:hidden",
-          className
-        )}>
-        <div className="flex items-center space-x-2">
-          <Icon.Globe className="h-4 w-4" />
-          <SelectValue
-            defaultValue="english"
-            placeholder="Select language..."
-          />
-        </div>
-      </SelectTrigger>
-      <SelectContent>
-        <SelectItem value="english">English</SelectItem>
       </SelectContent>
     </Select>
   );

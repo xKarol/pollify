@@ -1,16 +1,5 @@
 import { cn } from "@pollify/lib";
-import {
-  Avatar,
-  Button,
-  Icon,
-  Logo,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-  ScrollArea,
-} from "@pollify/ui";
+import { Avatar, Button, Logo, ScrollArea } from "@pollify/ui";
 import type { Session } from "next-auth";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
@@ -19,6 +8,7 @@ import React, { useEffect, useState } from "react";
 import { useMedia, useLockBodyScroll } from "react-use";
 
 import { routes } from "../../config/routes";
+import { ProfileMenu } from "./profile-menu";
 
 const navLinks = [
   {
@@ -26,8 +16,8 @@ const navLinks = [
     href: routes.CREATE_POLL,
   },
   {
-    text: "Public Polls",
-    href: routes.PUBLIC_POLLS,
+    text: "Explore Polls",
+    href: routes.EXPLORE_POLLS,
   },
   {
     text: "Features",
@@ -42,7 +32,7 @@ const navLinks = [
 type HeaderContextValue = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isOpen: boolean;
-  session: Session;
+  session: Session | null;
 };
 
 const HeaderContext = React.createContext<HeaderContextValue>(
@@ -75,7 +65,7 @@ export default function Header({ className, ...rest }: HeaderProps) {
 }
 
 type HeaderRootProps = {
-  session: Session;
+  session: Session | null;
 } & React.ComponentPropsWithoutRef<"header">;
 
 export function HeaderRoot({
@@ -91,11 +81,13 @@ export function HeaderRoot({
     <HeaderContext.Provider value={{ isOpen, setIsOpen, session }}>
       <header
         className={cn(
-          "container z-50 flex items-center justify-between py-4",
+          "bg-background sticky left-0 right-0 top-0 z-50 h-[4.5rem]",
           className
         )}
         {...rest}>
-        {children}
+        <div className="container flex size-full items-center justify-between">
+          {children}
+        </div>
       </header>
     </HeaderContext.Provider>
   );
@@ -118,8 +110,8 @@ function HeaderLink({
     <Link
       href={href}
       className={cn(
-        "text-neutral-400",
-        isActive && "font-semibold text-white",
+        "text-accent transition-colors hover:text-black hover:dark:text-white",
+        isActive && "font-medium text-black dark:text-white",
         className
       )}>
       {children}
@@ -132,8 +124,8 @@ export function HeaderNavigation() {
   return (
     <>
       {isOpen ? <MobileNavigationMenu /> : null}
-      <nav className="hidden items-center space-x-12 xl:flex">
-        <ul className="flex space-x-12 text-sm">
+      <nav className="hidden items-center space-x-8 xl:flex">
+        <ul className="flex space-x-6 text-sm">
           {navLinks.map((link) => (
             <HeaderLink href={link.href} key={link.text}>
               {link.text}
@@ -141,51 +133,18 @@ export function HeaderNavigation() {
           ))}
         </ul>
 
-        {session ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <div className="flex cursor-pointer items-center justify-center space-x-2">
-                <Avatar src={session.user.image} className="h-6 w-6">
-                  {session.user.name[0]}
-                </Avatar>
-                <div className="flex items-center space-x-1">
-                  <span className="text-sm">{session.user.name}</span>
-                  <Icon.ChevronDown className="h-4 w-4" />
-                </div>
-              </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem asChild>
-                <Link href={routes.DASHBOARD.HOME}>
-                  <Icon.Home className="mr-2 h-4 w-4" />
-                  <span className="text-xs">Dashboard</span>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href={routes.DASHBOARD.POLLS}>
-                  <Icon.BarChart2 className="mr-2 h-4 w-4" />
-                  <span className="text-xs">Your polls</span>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href={routes.SETTINGS.HOME}>
-                  <Icon.Settings className="mr-2 h-4 w-4" />
-                  <span className="text-xs">Settings</span>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() => signOut({ callbackUrl: routes.LOGIN })}>
-                <Icon.LogOut className="mr-2 h-4 w-4" />
-                <span className="text-xs">Log Out</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+        {session?.user ? (
+          <ProfileMenu
+            trigger={
+              <Avatar
+                src={session.user.image}
+                className="size-10 cursor-pointer">
+                {session.user?.name[0]}
+              </Avatar>
+            }
+          />
         ) : (
-          <Button
-            asChild
-            variant="secondary"
-            className="w-28 rounded-full !bg-green-500 hover:!bg-green-500/80">
+          <Button variant="primary" asChild>
             <Link href={routes.LOGIN}>Login</Link>
           </Button>
         )}
@@ -215,7 +174,7 @@ function MobileNavigationMenu({
   return (
     <nav
       className={cn(
-        "fixed bottom-0 left-0 right-0 top-0 z-40 bg-neutral-50 dark:bg-neutral-900",
+        "bg-background fixed bottom-0 left-0 right-0 top-0 z-40",
         className
       )}
       {...rest}>
@@ -241,16 +200,13 @@ function MobileNavigationMenu({
             </ul>
             {session ? (
               <div className="flex items-center justify-center space-x-2">
-                <Avatar src={session?.user?.image} className="h-8 w-8">
+                <Avatar src={session?.user?.image} className="size-8">
                   {session?.user.name[0]}
                 </Avatar>
                 <span>{session?.user.name}</span>
               </div>
             ) : (
-              <Button
-                asChild
-                variant="secondary"
-                className="w-32 rounded-full !bg-green-500">
+              <Button asChild variant="primary" className="w-32">
                 <Link href={routes.LOGIN}>Login</Link>
               </Button>
             )}
@@ -274,25 +230,18 @@ function HamburgerMenu({ className, ...rest }: HamburgerMenuProps) {
   return (
     <div
       onClick={() => setIsOpen((current) => !current)}
-      className={cn(
-        "relative flex h-[20px] w-[30px] cursor-pointer flex-col items-end gap-1.5",
-        className
-      )}
+      className={cn("relative flex h-3 w-[1.75rem] cursor-pointer", className)}
       {...rest}>
       <div
         className={cn(
-          "absolute top-0 h-0.5 w-6 rounded bg-neutral-900 transition-all dark:bg-neutral-50",
+          "absolute top-0 h-0.5 w-full rounded bg-black transition-transform dark:bg-white",
           isOpen && "top-1/2 w-full -translate-y-1/2 -rotate-45"
         )}></div>
+
       <div
         className={cn(
-          "absolute top-1/2 h-0.5 w-full -translate-y-1/2 rounded bg-neutral-900 transition-all dark:bg-neutral-50",
+          "absolute bottom-0 h-0.5 w-full rounded bg-black transition-transform dark:bg-white",
           isOpen && "top-1/2 w-full -translate-y-1/2 rotate-45"
-        )}></div>
-      <div
-        className={cn(
-          "absolute bottom-0 h-0.5 w-5 rounded bg-neutral-900 transition-all dark:bg-neutral-50",
-          isOpen && "top-1/2 w-full -translate-y-1/2 -rotate-45 opacity-0"
         )}></div>
     </div>
   );
