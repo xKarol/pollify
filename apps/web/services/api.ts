@@ -54,11 +54,12 @@ export const getPollVoters: Poll.Api["getPollVoters"] = async (pollId) => {
   return data;
 };
 
-export const getPollUserAnswerChoice: Poll.Api["getPollUserAnswerChoice"] =
-  async (pollId) => {
-    const { data } = await axios.get(apiUrls.poll.getUserAnswerChoice(pollId));
-    return data;
-  };
+export const getPollUserSelection: Poll.Api["getPollUserSelection"] = async (
+  pollId
+) => {
+  const { data } = await axios.get(apiUrls.poll.getUserSelection(pollId));
+  return data;
+};
 
 // PAYMENTS
 export const getPricingPlans: Payment.Api["getPricingPlans"] = async () => {

@@ -11,12 +11,7 @@ type QRCodeProps = { text: string } & Omit<
 >;
 
 export default function QRCode({ text, className, ...props }: QRCodeProps) {
-  const {
-    data: qrCodeSrc,
-    isLoading,
-    isError,
-    refetch: refetchQRCode,
-  } = useQRCode(text);
+  const { data: qrCodeSrc, isLoading, isError, refetch } = useQRCode(text);
 
   return (
     <div
@@ -26,13 +21,13 @@ export default function QRCode({ text, className, ...props }: QRCodeProps) {
       )}
       {...props}>
       {isLoading && (
-        <Icon.Loader2 size={24} className="animate-spin text-neutral-500" />
+        <Icon.Loader2 size={24} className="text-accent animate-spin" />
       )}
       {isError && (
         <div className="flex flex-col items-center space-y-2">
-          <Icon.X size={24} className="text-red-500" />
+          <Icon.X size={24} className="text-danger" />
           <Button
-            onClick={() => refetchQRCode()}
+            onClick={() => refetch()}
             className="text-xs"
             size="sm"
             variant="text">
@@ -40,14 +35,11 @@ export default function QRCode({ text, className, ...props }: QRCodeProps) {
           </Button>
         </div>
       )}
-      {qrCodeSrc ? (
-        <Image
-          width={160}
-          height={160}
-          src={Buffer.from(qrCodeSrc).toString()}
-          alt="poll share qr code"
-        />
-      ) : null}
+      <div className="relative size-full">
+        {qrCodeSrc ? (
+          <Image src={Buffer.from(qrCodeSrc).toString()} alt="qr code" fill />
+        ) : null}
+      </div>
     </div>
   );
 }

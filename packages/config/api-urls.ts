@@ -17,9 +17,8 @@ export const apiUrls = {
     create: "/polls",
     delete: (pollId) => `/polls/${pollId}` as const,
     vote: (pollId, answerId) => `/polls/${pollId}/vote/${answerId}` as const,
-    getVoters: (pollId) => `/polls/${pollId}/vote/users` as const,
-    getUserAnswerChoice: (pollId) =>
-      `/polls/${pollId}/answers/user-choice` as const,
+    getVoters: (pollId) => `/polls/${pollId}/voters` as const,
+    getUserSelection: (pollId) => `/polls/${pollId}/user-selection` as const,
     getLiveResults: (pollId) => `/polls/${pollId}/live` as const,
   },
   payment: {

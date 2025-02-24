@@ -3,10 +3,12 @@ import type {
   UseInfiniteQueryOptions,
   UseQueryOptions,
 } from "@tanstack/react-query";
+import { InferRequestType, InferResponseType } from "hono";
 
 import {
+  client,
   getPoll,
-  getPollUserAnswerChoice,
+  getPollUserSelection,
   getPollVoters,
   getPolls,
 } from "../services/api";
@@ -20,10 +22,10 @@ export const pollKeys = {
   ) => {
     return ["poll", { sortBy, orderBy }] as const;
   },
-  single: (pollId: string) => ["poll", pollId] as const,
+  getPoll: (pollId: string) => ["poll", pollId] as const,
   getPollVoters: (pollId: string) => ["poll-voters", pollId] as const,
-  getPollAnswerUserChoice: (pollId: string) =>
-    ["poll-answer-user-choice", pollId] as const,
+  getPollUserSelection: (pollId: string) =>
+    ["poll-user-selection", pollId] as const,
 };
 
 export const pollOptions = {
@@ -38,13 +40,14 @@ export const pollOptions = {
     },
     getNextPageParam: ({ nextPage }) => nextPage,
   }),
-  single: (
+  getPoll: (
     pollId: string,
     options?: UseQueryOptions<Awaited<ReturnType<typeof getPoll>>>
   ): UseQueryOptions<Awaited<ReturnType<typeof getPoll>>> => ({
     enabled: !!pollId,
+    retry: false,
     ...options,
-    queryKey: pollKeys.single(pollId),
+    queryKey: pollKeys.getPoll(pollId),
     queryFn: () => getPoll(pollId),
   }),
   getPollVoters: (
@@ -52,19 +55,39 @@ export const pollOptions = {
     options?: UseQueryOptions<Awaited<ReturnType<typeof getPollVoters>>>
   ): UseQueryOptions<Awaited<ReturnType<typeof getPollVoters>>> => ({
     enabled: !!pollId,
+    retry: false,
     ...options,
     queryKey: pollKeys.getPollVoters(pollId),
     queryFn: () => getPollVoters(pollId),
   }),
-  getPollAnswerUserChoice: (
+  getPollUserSelection: (
     pollId: string,
     options?: UseQueryOptions<
-      Awaited<ReturnType<typeof getPollUserAnswerChoice>>
+      InferRequestType<
+        (typeof client.api.polls)[":pollId"]["user-selection"]["$get"]
+      >,
+      Error,
+      InferResponseType<
+        (typeof client.api.polls)[":pollId"]["user-selection"]["$get"]
+      >
     >
-  ): UseQueryOptions<Awaited<ReturnType<typeof getPollUserAnswerChoice>>> => ({
+  ): UseQueryOptions<
+    InferRequestType<
+      (typeof client.api.polls)[":pollId"]["user-selection"]["$get"]
+    >,
+    Error,
+    InferResponseType<
+      (typeof client.api.polls)[":pollId"]["user-selection"]["$get"]
+    >
+  > => ({
     enabled: !!pollId,
     ...options,
-    queryKey: pollKeys.getPollAnswerUserChoice(pollId),
-    queryFn: () => getPollUserAnswerChoice(pollId),
+    queryKey: pollKeys.getPollUserSelection(pollId),
+    queryFn: async () => {
+      const response = await client.api.polls[":pollId"]["user-selection"].$get(
+        { param: { pollId } }
+      );
+      return response.json();
+    },
   }),
 } satisfies Record<keyof typeof pollKeys, unknown>;

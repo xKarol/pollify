@@ -1,6 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
 import { apiUrls } from "@pollify/config";
 import { hasUserPermission } from "@pollify/lib";
+import type { Answer, Vote } from "@pollify/prisma/client";
 import prisma from "@pollify/prisma/edge";
 import type { Poll } from "@pollify/types";
 import { PollValidator } from "@pollify/validations";
@@ -23,7 +24,8 @@ import {
   deletePoll,
   votePoll,
   getPollVoters,
-  getPollUserAnswerChoice,
+  getPollUserSelection,
+  getPollAnswer,
 } from "../services/polls";
 import { verifyReCaptcha } from "../services/recaptcha";
 import * as Analytics from "../services/tinybird";
@@ -142,14 +144,14 @@ const polls = new Hono()
     async (c) => {
       const { pollId } = c.req.valid("param");
       await deletePoll(pollId);
-
-      return c.status(200);
+      // TODO remove cache
+      return c.json({});
     }
   )
   .post(
     apiUrls.poll.vote(":pollId", ":answerId"),
     zValidator("param", z.object({ pollId: z.string(), answerId: z.string() })),
-    zValidator("json", z.object({ reCaptchaToken: z.string() })),
+    zValidator("json", z.object({ reCaptchaToken: z.string().optional() })),
     withAuth,
     async (c) => {
       const { pollId, answerId } = c.req.valid("param");
@@ -166,7 +168,7 @@ const polls = new Hono()
       }
 
       if (poll.requireRecaptcha) {
-        const { success } = await verifyReCaptcha(reCaptchaToken);
+        const { success } = await verifyReCaptcha(reCaptchaToken!);
         if (!success) throw new Error("Invalid reCAPTCHA verification.");
       }
 
@@ -207,6 +209,9 @@ const polls = new Hono()
         return null;
       });
 
+      // set the selected vote based on ip for users who are not logged in
+      await redis.set(`${pollId}:${ip}`, answerId);
+
       return c.json(vote);
     }
   )
@@ -222,19 +227,27 @@ const polls = new Hono()
     }
   )
   .get(
-    apiUrls.poll.getUserAnswerChoice(":pollId"),
+    apiUrls.poll.getUserSelection(":pollId"),
     zValidator("param", z.object({ pollId: z.string() })),
     withAuth,
     withCache(60 * 60 * 12, { requireUser: true }), //12 hours
     async (c) => {
       const { pollId } = c.req.valid("param");
       const { isLoggedIn, session: user } = c.get("user");
+      let answer: Answer | undefined = undefined;
 
-      if (!isLoggedIn) return c.json({}); //TODO check if this is correct
-      const data = await getPollUserAnswerChoice(user.id, pollId);
+      if (isLoggedIn) {
+        answer = await getPollUserSelection(user.id, pollId);
+      } else {
+        const ip = getIP(c.req);
+        const answerId = await redis.get<string>(`${pollId}:${ip}`);
 
-      if (!data) return c.json({}); //TODO check if this is correct
-      return c.json(data);
+        if (answerId) {
+          answer = (await getPollAnswer(answerId)) || undefined;
+        }
+      }
+
+      return c.json({ answer });
     }
   );
 

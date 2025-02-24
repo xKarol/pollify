@@ -1,1 +1,1 @@
-export * from "./use-live-answers";
+export * from "./use-poll-live-results";

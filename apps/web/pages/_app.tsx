@@ -1,9 +1,5 @@
 import { TooltipProvider } from "@pollify/ui";
-import {
-  Hydrate,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Analytics } from "@vercel/analytics/react";
 import type { NextPage } from "next";
@@ -22,7 +18,7 @@ import "../globals.css";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 const ReactQueryDevtoolsProduction = React.lazy(() =>
-  import("@tanstack/react-query-devtools/build/lib/index.prod.js").then(
+  import("@tanstack/react-query-devtools/build/modern/production.js").then(
     (d) => ({
       default: d.ReactQueryDevtools,
     })
@@ -57,30 +53,28 @@ export default function MyApp({
     <>
       <DefaultSeo {...SEO} />
       <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
-          <SessionProvider session={session}>
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-              <style jsx global>{`
-                :root {
-                  --font-inter: ${inter.style.fontFamily};
-                }
-              `}</style>
-              <TooltipProvider>
-                {getLayout(<Component {...pageProps} />)}
-                <div>
-                  <Toaster position="bottom-right" />
-                </div>
-                <Analytics />
-                <ReactQueryDevtools initialIsOpen={false} />
-                {showDevtools && (
-                  <React.Suspense fallback={null}>
-                    <ReactQueryDevtoolsProduction />
-                  </React.Suspense>
-                )}
-              </TooltipProvider>
-            </ThemeProvider>
-          </SessionProvider>
-        </Hydrate>
+        <SessionProvider session={session}>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <style jsx global>{`
+              :root {
+                --font-inter: ${inter.style.fontFamily};
+              }
+            `}</style>
+            <TooltipProvider>
+              {getLayout(<Component {...pageProps} />)}
+              <div>
+                <Toaster position="bottom-right" />
+              </div>
+              <Analytics />
+              <ReactQueryDevtools initialIsOpen={false} />
+              {showDevtools && (
+                <React.Suspense fallback={null}>
+                  <ReactQueryDevtoolsProduction />
+                </React.Suspense>
+              )}
+            </TooltipProvider>
+          </ThemeProvider>
+        </SessionProvider>
       </QueryClientProvider>
     </>
   );

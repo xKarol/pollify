@@ -128,16 +128,34 @@ export const getPollVoters = async (pollId: string) => {
     .map(({ user }) => user as NonNullable<typeof user>);
 };
 
-export const getPollUserAnswerChoice = async (
-  userId: string,
-  pollId: string
-) => {
+export const getPollAnswer = async (answerId: string) => {
+  const answer = await prisma.answer.findUnique({
+    where: {
+      id: answerId,
+    },
+  });
+  return answer;
+};
+
+export const getPollVote = async (voteId: string) => {
+  const vote = await prisma.vote.findUnique({
+    where: {
+      id: voteId,
+    },
+  });
+  return vote;
+};
+
+export const getPollUserSelection = async (userId: string, pollId: string) => {
   const vote = await prisma.vote.findFirst({
     where: {
       pollId,
       userId,
     },
+    select: {
+      answer: true,
+    },
   });
 
-  return vote;
+  return vote?.answer;
 };

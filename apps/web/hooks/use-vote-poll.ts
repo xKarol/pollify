@@ -1,37 +1,50 @@
 import type { Answer, Poll } from "@pollify/prisma/client";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
+import {
+  type MutationOptions,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
+import type { InferRequestType, InferResponseType } from "hono";
 import { useLocalStorage } from "react-use";
 
 import { pollKeys } from "../queries/poll";
-import { votePoll } from "../services/api";
+import { client } from "../services/api";
 
-export const useVotePoll = () => {
+const $submitVote = client.api.polls[":pollId"].vote[":answerId"].$post;
+
+type SubmitVoteResponse = InferResponseType<typeof $submitVote>;
+type SubmitVoteRequest = InferRequestType<typeof $submitVote>;
+type VotePollOptions = MutationOptions<
+  SubmitVoteResponse,
+  Error,
+  SubmitVoteRequest
+>;
+
+export const useVotePoll = (options?: VotePollOptions) => {
   const queryClient = useQueryClient();
-  const [oldValue, setLocalStorageValue] = useLocalStorage("poll-voted", []);
-  const { data: session } = useSession();
+  const [userVotes, setUserVotes] = useLocalStorage<string[]>("votes");
 
-  return useMutation({
-    mutationFn: ({
-      pollId,
-      answerId,
-      reCaptchaToken,
-    }: {
-      pollId: string;
-      answerId: string;
-      reCaptchaToken: string;
-    }) => {
-      return votePoll(pollId, answerId, reCaptchaToken);
+  return useMutation<SubmitVoteResponse, Error, SubmitVoteRequest>({
+    ...options,
+    mutationFn: async (data) => {
+      const response = await $submitVote(data);
+      return response.json();
     },
-    onSuccess(data, variables) {
-      const { pollId, answerId } = variables;
+    onSuccess(data, variables, ctx) {
+      const { pollId, answerId } = data;
+
+      queryClient.invalidateQueries({
+        queryKey: pollKeys.getPollUserSelection(pollId),
+      });
+
       queryClient.setQueryData(
-        pollKeys.single(pollId),
-        (old: Poll & { answers: Answer[] }) => {
+        pollKeys.getPoll(pollId),
+        (oldPoll: Poll & { answers: Answer[] }) => {
+          if (!oldPoll) return;
           return {
-            ...old,
-            totalVotes: old.totalVotes + 1,
-            answers: old.answers.map((answer) => {
+            ...oldPoll,
+            totalVotes: oldPoll.totalVotes + 1,
+            answers: oldPoll.answers.map((answer) => {
               if (answer.id === answerId) {
                 return { ...answer, votes: answer.votes + 1 };
               }
@@ -40,16 +53,10 @@ export const useVotePoll = () => {
           };
         }
       );
-      const userId = session ? session.user.id : undefined;
-      queryClient.setQueryData(pollKeys.getPollAnswerUserChoice(pollId), {
-        id: data.id,
-        answerId: answerId,
-        userId: userId,
-        pollId: pollId,
-        createdAt: new Date().toDateString(),
-        updatedAt: new Date().toDateString(),
-      });
-      setLocalStorageValue([...oldValue, [pollId, answerId]]);
+
+      setUserVotes([...(userVotes || []), `${pollId}:${answerId}`]);
+
+      options?.onSuccess?.(data, variables, ctx);
     },
   });
 };

@@ -1,7 +1,7 @@
 import { cn } from "@pollify/lib";
 import { Icon, Input, toast } from "@pollify/ui";
+import { useRouter } from "next/router";
 import {
-  EmailShareButton,
   FacebookShareButton,
   LinkedinShareButton,
   RedditShareButton,
@@ -11,12 +11,16 @@ import {
 import { useCopyToClipboard } from "react-use";
 
 import { ShareSocial } from "../../../components/share-social";
+import { getBaseUrl } from "../../../utils/get-base-url";
+import { ShareQRDialog } from "./share-qr-dialog";
 
 type SharePollProps = {
-  shareUrl: string;
+  pollId: string;
 } & React.ComponentPropsWithoutRef<"div">;
 
-export function SharePoll({ shareUrl, className, ...props }: SharePollProps) {
+export function SharePoll({ pollId, className, ...props }: SharePollProps) {
+  const router = useRouter();
+  const shareUrl = `${getBaseUrl()}${router.asPath}`;
   const [, copy] = useCopyToClipboard();
 
   const copyLink = () => {
@@ -29,25 +33,27 @@ export function SharePoll({ shareUrl, className, ...props }: SharePollProps) {
       <h1 className="mb-6 text-lg font-medium">Share</h1>
 
       <div className="grid grid-cols-4 place-items-center gap-5 *:flex md:grid-cols-8">
-        <Share name="QR" as={EmailShareButton} url={shareUrl}>
-          <Icon.QrCode />
-        </Share>
+        <ShareQRDialog
+          pollId={pollId}
+          trigger={
+            <Share name="QR" url={shareUrl}>
+              <Icon.QrCode />
+            </Share>
+          }
+        />
 
         <Share name="Facebook" as={FacebookShareButton} url={shareUrl}>
           <Icon.Facebook />
         </Share>
-
         <Share name="X" as={TwitterShareButton} url={shareUrl}>
           <Icon.XTwitter />
         </Share>
-
         <Share name="Reddit" as={RedditShareButton} url={shareUrl}>
           <Icon.Reddit />
         </Share>
         <Share name="LinkedIn" as={LinkedinShareButton} url={shareUrl}>
           <Icon.Linkedin />
         </Share>
-
         <Share name="Youtube" as={LinkedinShareButton} url={shareUrl}>
           <Icon.Youtube />
         </Share>
@@ -84,11 +90,11 @@ type ShareProps = { name: string } & React.ComponentProps<typeof ShareSocial>;
 function Share({ name, children, ...rest }: ShareProps) {
   return (
     <ShareSocial {...rest}>
-      <div className="flex flex-col space-y-1">
-        <div className="text-accent hover:text-accent/50 flex size-16 items-center justify-center rounded-full bg-neutral-200 transition-colors dark:bg-neutral-800">
+      <div className="text-accent flex flex-col space-y-1 ">
+        <div className="hover:text-accent/50 flex size-16 items-center justify-center rounded-full bg-neutral-200 transition-colors dark:bg-neutral-800">
           {children}
         </div>
-        <span className="text-accent text-xs">{name}</span>
+        <span className="text-xs">{name}</span>
       </div>
     </ShareSocial>
   );

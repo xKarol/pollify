@@ -29,6 +29,7 @@ module.exports = {
         primary: "hsl(var(--primary))",
         accent: "hsl(var(--accent))",
         border: "hsl(var(--border))",
+        danger: "hsl(var(--danger))",
       },
       fontFamily: {
         sans: ["var(--font-inter)"],

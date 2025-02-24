@@ -5,8 +5,8 @@ import { useRouter } from "next/router";
 import React from "react";
 
 import { routes } from "../../../config/routes";
-import { useGetPoll } from "../../../hooks/use-get-poll";
 import { useHasPermission } from "../../../hooks/use-has-permission";
+import { usePoll } from "../../../hooks/use-poll";
 import {
   AnalyticsCard,
   AnalyticsIntervalSelect,
@@ -26,7 +26,7 @@ const PollAnalyticsPage = () => {
   const analyticsParams = useAnalyticsParams();
   const router = useRouter();
   const pollId = router.query.pollId as string;
-  const { data, isSuccess } = useGetPoll(pollId, {
+  const { data, isSuccess } = usePoll(pollId, {
     onError: () => {
       toast("This poll does not exist.", { variant: "error" });
       router.push(routes.DASHBOARD.HOME);

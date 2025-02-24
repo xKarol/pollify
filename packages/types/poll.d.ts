@@ -52,9 +52,9 @@ export interface Api {
     reCaptchaToken: string
   ) => Promise<ApiResponse["votePoll"]>;
   getPollVoters: (pollId: string) => Promise<ApiResponse["getPollVoters"]>;
-  getPollUserAnswerChoice: (
+  getPollUserSelection: (
     pollId: string
-  ) => Promise<ApiResponse["getPollUserAnswerChoice"]>;
+  ) => Promise<ApiResponse["getPollUserSelection"]>;
 }
 
 // Backend
@@ -74,7 +74,7 @@ export interface Services extends Api {
     pollId: string;
     answerId: string;
   }) => Promise<ApiResponse["votePoll"]>;
-  getPollUserAnswerChoice: (
+  getPollUserSelection: (
     userId: string,
     pollId: string
   ) => Promise<Vote | null>;
@@ -90,5 +90,5 @@ export type ApiResponse = {
   updatePoll: Poll;
   votePoll: Vote;
   getPollVoters: User[];
-  getPollUserAnswerChoice: Vote | Record<string, unknown>;
+  getPollUserSelection: Vote | Record<string, unknown>;
 };

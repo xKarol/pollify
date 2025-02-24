@@ -3,7 +3,7 @@ import { useEffect } from "react";
 
 import { pollKeys } from "../../../queries/poll";
 
-export const useLiveAnswers = (pollId: string) => {
+export const usePollLiveResults = (pollId: string) => {
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -12,7 +12,7 @@ export const useLiveAnswers = (pollId: string) => {
 
     eventSource.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      queryClient.setQueryData(pollKeys.single(pollId), () => {
+      queryClient.setQueryData(pollKeys.getPoll(pollId), () => {
         return {
           ...data,
         };
