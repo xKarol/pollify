@@ -11,11 +11,9 @@ import {
   LoadingButton,
   toast,
 } from "@pollify/ui";
-import { useQueryClient } from "@tanstack/react-query";
 import React from "react";
 
 import { useDeletePoll } from "../hooks/use-delete-poll";
-import { userKeys } from "../queries/user";
 
 type DeletePollDialogProps = {
   pollId: string;
@@ -28,27 +26,12 @@ export default function DeletePollDialog({
   children,
   ...props
 }: DeletePollDialogProps) {
-  const queryClient = useQueryClient();
-
-  const { isLoading, mutateAsync: deletePoll } = useDeletePoll({
-    onError: () => {
-      toast("Something went wrong...", { variant: "error" });
-    },
+  const { isPending, mutateAsync: deletePoll } = useDeletePoll({
     onSuccess: () => {
       toast("Poll has been deleted", { variant: "success" });
-      queryClient.setQueryData(userKeys.getUserPolls, (data) => {
-        return {
-          // @ts-ignore
-          ...data,
-          // @ts-ignore
-          pages: data?.pages.map((page) => {
-            return {
-              ...page,
-              data: page.data.filter((result) => result.id !== pollId),
-            };
-          }),
-        };
-      });
+    },
+    onError: () => {
+      toast("Something went wrong...", { variant: "error" });
     },
   });
   return (
@@ -68,9 +51,9 @@ export default function DeletePollDialog({
           </DialogTrigger>
           <LoadingButton
             variant="destructive"
-            isLoading={isLoading}
+            isLoading={isPending}
             onClick={async () => {
-              await deletePoll(pollId);
+              await deletePoll({ param: { pollId } });
               onDelete?.();
             }}>
             <Icon.Trash2 />

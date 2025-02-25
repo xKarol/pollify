@@ -33,14 +33,14 @@ export function PricingCard({
   const router = useRouter();
   const { status, data: session } = useSession();
 
-  const { mutateAsync: purchasePlan, isLoading } = usePurchasePlan({
+  const { mutateAsync: purchasePlan, isPending } = usePurchasePlan({
     onError(err) {
       toast(err?.message || "Something went wrong...", { variant: "error" }); //TODO improve error message
     },
   });
   const user = session?.user;
   const isCurrentPlan = user?.plan.toLowerCase() === planName.toLowerCase();
-  const isDisabled = isLoading || isCurrentPlan;
+  const isDisabled = isPending || isCurrentPlan;
 
   const handleBuyPlan = async () => {
     if (status === "loading") return;
@@ -51,7 +51,7 @@ export function PricingCard({
         },
       });
     }
-    const data = await purchasePlan({ priceId });
+    const data = await purchasePlan({ json: { priceId } });
     router.push(data.url);
   };
 

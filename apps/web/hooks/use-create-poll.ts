@@ -2,15 +2,25 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { pollKeys } from "../queries/poll";
 import { userKeys } from "../queries/user";
-import { createPoll } from "../services/api";
+import { client } from "../services/api";
+import type { HookMutationOptions } from "../types";
 
-export const useCreatePoll = () => {
+const $create = client.api.polls.$post;
+
+export const useCreatePoll = (
+  options?: HookMutationOptions<typeof $create>
+) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: createPoll,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: pollKeys.all() });
-      queryClient.invalidateQueries({ queryKey: userKeys.getUserPolls });
+    ...options,
+    mutationFn: async (data) => {
+      const response = await $create(data);
+      return response.json();
+    },
+    onSuccess: (...args) => {
+      queryClient.invalidateQueries({ queryKey: pollKeys.getPollList() });
+      queryClient.invalidateQueries({ queryKey: userKeys.getUserPollList });
+      options?.onSuccess?.(...args);
     },
   });
 };

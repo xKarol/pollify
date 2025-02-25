@@ -1,12 +1,18 @@
-import { useMutation, type UseMutationOptions } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
-import { createPlanCheckoutSession } from "../services/api";
+import { client } from "../services/api";
+import type { HookMutationOptions } from "../types";
 
-export const usePurchasePlan = (options: UseMutationOptions) => {
+const $purchase = client.api.payments["checkout-sessions"].$post;
+
+export const usePurchasePlan = (
+  options?: HookMutationOptions<typeof $purchase>
+) => {
   return useMutation({
     ...options,
-    mutationFn: ({ priceId }: { priceId: string }) => {
-      return createPlanCheckoutSession(priceId);
+    mutationFn: async (data) => {
+      const response = await $purchase(data);
+      return response.json();
     },
   });
 };

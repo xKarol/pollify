@@ -19,7 +19,7 @@ import React, { useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 
 import { usePollUserSelection } from "../../../hooks/use-poll-user-selection";
-import { useVotePoll } from "../../../hooks/use-vote-poll";
+import { useSubmitVote } from "../../../hooks/use-submit-vote";
 import dayjs from "../../../lib/dayjs";
 import type { client } from "../../../services/api";
 import { nFormatter } from "../../../utils/misc";
@@ -45,7 +45,7 @@ export const Poll = ({
   const [selectedOptionId, setSelectedOptionId] = useState<string>();
   const recaptchaRef = useRef<ReCAPTCHA>();
 
-  const { mutateAsync: submitVote, isPending: isVoteLoading } = useVotePoll({
+  const { mutateAsync: submitVote, isPending: isVoteLoading } = useSubmitVote({
     onError: () => {
       toast("Something went wrong...", { variant: "error" });
     },
@@ -54,7 +54,7 @@ export const Poll = ({
 
   const isVoted = pollUserSelection !== undefined;
   const isOwner = session?.user?.id === data.userId;
-  const authorName = data.user.name || "guest";
+  const authorName = data?.user?.name || "guest";
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();

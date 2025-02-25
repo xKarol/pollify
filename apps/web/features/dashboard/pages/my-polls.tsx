@@ -5,7 +5,7 @@ import React from "react";
 import { getErrorMessage } from "../../../utils/get-error-message";
 import { Header } from "../components";
 import PollsTable from "../components/polls-table";
-import { useUserPolls } from "../hooks";
+import { useUserPollList } from "../hooks";
 import { BaseLayout } from "../layouts";
 
 const DynamicCreatePollDialog = dynamic(() =>
@@ -21,7 +21,7 @@ const MyPollsPage = () => {
     error,
     hasNextPage,
     fetchNextPage,
-  } = useUserPolls();
+  } = useUserPollList();
   const data = pages?.pages.flatMap(({ data }) => data);
 
   return (

@@ -12,7 +12,10 @@ const PollPage = () => {
   const pollId = router.query.pollId as string;
 
   const response = useQueries({
-    queries: [pollOptions.getPoll(pollId), pollOptions.getPollVoters(pollId)],
+    queries: [
+      pollOptions.getPoll(pollId, { retry: false }),
+      pollOptions.getPollVoters(pollId, { retry: false }),
+    ],
     combine(result) {
       const [poll, voters] = result;
       return {

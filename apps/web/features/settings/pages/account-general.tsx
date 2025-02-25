@@ -86,21 +86,23 @@ function EditAccountForm() {
     },
     disabled,
   });
-  const { mutateAsync } = useUpdateAccount();
+  const { mutateAsync: updateAccount } = useUpdateAccount();
   const hasChanges =
     JSON.stringify(form.formState.defaultValues) !==
     JSON.stringify(form.getValues());
 
-  const onSubmit = form.handleSubmit(async (data: FormValues) => {
+  const onSubmit = form.handleSubmit(async (payload: FormValues) => {
     try {
       setDisabled(true);
-      await mutateAsync({
-        ...data,
-        clockType: data.clockType === "12h" ? 12 : 24,
+      await updateAccount({
+        json: {
+          ...payload,
+          clockType: payload.clockType === "12h" ? 12 : 24,
+        },
       });
       await update();
       toast("Account updated successfully.", { variant: "success" });
-      form.reset(data);
+      form.reset(payload);
     } catch {
       toast("Something went wrong...", { variant: "error" });
     } finally {

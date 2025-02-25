@@ -1,9 +1,32 @@
-import { useQuery } from "@tanstack/react-query";
+import { queryOptions, useQuery } from "@tanstack/react-query";
 
-import { pollOptions } from "../queries/poll";
+import { client } from "../services/api";
+import type { HookQueryOptions } from "../types";
 
-export const usePollVoters = (
-  ...args: Parameters<typeof pollOptions.getPollVoters>
+const $get = client.api.polls[":pollId"].voters.$get;
+
+export const getPollVotersKey = (pollId: string) =>
+  ["poll-voters", pollId] as const;
+
+export const getPollVotersOptions = (
+  pollId: string,
+  options?: HookQueryOptions<typeof $get>
 ) => {
-  return useQuery(pollOptions.getPollVoters(...args));
+  return queryOptions({
+    enabled: !!pollId,
+    retry: false,
+    ...options,
+    queryKey: getPollVotersKey(pollId),
+    queryFn: async () => {
+      const response = await $get({ param: { pollId } });
+      return response.json();
+    },
+  });
+};
+
+// hook
+export const usePollVoters = (
+  ...args: Parameters<typeof getPollVotersOptions>
+) => {
+  return useQuery(getPollVotersOptions(...args));
 };

@@ -34,7 +34,7 @@ const me = new Hono()
     const { session: user } = c.get("user");
     await deleteUser(user.id);
 
-    return c.status(200);
+    return c.json({});
   })
   .get(
     apiUrls.user.getVotes,

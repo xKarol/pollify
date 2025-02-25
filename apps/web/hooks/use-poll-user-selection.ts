@@ -1,9 +1,31 @@
-import { useQuery } from "@tanstack/react-query";
+import { queryOptions, useQuery } from "@tanstack/react-query";
 
-import { pollOptions } from "../queries/poll";
+import { client } from "../services/api";
+import type { HookQueryOptions } from "../types";
 
+const $get = client.api.polls[":pollId"]["user-selection"].$get;
+
+export const getPollUserSelectionKey = (pollId: string) =>
+  ["poll-user-selection", pollId] as const;
+
+export const getPollUserSelectionOptions = (
+  pollId: string,
+  options?: HookQueryOptions<typeof $get>
+) => {
+  return queryOptions({
+    enabled: !!pollId,
+    ...options,
+    queryKey: getPollUserSelectionKey(pollId),
+    queryFn: async () => {
+      const response = await $get({ param: { pollId } });
+      return response.json();
+    },
+  });
+};
+
+// hook
 export const usePollUserSelection = (pollId: string): string | undefined => {
-  const { data } = useQuery(pollOptions.getPollUserSelection(pollId));
+  const { data } = useQuery(getPollUserSelectionOptions(pollId));
 
   return data?.answer?.id ?? getStoredVote(pollId);
 };

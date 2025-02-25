@@ -63,12 +63,12 @@ export const CreatePollForm = ({
     control: form.control,
     name: "answers",
   });
-  const { mutateAsync } = useCreatePoll();
+  const { mutateAsync: createPoll } = useCreatePoll();
 
-  const onSubmit = form.handleSubmit(async (data: FormValues) => {
+  const onSubmit = form.handleSubmit(async (payload: FormValues) => {
     try {
       setDisabled(true);
-      const response = await mutateAsync(data);
+      const response = await createPoll({ json: payload });
       await router.push(routes.poll(response.id));
       toast("Poll created successfully!", { variant: "success" });
       form.reset();

@@ -1,37 +1,25 @@
 import type { Answer, Poll } from "@pollify/prisma/client";
-import {
-  type MutationOptions,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
-import type { InferRequestType, InferResponseType } from "hono";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useLocalStorage } from "react-use";
 
 import { pollKeys } from "../queries/poll";
 import { client } from "../services/api";
+import type { HookMutationOptions } from "../types";
 
-const $submitVote = client.api.polls[":pollId"].vote[":answerId"].$post;
+const $post = client.api.polls[":pollId"].vote[":answerId"].$post;
 
-type SubmitVoteResponse = InferResponseType<typeof $submitVote>;
-type SubmitVoteRequest = InferRequestType<typeof $submitVote>;
-type VotePollOptions = MutationOptions<
-  SubmitVoteResponse,
-  Error,
-  SubmitVoteRequest
->;
-
-export const useVotePoll = (options?: VotePollOptions) => {
+export const useSubmitVote = (options?: HookMutationOptions<typeof $post>) => {
   const queryClient = useQueryClient();
   const [userVotes, setUserVotes] = useLocalStorage<string[]>("votes");
 
-  return useMutation<SubmitVoteResponse, Error, SubmitVoteRequest>({
+  return useMutation({
     ...options,
     mutationFn: async (data) => {
-      const response = await $submitVote(data);
+      const response = await $post(data);
       return response.json();
     },
-    onSuccess(data, variables, ctx) {
-      const { pollId, answerId } = data;
+    onSuccess: (...args) => {
+      const [{ pollId, answerId }] = args;
 
       queryClient.invalidateQueries({
         queryKey: pollKeys.getPollUserSelection(pollId),
@@ -56,7 +44,7 @@ export const useVotePoll = (options?: VotePollOptions) => {
 
       setUserVotes([...(userVotes || []), `${pollId}:${answerId}`]);
 
-      options?.onSuccess?.(data, variables, ctx);
+      options?.onSuccess?.(...args);
     },
   });
 };

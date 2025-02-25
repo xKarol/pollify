@@ -27,11 +27,11 @@ const PollAnalyticsPage = () => {
   const router = useRouter();
   const pollId = router.query.pollId as string;
   const { data, isSuccess } = usePoll(pollId, {
+    retry: false,
     onError: () => {
       toast("This poll does not exist.", { variant: "error" });
       router.push(routes.DASHBOARD.HOME);
     },
-    retry: false,
   });
 
   if (!pollId && !isSuccess) return null;

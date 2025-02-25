@@ -4,7 +4,7 @@ import React from "react";
 import { getErrorMessage } from "../../../utils/get-error-message";
 import { Header } from "../components";
 import { VotesTable } from "../components/votes-table";
-import { useUserPollVotes } from "../hooks";
+import { useUserPollVoteList } from "../hooks";
 import { BaseLayout } from "../layouts";
 
 const MyVotesPage = () => {
@@ -16,7 +16,7 @@ const MyVotesPage = () => {
     isFetchingNextPage,
     hasNextPage,
     fetchNextPage,
-  } = useUserPollVotes();
+  } = useUserPollVoteList();
   const data = pages?.pages.flatMap(({ data }) => data);
 
   return (

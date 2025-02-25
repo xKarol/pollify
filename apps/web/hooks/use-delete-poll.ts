@@ -1,9 +1,19 @@
-import { type UseMutationOptions, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
-import { deletePoll } from "../services/api";
+import { client } from "../services/api";
+import type { HookMutationOptions } from "../types";
 
-export function useDeletePoll(
-  options?: UseMutationOptions<unknown, unknown, string, unknown>
-) {
-  return useMutation({ ...options, mutationFn: deletePoll });
-}
+const $delete = client.api.polls[":pollId"].$delete;
+
+export const useDeletePoll = (
+  options?: HookMutationOptions<typeof $delete>
+) => {
+  return useMutation({
+    ...options,
+    mutationFn: async (data) => {
+      const response = await $delete(data);
+      return response.json();
+    },
+    // TODO update query cache on success
+  });
+};

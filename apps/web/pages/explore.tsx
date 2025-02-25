@@ -19,7 +19,7 @@ import Link from "next/link";
 
 import { InfiniteScrollContainer } from "../components/infinite-scroll-container";
 import { routes } from "../config/routes";
-import { usePolls } from "../hooks/use-polls";
+import { usePollList } from "../hooks/use-poll-list";
 import { BaseLayout } from "../layouts";
 import dayjs from "../lib/dayjs";
 import { getErrorMessage } from "../utils/get-error-message";
@@ -28,7 +28,7 @@ import { nFormatter } from "../utils/misc";
 
 type SortValue = `${Poll.SortPollFields}.${"desc" | "asc"}`;
 
-export default function PublicPage() {
+export default function Page() {
   const [sortValue, setSortValue] = useQueryState("sort", {
     defaultValue: "createdAt.desc",
   });
@@ -48,7 +48,7 @@ export default function PublicPage() {
     hasNextPage,
     fetchNextPage,
     refetch,
-  } = usePolls({ sortBy, orderBy });
+  } = usePollList({ sortBy, orderBy });
   const data = pages?.pages.flatMap(({ data }) => data);
 
   return (
@@ -159,4 +159,4 @@ export default function PublicPage() {
   );
 }
 
-PublicPage.getLayout = getLayout(BaseLayout);
+Page.getLayout = getLayout(BaseLayout);

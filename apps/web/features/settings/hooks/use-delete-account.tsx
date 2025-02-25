@@ -3,14 +3,24 @@ import { useMutation } from "@tanstack/react-query";
 import { signOut } from "next-auth/react";
 
 import { routes } from "../../../config/routes";
-import { deleteUser } from "../../../services/api";
+import { client } from "../../../services/api";
+import type { HookMutationOptions } from "../../../types";
 
-export const useDeleteAccount = () => {
+const $delete = client.api.me.$delete;
+
+export const useDeleteAccount = (
+  options?: HookMutationOptions<typeof $delete>
+) => {
   return useMutation({
-    mutationFn: deleteUser,
-    onSuccess: async () => {
+    ...options,
+    mutationFn: async (data) => {
+      const response = await $delete(data);
+      return response.json();
+    },
+    onSuccess: async (...args) => {
       signOut({ callbackUrl: routes.HOME });
       toast("Your account has been deleted.", { variant: "success" });
+      options?.onSuccess?.(...args);
     },
   });
 };

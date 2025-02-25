@@ -78,18 +78,18 @@ function EditAccountForm() {
     },
     disabled,
   });
-  const { mutateAsync } = useUpdateAccount();
+  const { mutateAsync: updateAccount } = useUpdateAccount();
   const hasChanges =
     JSON.stringify(form.formState.defaultValues) !==
     JSON.stringify(form.getValues());
 
-  const onSubmit = form.handleSubmit(async (data: FormValues) => {
+  const onSubmit = form.handleSubmit(async (payload: FormValues) => {
     try {
       setDisabled(true);
-      await mutateAsync(data);
+      await updateAccount({ json: payload });
       await update();
       toast("Account updated successfully.", { variant: "success" });
-      form.reset(data);
+      form.reset(payload);
     } catch {
       toast("Something went wrong...", { variant: "error" });
     } finally {
@@ -142,7 +142,7 @@ function EditAccountForm() {
 }
 
 function DangerZone() {
-  const { isLoading, mutate: deleteAccount } = useDeleteAccount();
+  const { isPending, mutate: deleteAccount } = useDeleteAccount();
 
   return (
     <div className="flex flex-col space-y-2 text-red-500 dark:text-red-700">
@@ -168,8 +168,8 @@ function DangerZone() {
             </Button>
             <LoadingButton
               variant="destructive"
-              isLoading={isLoading}
-              onClick={() => deleteAccount()}>
+              isLoading={isPending}
+              onClick={() => deleteAccount({})}>
               <Icon.Trash2 />
               <span>Delete account</span>
             </LoadingButton>
