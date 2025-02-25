@@ -24,15 +24,15 @@ export const withAuth = createMiddleware<{
   const cookieName = `${cookiePrefix}next-auth.session-token`;
   const sessionToken = getCookie(c, cookieName);
 
-  const jwtData =
-    (await decode({
-      secret: process.env.NEXTAUTH_SECRET!,
-      token: sessionToken,
-    })) || (undefined as Auth.JWTPayload | undefined);
+  const jwtData = (await decode({
+    secret: process.env.NEXTAUTH_SECRET!,
+    token: sessionToken,
+  })) as Auth.JWTPayload | null;
 
+  // @ts-expect-error
   c.set("user", {
-    isLoggedIn: !!jwtData,
-    session: (jwtData as Auth.JWTPayload | undefined) || undefined,
+    isLoggedIn: jwtData !== null,
+    session: jwtData || undefined,
   });
   return next();
 });

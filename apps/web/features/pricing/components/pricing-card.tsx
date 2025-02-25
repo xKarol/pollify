@@ -91,7 +91,7 @@ export function PricingCard({
       </div>
       <LoadingButton
         disabled={isDisabled}
-        isLoading={isLoading}
+        isLoading={isPending}
         variant={variant === "default" ? "default" : "secondary"}
         className="mt-6 w-full"
         onClick={handleBuyPlan}>

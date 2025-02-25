@@ -6,14 +6,14 @@ import SettingsHeader from "../components/settings-header";
 import { BaseLayout } from "../layouts";
 
 export default function BillingMyPlanPage() {
-  const { data: session } = useSession();
+  const { status, data: session } = useSession();
   return (
     <BaseLayout>
       <SettingsHeader
         heading="Billing"
         description="Manage your account billings"
       />
-      {!session ? (
+      {status !== "authenticated" ? (
         <Skeleton className="h-10" />
       ) : (
         <Alert variant="info">

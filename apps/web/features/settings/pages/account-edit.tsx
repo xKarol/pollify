@@ -36,12 +36,12 @@ import { BaseLayout } from "../layouts";
 type FormValues = User.UpdateUserData;
 
 export default function AccountEditPage() {
-  const { data } = useSession();
+  const { status } = useSession();
 
   return (
     <BaseLayout>
       <SettingsHeader heading="Edit" description="Edit your account" />
-      {!data?.user ? (
+      {status !== "authenticated" ? (
         <div className="flex flex-col space-y-3">
           <div className="space-y-6">
             <div className="space-y-2">

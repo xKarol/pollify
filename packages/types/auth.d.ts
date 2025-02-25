@@ -4,7 +4,7 @@ export type JWTPayload = {
   id: string;
   name: string;
   email: string;
-  image: string | null;
+  image: string;
   plan: Plan;
   timeZone: string;
   clockType: number;

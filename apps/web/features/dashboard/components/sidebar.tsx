@@ -63,8 +63,8 @@ export default function SidebarContainer({ className, ...props }: Props) {
         <SidebarNavigationList as="div">
           {isLoggedIn ? (
             <SidebarProfile
-              username={session?.user.name}
-              avatarUrl={session?.user.image}
+              username={session.user.name}
+              avatarUrl={session.user.image}
             />
           ) : (
             <Skeleton className="h-9 w-full bg-neutral-200" />

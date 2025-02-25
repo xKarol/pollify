@@ -38,55 +38,63 @@ export const getAuthOptions = (req: NextApiRequest): NextAuthOptions => ({
       },
       async authorize(credentials) {
         // TODO add credentials auth
-        console.log(credentials);
         throw new Error("Credentials auth is disabled");
       },
     }),
   ],
 
   callbacks: {
-    async jwt({ token, trigger }) {
-      const user = await prisma.user.findFirst({
-        where: { email: token.email },
-        select: {
-          id: true,
-          email: true,
-          name: true,
-          plan: true,
-          timeZone: true,
-          clockType: true,
-        },
-      });
-
-      if (trigger === "update") {
-        token.name = user.name;
-        token.email = user.email;
-        token.clockType = user.clockType;
-      }
-
-      if (!user) return token;
+    async signIn({ user }) {
       if (!user.timeZone) {
         const timeZone = req.headers["x-vercel-ip-timezone"] as string;
-        if (isValidTimeZone(timeZone)) {
-          await prisma.user.update({
-            where: { id: user.id },
-            data: {
-              timeZone: timeZone,
-            },
-          });
+        user.timeZone = timeZone || process.env.TZ;
+        if (!user.timeZone || !isValidTimeZone(user.timeZone)) {
+          user.timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         }
       }
+      return true;
+    },
+    async jwt({ token, trigger, user }) {
+      switch (trigger) {
+        case "signIn":
+        case "signUp": {
+          break;
+        }
+        case "update": {
+          const userData = await prisma.user.findFirst({
+            where: { email: token.email },
+            select: {
+              id: true,
+              email: true,
+              name: true,
+              plan: true,
+              timeZone: true,
+              clockType: true,
+            },
+          });
+          if (!userData) break;
+          token.email = userData.email;
+          token.name = userData.name;
+          token.plan = userData.plan;
+          token.timeZone = userData.timeZone;
+          token.clockType = userData.clockType as 12 | 24;
+          break;
+        }
+      }
+
       return {
         ...token,
         ...user,
+        id: token.sub || user.id,
+        image: token.picture || user.image,
       };
     },
     async session({ session, token }) {
       return {
         ...session,
         user: {
-          id: token.id,
           ...session.user,
+          id: token.id,
           plan: token.plan,
           clockType: token.clockType,
           timeZone: token.timeZone,

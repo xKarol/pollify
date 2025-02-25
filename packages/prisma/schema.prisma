@@ -44,15 +44,15 @@ enum Plan {
 
 model User {
   id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
+  name          String
+  email         String    @unique
   emailVerified DateTime?
-  image         String?
+  image         String
   accounts      Account[]
   sessions      Session[]
   plan          Plan      @default(FREE)
-  timeZone      String?
-  clockType     Int?      @default(12)
+  timeZone      String
+  clockType     Int       @default(12)
   poll          Poll[]
   vote          Vote[]
   createdAt     DateTime  @default(now())

@@ -28,7 +28,7 @@ import { useUpdateAccount } from "../hooks";
 import { BaseLayout } from "../layouts";
 
 export default function AccountGeneralPage() {
-  const { data } = useSession();
+  const { status } = useSession();
 
   return (
     <BaseLayout>
@@ -36,7 +36,7 @@ export default function AccountGeneralPage() {
         heading="General"
         description="Manage your account preferences"
       />
-      {!data?.user ? (
+      {status !== "authenticated" ? (
         <div className="flex flex-col space-y-3">
           <div className="space-y-6">
             <div className="space-y-2">
@@ -81,7 +81,7 @@ function EditAccountForm() {
     resolver: zodResolver(updateUserSchema),
     defaultValues: {
       language: "English",
-      clockType: session.user.clockType === 12 ? "12h" : "24h",
+      clockType: session?.user.clockType === 12 ? "12h" : "24h",
       timeZone: session?.user.timeZone || dayjs.tz.guess(),
     },
     disabled,
