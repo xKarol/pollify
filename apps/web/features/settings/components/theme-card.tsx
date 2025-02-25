@@ -1,9 +1,9 @@
 import { cn } from "@pollify/lib";
+import { RadioGroupItem } from "@pollify/ui";
 import Image from "next/image";
 import React, { useId, useRef } from "react";
 
 import { Label } from "../../../components/label";
-import { RadioGroupItem } from "../../../components/radio-group";
 import darkThemePreview from "../../../public/dark-theme-preview.svg";
 import lightThemePreview from "../../../public/light-theme-preview.svg";
 import systemThemePreview from "../../../public/system-theme-preview.svg";

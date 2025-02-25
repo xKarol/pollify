@@ -1,7 +1,7 @@
+import { RadioGroup, RadioGroupItem } from "@pollify/ui";
 import { useTheme } from "next-themes";
 import React, { useEffect, useState } from "react";
 
-import { RadioGroup, RadioGroupItem } from "../../../components/radio-group";
 import { SettingsHeader, ThemeCard } from "../components";
 import { BaseLayout } from "../layouts";
 
