@@ -1,12 +1,9 @@
 import {
-  Button,
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  Icon,
-  toast,
 } from "@pollify/ui";
 import React from "react";
 

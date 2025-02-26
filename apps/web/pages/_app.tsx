@@ -1,4 +1,4 @@
-import { TooltipProvider } from "@pollify/ui";
+import { TooltipProvider, Toaster } from "@pollify/ui";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Analytics } from "@vercel/analytics/react";
@@ -9,7 +9,6 @@ import { ThemeProvider } from "next-themes";
 import type { AppProps } from "next/app";
 import { Inter } from "next/font/google";
 import React, { useState, useEffect } from "react";
-import { Toaster } from "react-hot-toast";
 
 import SEO from "../config/next-seo";
 import { queryClientConfig } from "../config/query-client";
@@ -63,7 +62,7 @@ export default function MyApp({
             <TooltipProvider>
               {getLayout(<Component {...pageProps} />)}
               <div>
-                <Toaster position="bottom-right" />
+                <Toaster />
               </div>
               <Analytics />
               <ReactQueryDevtools initialIsOpen={false} />

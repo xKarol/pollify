@@ -9,11 +9,12 @@ import {
   DialogTrigger,
   Icon,
   LoadingButton,
-  toast,
 } from "@pollify/ui";
 import React from "react";
+import { toast } from "sonner";
 
 import { useDeletePoll } from "../hooks/use-delete-poll";
+import { getErrorMessage } from "../utils/get-error-message";
 
 type DeletePollDialogProps = {
   pollId: string;
@@ -28,10 +29,10 @@ export default function DeletePollDialog({
 }: DeletePollDialogProps) {
   const { isPending, mutateAsync: deletePoll } = useDeletePoll({
     onSuccess: () => {
-      toast("Poll has been deleted", { variant: "success" });
+      toast.success("Poll has been deleted");
     },
-    onError: () => {
-      toast("Something went wrong...", { variant: "error" });
+    onError: (error) => {
+      toast.error(getErrorMessage(error));
     },
   });
   return (

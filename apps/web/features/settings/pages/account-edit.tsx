@@ -14,12 +14,12 @@ import {
   LoadingButton,
   Separator,
   Skeleton,
-  toast,
 } from "@pollify/ui";
 import { UserValidator } from "@pollify/validations";
 import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import {
   Form,
@@ -29,6 +29,7 @@ import {
   FormLabel,
   FormMessage,
 } from "../../../components/form";
+import { getErrorMessage } from "../../../utils/get-error-message";
 import SettingsHeader from "../components/settings-header";
 import { useDeleteAccount, useUpdateAccount } from "../hooks";
 import { BaseLayout } from "../layouts";
@@ -85,10 +86,10 @@ function EditAccountForm() {
       setDisabled(true);
       await updateAccount({ json: payload });
       await update();
-      toast("Account updated successfully.", { variant: "success" });
+      toast.success("Account updated successfully.");
       form.reset(payload);
-    } catch {
-      toast("Something went wrong...", { variant: "error" });
+    } catch (error) {
+      toast.error(getErrorMessage(error));
     } finally {
       setDisabled(false);
     }

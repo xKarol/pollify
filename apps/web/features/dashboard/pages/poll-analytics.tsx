@@ -1,8 +1,9 @@
-import { Icon, toast } from "@pollify/ui";
+import { Icon } from "@pollify/ui";
 import { NextSeo } from "next-seo";
 import { useQueryState } from "next-usequerystate";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
+import { toast } from "sonner";
 
 import { routes } from "../../../config/routes";
 import { useHasPermission } from "../../../hooks/use-has-permission";
@@ -32,7 +33,7 @@ const PollAnalyticsPage = () => {
 
   useEffect(() => {
     if (!isSuccess) {
-      toast("This poll does not exist.", { variant: "error" });
+      toast.error("This poll does not exist.");
       router.push(routes.DASHBOARD.HOME);
     }
   }, [router, isSuccess]);

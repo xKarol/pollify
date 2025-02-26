@@ -10,7 +10,7 @@ export * from "./components/skeleton";
 export * from "./components/progress";
 export * from "./components/dropdown-menu";
 export * from "./components/dialog";
-export * from "./components/toast";
+export * from "./components/sonner";
 export * from "./components/radio-group";
 export * from "./components/select";
 export * from "./components/sheet";

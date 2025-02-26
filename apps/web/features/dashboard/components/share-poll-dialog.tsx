@@ -11,7 +11,6 @@ import {
   SelectItem,
   SelectTrigger,
   Separator,
-  toast,
 } from "@pollify/ui";
 import React, { useRef, useState } from "react";
 import {
@@ -23,6 +22,7 @@ import {
   TwitterShareButton,
   WhatsappShareButton,
 } from "react-share";
+import { toast } from "sonner";
 
 import QRCode from "../../../components/qr-code";
 import { ShareSocial } from "../../../components/share-social";
@@ -71,7 +71,7 @@ export default function SharePollDialog({
 
             <Select onValueChange={downloadQRCode} disabled={!qrCodeSrc}>
               <SelectTrigger>
-                <Icon.Download className="h-4 w-4" />
+                <Icon.Download size={16} />
                 <span>Download</span>
               </SelectTrigger>
               <SelectContent>
@@ -127,7 +127,7 @@ function CopyQRCodeButton({ value, ...props }: CopyQRCodeButtonProps) {
       }),
     ]);
     setIsCopied(true);
-    toast("Copied QR Code to clipboard.", { variant: "success" });
+    toast.success("Copied QR Code to clipboard.");
     setTimeout(() => setIsCopied(false), 3000);
   };
   return (

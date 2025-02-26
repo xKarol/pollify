@@ -2,7 +2,6 @@ import {
   Avatar,
   Icon,
   LoadingButton,
-  toast,
   Badge,
   Tooltip,
   TooltipTrigger,
@@ -17,11 +16,13 @@ import { useRouter } from "next/router";
 import React, { useRef, useState } from "react";
 // eslint-disable-next-line import/no-named-as-default
 import ReCAPTCHA from "react-google-recaptcha";
+import { toast } from "sonner";
 
 import { usePollUserSelection } from "../../../hooks/use-poll-user-selection";
 import { useSubmitVote } from "../../../hooks/use-submit-vote";
 import dayjs from "../../../lib/dayjs";
 import type { client } from "../../../services/api";
+import { getErrorMessage } from "../../../utils/get-error-message";
 import { nFormatter } from "../../../utils/misc";
 import { usePollLiveResults } from "../hooks";
 import { ManagePollDropdown } from "./manage-poll-dropdown";
@@ -46,8 +47,8 @@ export const Poll = ({
   const recaptchaRef = useRef<ReCAPTCHA>();
 
   const { mutateAsync: submitVote, isPending: isVoteLoading } = useSubmitVote({
-    onError: () => {
-      toast("Something went wrong...", { variant: "error" });
+    onError: (error) => {
+      toast.error(getErrorMessage(error));
     },
   });
   usePollLiveResults(pollId);

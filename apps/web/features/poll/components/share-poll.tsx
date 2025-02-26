@@ -1,5 +1,5 @@
 import { cn } from "@pollify/lib";
-import { Icon, Input, toast } from "@pollify/ui";
+import { Icon, Input } from "@pollify/ui";
 import { useRouter } from "next/router";
 import {
   FacebookShareButton,
@@ -9,6 +9,7 @@ import {
   TwitterShareButton,
 } from "react-share";
 import { useCopyToClipboard } from "react-use";
+import { toast } from "sonner";
 
 import { ShareSocial } from "../../../components/share-social";
 import { getBaseUrl } from "../../../utils/get-base-url";
@@ -25,7 +26,7 @@ export function SharePoll({ pollId, className, ...props }: SharePollProps) {
 
   const copyLink = () => {
     copy(shareUrl);
-    toast("Copied to clipboard", { variant: "success" });
+    toast.success("Copied to clipboard");
   };
 
   return (

@@ -7,11 +7,11 @@ import {
   SelectTrigger,
   SelectValue,
   Skeleton,
-  toast,
 } from "@pollify/ui";
 import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import {
@@ -23,6 +23,7 @@ import {
   FormMessage,
 } from "../../../components/form";
 import dayjs from "../../../lib/dayjs";
+import { getErrorMessage } from "../../../utils/get-error-message";
 import SettingsHeader from "../components/settings-header";
 import { useUpdateAccount } from "../hooks";
 import { BaseLayout } from "../layouts";
@@ -93,10 +94,10 @@ function EditAccountForm() {
         },
       });
       await update();
-      toast("Account updated successfully.", { variant: "success" });
+      toast.success("Account updated successfully.");
       form.reset(payload);
-    } catch {
-      toast("Something went wrong...", { variant: "error" });
+    } catch (error) {
+      toast.error(getErrorMessage(error));
     } finally {
       setDisabled(false);
     }

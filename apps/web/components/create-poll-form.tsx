@@ -14,12 +14,12 @@ import {
   TooltipTrigger,
   TooltipContent,
   ScrollArea,
-  toast,
 } from "@pollify/ui";
 import { PollValidator } from "@pollify/validations";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
+import { toast } from "sonner";
 
 import {
   Form,
@@ -70,10 +70,10 @@ export const CreatePollForm = ({
       setDisabled(true);
       const response = await createPoll({ json: payload });
       await router.push(routes.poll(response.id));
-      toast("Poll created successfully!", { variant: "success" });
+      toast.success("Poll created successfully!");
       form.reset();
     } catch (error) {
-      toast(getErrorMessage(error), { variant: "error" });
+      toast.error(getErrorMessage(error));
     } finally {
       setDisabled(false);
     }

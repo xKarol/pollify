@@ -13,7 +13,6 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  toast,
 } from "@pollify/ui";
 import { type FetchNextPageOptions } from "@tanstack/react-query";
 import dayjs from "dayjs";
@@ -21,6 +20,7 @@ import type { InferResponseType } from "hono";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useCopyToClipboard } from "react-use";
+import { toast } from "sonner";
 
 import DeletePollDialog from "../../../components/delete-poll-dialog";
 import { InfiniteScrollContainer } from "../../../components/infinite-scroll-container";
@@ -101,7 +101,7 @@ function PollItemRow({
 
   useEffect(() => {
     if (isCopied) {
-      toast("Copied to clipboard.", { variant: "success" });
+      toast.success("Copied to clipboard.");
     }
     const timeout = setTimeout(() => {
       if (isCopied) setIsCopied(false);

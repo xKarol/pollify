@@ -1,11 +1,13 @@
 import { cn } from "@pollify/lib";
-import { Icon, LoadingButton, toast } from "@pollify/ui";
+import { Icon, LoadingButton } from "@pollify/ui";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { toast } from "sonner";
 
 import { routes } from "../../../config/routes";
 import { usePurchasePlan } from "../../../hooks/use-purchase-plan";
 import { getBaseUrl } from "../../../utils/get-base-url";
+import { getErrorMessage } from "../../../utils/get-error-message";
 
 export type PricingCardProps = React.ComponentPropsWithoutRef<"div"> & {
   priceId: string;
@@ -34,8 +36,8 @@ export function PricingCard({
   const { status, data: session } = useSession();
 
   const { mutateAsync: purchasePlan, isPending } = usePurchasePlan({
-    onError(err) {
-      toast(err?.message || "Something went wrong...", { variant: "error" }); //TODO improve error message
+    onError(error) {
+      toast.error(getErrorMessage(error));
     },
   });
   const user = session?.user;
