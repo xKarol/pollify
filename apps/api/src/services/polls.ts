@@ -1,14 +1,17 @@
+import { Poll } from "@pollify/prisma/client";
 import { prisma } from "@pollify/prisma/edge";
-import type { Poll } from "@pollify/types";
+import type { PaginationParams, SortingParams } from "@pollify/types";
+import { CreatePollData, SortPollFields } from "@pollify/types/poll";
 
-// @ts-expect-error TODO fix
-export const getPolls: Poll.Services["getPolls"] = async ({
+export const getPollList = async ({
   page = 1,
   skip,
   limit = 10,
   orderBy = "desc",
   sortBy = "createdAt",
-}) => {
+}: PaginationParams & {
+  skip: number;
+} & SortingParams<SortPollFields>) => {
   const response = await prisma.poll.findMany({
     skip: skip,
     take: limit + 1,
@@ -18,7 +21,15 @@ export const getPolls: Poll.Services["getPolls"] = async ({
     orderBy: {
       [sortBy]: orderBy,
     },
-    include: { user: true },
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          image: true,
+        },
+      },
+    },
   });
 
   return {
@@ -32,7 +43,16 @@ export const getPoll = async (pollId: string) => {
     where: {
       id: pollId,
     },
-    include: { answers: true, user: true },
+    include: {
+      answers: true,
+      user: {
+        select: {
+          id: true,
+          name: true,
+          image: true,
+        },
+      },
+    },
   });
   return response;
 };
@@ -45,7 +65,8 @@ export const getPollVotes = async (pollId: string) => {
   });
   return response;
 };
-export const createPoll = async (data: Poll.CreatePollData) => {
+
+export const createPoll = async (data: CreatePollData) => {
   const response = await prisma.poll.create({
     data: {
       userId: data.userId,
@@ -60,7 +81,7 @@ export const createPoll = async (data: Poll.CreatePollData) => {
   return response;
 };
 
-export const updatePoll: Poll.Services["updatePoll"] = async (pollId, data) => {
+export const updatePoll = async (pollId: string, data: Poll) => {
   const response = await prisma.poll.update({
     where: { id: pollId },
     data: {

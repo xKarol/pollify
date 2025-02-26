@@ -35,14 +35,14 @@ const parametersSchema = z.object({
   poll_id: z.string().optional(),
 });
 
-const votesPipe = tinybird.buildPipe({
+const pollVotesPipe = tinybird.buildPipe({
   pipe: process.env.TINYBIRD_PIPE_USER_ALL_VOTES_ID as string,
   parameters: parametersSchema.extend({
     group_by: z.enum<string, [Analytics.GroupBy, ...Analytics.GroupBy[]]>([
-      "month",
-      "day",
-      "hour",
       "minute",
+      "hour",
+      "day",
+      "month",
     ]),
   }),
   data: z.object({
@@ -70,17 +70,17 @@ const topCountriesPipe = tinybird.buildPipe({
   }),
 });
 
-export const getUserPollVotesData: Analytics.Services["getUserPollVotes"] = (
+export const getPollVotesAnalytics: Analytics.Services["getUserPollVotes"] = (
   params
 ) => {
-  return votesPipe({
+  return pollVotesPipe({
     poll_id: params.pollId,
     group_by: params.groupBy,
     ...transformParamsToSnakeCase(params),
   });
 };
 
-export const getUserPollTopDevices: Analytics.Services["getUserPollTopDevices"] =
+export const getPollTopDevicesAnalytics: Analytics.Services["getUserPollTopDevices"] =
   (params) => {
     return topDevicesPipe({
       poll_id: params.pollId,
@@ -88,7 +88,7 @@ export const getUserPollTopDevices: Analytics.Services["getUserPollTopDevices"] 
     });
   };
 
-export const getUserPollTopCountries: Analytics.Services["getUserPollTopCountries"] =
+export const getPollTopCountriesAnalytics: Analytics.Services["getUserPollTopCountries"] =
   (params) => {
     return topCountriesPipe({
       poll_id: params.pollId,

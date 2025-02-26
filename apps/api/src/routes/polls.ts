@@ -1,13 +1,14 @@
 import { zValidator } from "@hono/zod-validator";
 import { apiUrls } from "@pollify/config";
 import { hasUserPermission } from "@pollify/lib";
-import type { Answer, Vote } from "@pollify/prisma/client";
+import { Plan, type Answer } from "@pollify/prisma/client";
 import prisma from "@pollify/prisma/edge";
 import type { Poll } from "@pollify/types";
 import { PollValidator } from "@pollify/validations";
 import { Hono } from "hono";
 import { streamSSE } from "hono/streaming";
 import httpError from "http-errors";
+import { pick } from "underscore";
 import { z } from "zod";
 
 import { getGeoData } from "../lib/geoip";
@@ -18,7 +19,7 @@ import { withCache } from "../middlewares/with-cache";
 import { withPagination } from "../middlewares/with-pagination";
 import { withSorting } from "../middlewares/with-sorting";
 import {
-  getPolls,
+  getPollList,
   getPoll,
   createPoll,
   deletePoll,
@@ -33,7 +34,7 @@ import { getIP } from "../utils/get-ip";
 
 const polls = new Hono()
   .get(
-    apiUrls.poll.getOne(":pollId"),
+    apiUrls.polls.getOne(":pollId"),
     zValidator("param", z.object({ pollId: z.string().nonempty() })),
     // withCache(60 * 30),
     async (c) => {
@@ -48,7 +49,7 @@ const polls = new Hono()
     }
   )
   .get(
-    apiUrls.poll.getLiveResults(":pollId"),
+    apiUrls.polls.getLiveResults(":pollId"),
     zValidator("param", z.object({ pollId: z.string().nonempty() })),
     async (c) => {
       const { pollId } = c.req.valid("param");
@@ -90,7 +91,7 @@ const polls = new Hono()
     }
   )
   .get(
-    apiUrls.poll.getAll,
+    apiUrls.polls.getAll,
     withPagination,
     withSorting<Poll.SortPollFields>({
       allowedFields: ["createdAt", "totalVotes"],
@@ -100,22 +101,22 @@ const polls = new Hono()
     async (c) => {
       const { page, limit, skip } = c.get("pagination");
       const { sortBy, orderBy } = c.get("sorting");
-      const data = await getPolls({ page, limit, skip, sortBy, orderBy });
+      const data = await getPollList({ page, limit, skip, sortBy, orderBy });
 
       return c.json(data);
     }
   )
   .post(
-    apiUrls.poll.create,
+    apiUrls.polls.create,
     withAuth,
     zValidator("json", PollValidator.createPollSchema),
     async (c) => {
       const payload = c.req.valid("json");
       const { isLoggedIn, session: user } = c.get("user");
-      const userPlan = isLoggedIn ? user.plan : "FREE";
+      const userPlan = isLoggedIn ? user.plan : Plan.FREE;
 
       if (payload?.requireRecaptcha === true) {
-        const hasPermission = hasUserPermission("BASIC", userPlan);
+        const hasPermission = hasUserPermission(Plan.BASIC, userPlan);
         if (!hasPermission)
           throw httpError.Forbidden(
             "Basic plan or higher is required to use reCAPTCHA option."
@@ -123,7 +124,7 @@ const polls = new Hono()
       }
 
       if (payload.answers.length > 6) {
-        const hasPermission = hasUserPermission("BASIC", userPlan);
+        const hasPermission = hasUserPermission(Plan.BASIC, userPlan);
         if (!hasPermission)
           throw httpError.Forbidden(
             "Basic plan or higher is required to create more than 6 answers."
@@ -139,7 +140,7 @@ const polls = new Hono()
     }
   )
   .delete(
-    apiUrls.poll.delete(":pollId"),
+    apiUrls.polls.delete(":pollId"),
     zValidator("param", z.object({ pollId: z.string() })),
     async (c) => {
       const { pollId } = c.req.valid("param");
@@ -149,7 +150,7 @@ const polls = new Hono()
     }
   )
   .post(
-    apiUrls.poll.vote(":pollId", ":answerId"),
+    apiUrls.polls.vote(":pollId", ":answerId"),
     zValidator("param", z.object({ pollId: z.string(), answerId: z.string() })),
     zValidator("json", z.object({ reCaptchaToken: z.string().optional() })),
     withAuth,
@@ -216,7 +217,7 @@ const polls = new Hono()
     }
   )
   .get(
-    apiUrls.poll.getVoters(":pollId"),
+    apiUrls.polls.getVoters(":pollId"),
     zValidator("param", z.object({ pollId: z.string() })),
     withCache(60 * 5), // 1 hour
     async (c) => {
@@ -227,7 +228,7 @@ const polls = new Hono()
     }
   )
   .get(
-    apiUrls.poll.getUserSelection(":pollId"),
+    apiUrls.polls.getUserSelection(":pollId"),
     zValidator("param", z.object({ pollId: z.string() })),
     withAuth,
     withCache(60 * 60 * 12, { requireUser: true }), //12 hours

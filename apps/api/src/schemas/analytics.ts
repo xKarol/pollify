@@ -4,15 +4,9 @@ import { z } from "zod";
 
 import { parseInterval } from "../utils/parse-interval";
 
-export const pollQueryParams = z.object({
-  pollId: z.string().optional(),
-});
-
-export type AnalyticsPollQueryParams = z.infer<typeof pollQueryParams>;
-
 export const defaultQueryParams = z
   .object({
-    limit: z.coerce.number().positive().optional(),
+    limit: z.coerce.number().positive().optional().default(50),
     dateFrom: z.coerce.number().positive().optional(),
     // TODO fix validating unix timestamp, 122121 - this should fail
     // .refine((date) => !dayjs(date, "X", true).isValid(), {

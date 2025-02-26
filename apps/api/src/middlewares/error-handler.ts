@@ -15,6 +15,7 @@ export const errorHandler: ErrorHandler = (err, c) => {
         stack: capturedError.stack,
       }),
     },
+    // @ts-expect-error
     status
   );
 };

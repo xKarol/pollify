@@ -14,7 +14,7 @@ const groupByName = {
 
 export const withAnalyticsParams = createMiddleware<{
   Variables: {
-    analytics: z.infer<typeof AnalyticsSchema.defaultQueryParams> & {
+    analytics: Required<z.infer<typeof AnalyticsSchema.defaultQueryParams>> & {
       groupBy: Analytics.GroupBy;
     };
   };

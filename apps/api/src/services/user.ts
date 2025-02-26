@@ -1,26 +1,24 @@
+import { User } from "@pollify/prisma/client";
 import { prisma } from "@pollify/prisma/edge";
-import type { User } from "@pollify/types";
+import { Services as UserServices } from "@pollify/types/user";
 
-export const updateUserData: User.Services["updateUser"] = async (
-  userId,
-  data
+export const updateUserData = async (
+  userId: string,
+  data: Pick<User, "name" | "clockType" | "timeZone">
 ) => {
-  console.log(data);
   const response = await prisma.user.update({
     where: { id: userId },
     data: {
       name: data.name,
-      image: data.image,
+      // image: data.image,
       clockType: data.clockType,
       timeZone: data.timeZone,
-      // TODO handle email change properly, do not update user email for now
-      // ...data
     },
   });
   return response;
 };
 
-export const deleteUser: User.Services["deleteUser"] = async (userId) => {
+export const deleteUser = async (userId: string) => {
   await prisma.user.delete({ where: { id: userId } });
   await prisma.vote.updateMany({
     where: { userId },
@@ -28,7 +26,7 @@ export const deleteUser: User.Services["deleteUser"] = async (userId) => {
   });
 };
 
-export const getUserPolls: User.Services["getUserPolls"] = async ({
+export const getUserPolls: UserServices["getUserPolls"] = async ({
   userId,
   page = 1,
   skip,
@@ -53,8 +51,7 @@ export const getUserPolls: User.Services["getUserPolls"] = async ({
   };
 };
 
-// @ts-expect-error TODO fix
-export const getUserVotes: User.Services["getUserVotes"] = async ({
+export const getUserVotes: UserServices["getUserVotes"] = async ({
   userId,
   page = 1,
   skip,

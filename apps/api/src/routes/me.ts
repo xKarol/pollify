@@ -17,7 +17,7 @@ import {
 
 const me = new Hono()
   .patch(
-    apiUrls.user.update,
+    apiUrls.users.update,
     withAuth,
     requireAuth,
     zValidator("json", UserValidator.updateUserSchema),
@@ -30,14 +30,14 @@ const me = new Hono()
       return c.json(response);
     }
   )
-  .delete(apiUrls.user.delete, withAuth, requireAuth, async (c) => {
+  .delete(apiUrls.users.delete, withAuth, requireAuth, async (c) => {
     const { session: user } = c.get("user");
     await deleteUser(user.id);
 
     return c.json({});
   })
   .get(
-    apiUrls.user.getVotes,
+    apiUrls.users.getVotes,
     withAuth,
     requireAuth,
     withPagination,
@@ -61,7 +61,7 @@ const me = new Hono()
     }
   )
   .get(
-    apiUrls.user.getPolls,
+    apiUrls.users.getPolls,
     withAuth,
     requireAuth,
     withPagination,

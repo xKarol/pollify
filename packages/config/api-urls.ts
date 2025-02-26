@@ -4,14 +4,13 @@ type Route = {
 };
 
 export const apiUrls = {
-  user: {
-    getCurrentUser: "/me",
+  users: {
     delete: "/me",
     update: "/me",
     getPolls: "/me/poll",
     getVotes: "/me/vote",
   },
-  poll: {
+  polls: {
     getOne: (pollId) => `/polls/${pollId}` as const,
     getAll: "/polls",
     create: "/polls",
@@ -20,15 +19,15 @@ export const apiUrls = {
     getVoters: (pollId) => `/polls/${pollId}/voters` as const,
     getUserSelection: (pollId) => `/polls/${pollId}/user-selection` as const,
     getLiveResults: (pollId) => `/polls/${pollId}/live` as const,
+    analytics: {
+      getVotes: "/polls/analytics/votes",
+      getTopDevices: "/polls/analytics/top-devices",
+      getTopCountries: "/polls/analytics/top-countries",
+    },
   },
-  payment: {
+  payments: {
     getPricingPlans: "/payments/plans",
     checkoutSession: "/payments/checkout-sessions",
-  },
-  analytics: {
-    userPollVotes: "/analytics/poll/vote",
-    getUserPollTopDevices: "/analytics/poll/top-devices",
-    getUserPollTopCountries: "/analytics/poll/top-countries",
   },
   qr: {
     getQRCode: `/qr`,

@@ -14,7 +14,7 @@ import {
 
 const payments = new Hono()
   .get(
-    apiUrls.payment.getPricingPlans,
+    apiUrls.payments.getPricingPlans,
     withCache(60 * 60 * 24), //1 day
     async (c) => {
       const plans = await getSubscriptionPlans();
@@ -22,7 +22,7 @@ const payments = new Hono()
     }
   )
   .post(
-    apiUrls.payment.checkoutSession,
+    apiUrls.payments.checkoutSession,
     withAuth,
     requireAuth,
     zValidator(
