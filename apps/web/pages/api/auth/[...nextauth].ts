@@ -19,8 +19,8 @@ export const getAuthOptions = (req: NextApiRequest): NextAuthOptions => ({
   },
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_OAUTH_ID,
-      clientSecret: process.env.GOOGLE_OAUTH_SECRET,
+      clientId: process.env.GOOGLE_OAUTH_ID!,
+      clientSecret: process.env.GOOGLE_OAUTH_SECRET!,
     }),
     CredentialsProvider({
       name: "Credentials",

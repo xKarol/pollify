@@ -87,8 +87,8 @@ model Answer {
   id        String   @id @unique @default(cuid())
   text      String
   votes     Int      @default(0)
-  poll      Poll?    @relation(fields: [pollId], references: [id], onDelete: Cascade)
-  pollId    String?
+  poll      Poll     @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  pollId    String
   vote      Vote[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -100,8 +100,8 @@ model Vote {
   answerId  String
   user      User?    @relation(fields: [userId], references: [id])
   userId    String?
-  poll      Poll?    @relation(fields: [pollId], references: [id], onDelete: Cascade)
-  pollId    String?
+  poll      Poll     @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  pollId    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

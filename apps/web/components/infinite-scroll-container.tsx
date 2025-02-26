@@ -5,7 +5,7 @@ import React from "react";
 export type InfiniteScrollContainerProps<T extends React.ElementType> = {
   as?: T;
   children: React.ReactNode;
-  fetchNextPage: (...args: unknown[]) => unknown;
+  fetchNextPage: (...args: any[]) => unknown;
   isFetchingNextPage: boolean;
   hasNextPage: boolean;
 };

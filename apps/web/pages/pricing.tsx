@@ -120,7 +120,9 @@ export default function PricingPage({
             </div>
           </Tabs>
           <PricingTable
-            planNames={plans.map((plan) => plan.planName)}
+            planNames={
+              plans.map((plan) => plan.planName) as [string, string, string]
+            }
             features={tableFeatures}
           />
         </div>
