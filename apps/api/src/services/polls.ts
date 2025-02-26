@@ -140,7 +140,13 @@ export const getPollVoters = async (pollId: string) => {
     },
     distinct: ["userId"],
     select: {
-      user: true,
+      user: {
+        select: {
+          id: true,
+          name: true,
+          image: true,
+        },
+      },
     },
   });
 
