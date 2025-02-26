@@ -19,8 +19,8 @@ const inputVariants = cva(
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement>,
     VariantProps<typeof inputVariants> {
-  LeftIcon?: JSX.Element;
-  RightIcon?: JSX.Element;
+  LeftIcon?: React.ReactNode;
+  RightIcon?: React.ReactNode;
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(

@@ -1,4 +1,3 @@
-import type { Vote, Answer, Poll } from "@pollify/prisma/client";
 import {
   Badge,
   DropdownMenu,
@@ -15,14 +14,16 @@ import {
 } from "@pollify/ui";
 import { type FetchNextPageOptions } from "@tanstack/react-query";
 import dayjs from "dayjs";
+import type { InferResponseType } from "hono";
 import { useRouter } from "next/router";
 import React from "react";
 
 import { InfiniteScrollContainer } from "../../../components/infinite-scroll-container";
 import { routes } from "../../../config/routes";
+import type { client } from "../../../services/api";
 
 type VotesTableProps = {
-  data: (Vote & { poll: Poll; answer: Answer })[];
+  data: InferResponseType<typeof client.api.me.votes.$get>["data"];
   isFetchingNextPage?: boolean;
   hasNextPage?: boolean;
   fetchNextPage: (options?: FetchNextPageOptions) => Promise<unknown>;

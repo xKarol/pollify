@@ -28,7 +28,7 @@ const MyVotesPage = () => {
         {isLoading && <Icon.Loader2 className="m-auto animate-spin" />}
         {isSuccess && (
           <VotesTable
-            data={data}
+            data={data!}
             fetchNextPage={fetchNextPage}
             isFetchingNextPage={isFetchingNextPage}
             hasNextPage={hasNextPage}

@@ -30,7 +30,7 @@ const MyPollsPage = () => {
         heading="Your polls"
         ActionComponent={
           <DynamicCreatePollDialog>
-            <Button size="sm">
+            <Button>
               <Icon.Plus />
               <span>Create poll</span>
             </Button>
@@ -42,7 +42,7 @@ const MyPollsPage = () => {
         {isLoading && <Icon.Loader2 className="m-auto animate-spin" />}
         {isSuccess && (
           <PollsTable
-            data={data}
+            data={data!}
             isFetchingNextPage={isFetchingNextPage}
             hasNextPage={hasNextPage}
             fetchNextPage={fetchNextPage}

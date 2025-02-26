@@ -20,7 +20,7 @@ const PollPage = () => {
       const [poll, voters] = result;
       return {
         ...poll,
-        voters,
+        voters: voters.data,
       };
     },
   });
@@ -41,7 +41,7 @@ const PollPage = () => {
     <div className="container flex max-w-4xl flex-col">
       {response.isLoading && <SkeletonLoading />}
       {response.isSuccess && (
-        <Poll data={response.data} voters={response.voters} />
+        <Poll data={response.data} voters={response.voters!} />
       )}
     </div>
   );

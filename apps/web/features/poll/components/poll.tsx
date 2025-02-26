@@ -75,6 +75,7 @@ export const Poll = ({
 
   return (
     <>
+      {/* @ts-expect-error TODO fix */}
       <ReCAPTCHA
         ref={recaptchaRef}
         size="invisible"

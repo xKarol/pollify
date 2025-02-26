@@ -8,7 +8,6 @@ import { PollValidator } from "@pollify/validations";
 import { Hono } from "hono";
 import { streamSSE } from "hono/streaming";
 import httpError from "http-errors";
-import { pick } from "underscore";
 import { z } from "zod";
 
 import { getGeoData } from "../lib/geoip";

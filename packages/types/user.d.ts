@@ -7,7 +7,7 @@ import type {
 } from "./global.d.ts";
 
 export type UpdateUserData = Partial<
-  Pick<User, "email" | "name" | "image" | "timeZone" | "clockType">
+  Pick<User, "email" | "name" | "timeZone" | "clockType">
 >;
 
 export type GetUserVotesResponse = (Vote & {

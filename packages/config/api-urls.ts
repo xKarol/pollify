@@ -7,8 +7,8 @@ export const apiUrls = {
   users: {
     delete: "/me",
     update: "/me",
-    getPolls: "/me/poll",
-    getVotes: "/me/vote",
+    getPolls: "/me/polls",
+    getVotes: "/me/votes",
   },
   polls: {
     getOne: (pollId) => `/polls/${pollId}` as const,

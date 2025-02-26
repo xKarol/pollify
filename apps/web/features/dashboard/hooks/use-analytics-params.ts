@@ -30,6 +30,7 @@ export default function useAnalyticsQueryParams() {
         : DEFAULT_ANALYTICS_INTERVAL
     ) as Analytics.Interval;
 
+    // @ts-expect-error
     const [, groupBy] = intervals[interval];
     const { dateFrom, dateTo } = calculateDate(interval);
 

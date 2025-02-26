@@ -73,7 +73,6 @@ function EditAccountForm() {
     resolver: zodResolver(UserValidator.updateUserSchema),
     defaultValues: {
       email: session?.user.email ?? "",
-      image: session?.user.image ?? "",
       name: session?.user.name ?? "",
     },
     disabled,

@@ -36,7 +36,7 @@ export const getAuthOptions = (req: NextApiRequest): NextAuthOptions => ({
           placeholder: "••••••••••",
         },
       },
-      async authorize(credentials) {
+      async authorize() {
         // TODO add credentials auth
         throw new Error("Credentials auth is disabled");
       },
@@ -61,6 +61,7 @@ export const getAuthOptions = (req: NextApiRequest): NextAuthOptions => ({
           break;
         }
         case "update": {
+          if (typeof token.email !== "string") break;
           const userData = await prisma.user.findFirst({
             where: { email: token.email },
             select: {
@@ -86,7 +87,7 @@ export const getAuthOptions = (req: NextApiRequest): NextAuthOptions => ({
         ...token,
         ...user,
         id: token.sub || user.id,
-        image: token.picture || user.image,
+        image: token.picture || (user.image as string),
       };
     },
     async session({ session, token }) {

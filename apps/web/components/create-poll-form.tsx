@@ -65,7 +65,7 @@ export const CreatePollForm = ({
   });
   const { mutateAsync: createPoll } = useCreatePoll();
 
-  const onSubmit = form.handleSubmit(async (payload: FormValues) => {
+  const onSubmit = form.handleSubmit(async (payload) => {
     try {
       setDisabled(true);
       const response = await createPoll({ json: payload });
@@ -82,7 +82,7 @@ export const CreatePollForm = ({
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={onSubmit}
         className={cn("flex flex-col", className)}
         {...props}>
         <div className="mb-8 flex flex-col space-y-2">

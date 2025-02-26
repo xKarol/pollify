@@ -17,6 +17,7 @@ import {
 } from "@pollify/ui";
 import { type FetchNextPageOptions } from "@tanstack/react-query";
 import dayjs from "dayjs";
+import type { InferResponseType } from "hono";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useCopyToClipboard } from "react-use";
@@ -24,12 +25,13 @@ import { useCopyToClipboard } from "react-use";
 import DeletePollDialog from "../../../components/delete-poll-dialog";
 import { InfiniteScrollContainer } from "../../../components/infinite-scroll-container";
 import { routes } from "../../../config/routes";
+import type { client } from "../../../services/api";
 import { getBaseUrl } from "../../../utils/get-base-url";
 import { nFormatter } from "../../../utils/misc";
 import SharePollDialog from "./share-poll-dialog";
 
 type Props = {
-  data: (Poll & { totalVotes: number })[];
+  data: InferResponseType<typeof client.api.me.polls.$get>["data"];
   isFetchingNextPage?: boolean;
   hasNextPage?: boolean;
   fetchNextPage: (options?: FetchNextPageOptions) => Promise<unknown>;
@@ -79,9 +81,9 @@ export default PollsTable;
 
 type PollItemRowProps = (Pick<
   Poll,
-  "id" | "question" | "isPublic" | "createdAt"
+  "id" | "question" | "isPublic" | "totalVotes"
 > & {
-  totalVotes: number;
+  createdAt: string;
 }) &
   Omit<React.ComponentPropsWithoutRef<"tr">, "children">;
 
@@ -149,7 +151,7 @@ function PollItemRow({
               <button
                 type="button"
                 className="ml-auto rounded p-1 transition-colors hover:bg-neutral-200 hover:dark:bg-neutral-800">
-                <Icon.MoreHorizontal className="h-5 w-5" />
+                <Icon.MoreHorizontal size={20} />
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
@@ -157,21 +159,17 @@ function PollItemRow({
               onCloseAutoFocus={(e) => e.preventDefault()}>
               <DropdownMenuItem className="space-x-2" asChild>
                 <Link href={routes.poll(id)}>
-                  <Icon.ExternalLink className="h-4 w-4" />
+                  <Icon.ExternalLink size={16} />
                   <span>Open link</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem className="space-x-2" onSelect={handleCopy}>
-                {isCopied ? (
-                  <Icon.Check className="h-4 w-4" />
-                ) : (
-                  <Icon.Copy className="h-4 w-4" />
-                )}
+                {isCopied ? <Icon.Check size={16} /> : <Icon.Copy size={16} />}
                 <span>Copy link</span>
               </DropdownMenuItem>
               <DropdownMenuItem className="space-x-2" asChild>
                 <Link href={routes.DASHBOARD.ANALYTICS.poll(id)}>
-                  <Icon.BarChart2 className="h-4 w-4" />
+                  <Icon.BarChart2 size={16} />
                   <span>Analytics</span>
                 </Link>
               </DropdownMenuItem>
@@ -179,15 +177,15 @@ function PollItemRow({
                 <DropdownMenuItem
                   className="space-x-2"
                   onSelect={(e) => e.preventDefault()}>
-                  <Icon.Share2 className="h-4 w-4" />
+                  <Icon.Share2 size={16} />
                   <span>Share</span>
                 </DropdownMenuItem>
               </SharePollDialog>
               <DeletePollDialog pollId={id}>
                 <DropdownMenuItem
-                  className="space-x-2 text-red-400"
+                  className="text-danger space-x-2"
                   onSelect={(e) => e.preventDefault()}>
-                  <Icon.Trash2 className="h-4 w-4" />
+                  <Icon.Trash2 size={16} />
                   <span>Delete poll</span>
                 </DropdownMenuItem>
               </DeletePollDialog>

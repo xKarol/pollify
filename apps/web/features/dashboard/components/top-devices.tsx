@@ -10,9 +10,9 @@ import { useAnalyticsTopDevices } from "../hooks";
 type TopDevicesProps = React.ComponentPropsWithoutRef<"div">;
 
 const deviceIcon: Record<Analytics.Devices, JSX.Element> = {
-  mobile: <Icon.Smartphone className="h-4 w-4" />,
-  tablet: <Icon.Tablet className="h-4 w-4" />,
-  desktop: <Icon.Monitor className="h-4 w-4" />,
+  mobile: <Icon.Smartphone size={16} />,
+  tablet: <Icon.Tablet size={16} />,
+  desktop: <Icon.Monitor size={16} />,
 };
 
 export default function TopDevices({ className, ...props }: TopDevicesProps) {
@@ -51,7 +51,7 @@ export default function TopDevices({ className, ...props }: TopDevicesProps) {
               key={deviceName}
               className="bg-foreground relative flex w-full items-center justify-between rounded px-4 py-2 text-xs">
               <div className="flex items-center space-x-4">
-                {deviceIcon[deviceName]}
+                {deviceIcon[deviceName as Analytics.Devices]}
                 <span className="capitalize">{deviceName}</span>
               </div>
 

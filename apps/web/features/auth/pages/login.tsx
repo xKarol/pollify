@@ -51,9 +51,8 @@ export default function LoginPage() {
     },
   });
 
-  const onSubmit = form.handleSubmit(async (data: FormValues) => {
+  const onSubmit = form.handleSubmit(async (data) => {
     try {
-      console.log(data);
       await signIn({
         provider: "credentials",
         data: {
@@ -74,7 +73,7 @@ export default function LoginPage() {
           <Alert variant="error" className="mb-8">
             <AlertTitle>
               {error
-                ? getErrorMessage(error) || form.formState.errors.root.message
+                ? getErrorMessage(error) || form.formState.errors.root?.message
                 : null}
             </AlertTitle>
           </Alert>
@@ -89,9 +88,7 @@ export default function LoginPage() {
         <div className="flex flex-col space-y-16">
           <div className="flex flex-col justify-center">
             <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="flex flex-col space-y-4">
+              <form onSubmit={onSubmit} className="flex flex-col space-y-4">
                 <FormField
                   control={form.control}
                   name="email"

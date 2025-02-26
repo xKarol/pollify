@@ -2,7 +2,7 @@ import { Icon, toast } from "@pollify/ui";
 import { NextSeo } from "next-seo";
 import { useQueryState } from "next-usequerystate";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 
 import { routes } from "../../../config/routes";
 import { useHasPermission } from "../../../hooks/use-has-permission";
@@ -28,11 +28,14 @@ const PollAnalyticsPage = () => {
   const pollId = router.query.pollId as string;
   const { data, isSuccess } = usePoll(pollId, {
     retry: false,
-    onError: () => {
+  });
+
+  useEffect(() => {
+    if (!isSuccess) {
       toast("This poll does not exist.", { variant: "error" });
       router.push(routes.DASHBOARD.HOME);
-    },
-  });
+    }
+  }, [router, isSuccess]);
 
   if (!pollId && !isSuccess) return null;
   return (

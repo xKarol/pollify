@@ -4,7 +4,7 @@ import { Services as UserServices } from "@pollify/types/user";
 
 export const updateUserData = async (
   userId: string,
-  data: Pick<User, "name" | "clockType" | "timeZone">
+  data: Partial<Pick<User, "name" | "clockType" | "timeZone">>
 ) => {
   const response = await prisma.user.update({
     where: { id: userId },

@@ -3,7 +3,7 @@ import { infiniteQueryOptions, useInfiniteQuery } from "@tanstack/react-query";
 import { client } from "../../../services/api";
 import type { HookInfiniteQueryOptions } from "../../../types";
 
-const $get = client.api.me.vote.$get;
+const $get = client.api.me.votes.$get;
 
 export const getUserPollVoteListKey = ["user.votes"] as const;
 

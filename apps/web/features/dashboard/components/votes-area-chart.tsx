@@ -139,6 +139,7 @@ function CustomTooltip({
         </p>
         <p>
           <strong className="font-medium">Total:</strong>{" "}
+          {/* @ts-expect-error TODO fix */}
           <span>{nFormatter(+payload[0].value)}</span>
         </p>
       </div>
