@@ -61,17 +61,12 @@ export default function AccountGeneralPage() {
   );
 }
 
-type FormValues = {
-  language: string;
-  clockType: "12h" | "24h";
-  timeZone: string;
-};
-
 export const updateUserSchema = z.object({
-  language: z.string().nonempty(),
   clockType: z.string().nonempty(),
   timeZone: z.string().nonempty(),
 });
+
+type FormValues = z.infer<typeof updateUserSchema>;
 
 function EditAccountForm() {
   const { data: session, update } = useSession();
@@ -80,18 +75,15 @@ function EditAccountForm() {
   const form = useForm<FormValues>({
     resolver: zodResolver(updateUserSchema),
     defaultValues: {
-      language: "English",
       clockType: session?.user.clockType === 12 ? "12h" : "24h",
       timeZone: session?.user.timeZone || dayjs.tz.guess(),
     },
     disabled,
   });
   const { mutateAsync: updateAccount } = useUpdateAccount();
-  const hasChanges =
-    JSON.stringify(form.formState.defaultValues) !==
-    JSON.stringify(form.getValues());
+  const hasChanges = form.formState.isDirty;
 
-  const onSubmit = form.handleSubmit(async (payload: FormValues) => {
+  const onSubmit = form.handleSubmit(async (payload) => {
     try {
       setDisabled(true);
       await updateAccount({
@@ -112,35 +104,9 @@ function EditAccountForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={"flex flex-col"}>
+      <form onSubmit={onSubmit} className={"flex flex-col"}>
         <div className="mb-8 space-y-4">
           <div className="space-y-3">
-            <FormField
-              control={form.control}
-              name="language"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Language</FormLabel>
-                  <Select
-                    disabled={disabled}
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          defaultValue="English"
-                          placeholder="Select a language"
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="English">English</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <FormField
               control={form.control}
               name="clockType"

@@ -79,11 +79,9 @@ function EditAccountForm() {
     disabled,
   });
   const { mutateAsync: updateAccount } = useUpdateAccount();
-  const hasChanges =
-    JSON.stringify(form.formState.defaultValues) !==
-    JSON.stringify(form.getValues());
+  const hasChanges = form.formState.isDirty;
 
-  const onSubmit = form.handleSubmit(async (payload: FormValues) => {
+  const onSubmit = form.handleSubmit(async (payload) => {
     try {
       setDisabled(true);
       await updateAccount({ json: payload });
@@ -98,7 +96,7 @@ function EditAccountForm() {
   });
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={"flex flex-col"}>
+      <form onSubmit={onSubmit} className={"flex flex-col"}>
         <div className="space-y-4">
           <div className="space-y-3">
             <FormField
