@@ -11,9 +11,8 @@ export const captureError = (error: unknown) => {
   }
 
   if (error instanceof httpError.HttpError) {
-    return httpError(error);
+    return error;
   }
 
-  console.log("Unknown error:", error);
-  return httpError(500, error.message); //TODO ! replace with "Internal Server Error"
+  return httpError.InternalServerError();
 };
