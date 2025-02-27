@@ -1,16 +1,18 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const { withSentryConfig } = require("@sentry/nextjs");
+import bundleAnalyzer from "@next/bundle-analyzer";
+import { withSentryConfig } from "@sentry/nextjs";
+import type { NextConfig } from "next";
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+});
+
+const nextConfig: NextConfig = {
   reactStrictMode: true,
   transpilePackages: ["@pollify/ui"],
-  i18n: {
-    defaultLocale: "en",
-    locales: ["en"],
-  },
   async rewrites() {
     return {
+      afterFiles: [],
+      fallback: [],
       beforeFiles: [
         {
           source: "/dashboard",
@@ -23,13 +25,15 @@ const nextConfig = {
       ],
     };
   },
+  eslint: {
+    ignoreDuringBuilds: process.env.ESLINT_IGNORE_BUILD_ERRORS === "true",
+  },
+  typescript: {
+    ignoreBuildErrors: process.env.TYPESCRIPT_IGNORE_BUILD_ERRORS === "true",
+  },
 };
 
-const withBundleAnalyzer = require("@next/bundle-analyzer")({
-  enabled: process.env.ANALYZE === "true",
-});
-
-module.exports = withBundleAnalyzer(
+export default withBundleAnalyzer(
   withSentryConfig(nextConfig, {
     org: process.env.SENTRY_ORG,
     project: process.env.SENTRY_PROJECT,
