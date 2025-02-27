@@ -1,6 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@pollify/ui";
+import type { InferResponseType } from "hono";
 import { Home } from "lucide-react";
-import type { InferGetStaticPropsType } from "next";
+import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { NextSeo } from "next-seo";
 import React from "react";
 
@@ -52,9 +53,14 @@ const planFeatures = {
   ],
 } as const;
 
-export async function getStaticProps() {
+export const getServerSideProps = (async ({ res }) => {
   const response = await client.api.payments.plans.$get();
   const plans = await response.json();
+
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=86400, stale-while-revalidate=3600"
+  ); // cache 1d, serve stale for 1h
 
   return {
     props: {
@@ -62,17 +68,22 @@ export async function getStaticProps() {
         {
           planName: "Free",
           description: "Get started with our basic features at no cost!",
-          prices: plans[0].prices.map((price) => ({ ...price, unitAmount: 0 })),
+          prices: plans[0].prices.map((price) => ({
+            ...price,
+            unitAmount: 0,
+          })),
         },
         ...plans,
       ],
     },
   };
-}
+}) satisfies GetServerSideProps<{
+  plans: InferResponseType<typeof client.api.payments.plans.$get>;
+}>;
 
 export default function PricingPage({
   plans,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <>
       <NextSeo title="Pricing" />
