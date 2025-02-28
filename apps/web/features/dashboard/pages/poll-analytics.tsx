@@ -28,16 +28,16 @@ const PollAnalyticsPage = () => {
   const analyticsParams = useAnalyticsParams();
   const router = useRouter();
   const pollId = router.query.pollId as string;
-  const { data, isSuccess } = usePoll(pollId, {
+  const { data, isError, isSuccess } = usePoll(pollId, {
     retry: false,
   });
 
   useEffect(() => {
-    if (!isSuccess) {
+    if (isError) {
       toast.error("This poll does not exist.");
       router.push(routes.DASHBOARD.HOME);
     }
-  }, [router, isSuccess]);
+  }, [router, isError]);
 
   if (!pollId && !isSuccess) return null;
   return (
