@@ -11,10 +11,13 @@ jobs:
       - name: Install Dependencies
         run: bun install
 
+      - name: Generate prisma types
+        run: bun run turbo run db:generate
+
       - name: Test
         env:
-          PORT: 4000
-          ORIGIN_URL: http://localhost:4000
+          PORT: 3000
+          ORIGIN_URL: http://localhost:3000
           FRONTEND_URL: http://localhost:3000
           REDIS_URL: ${{ secrets.REDIS_URL }}
         run: bun run test
