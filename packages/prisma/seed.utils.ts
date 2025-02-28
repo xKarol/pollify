@@ -165,6 +165,10 @@ export const seedVotes = async (ctx: Context) => {
   }
   const transactions: PrismaPromise<unknown>[] = [];
   for await (const poll of ctx.polls) {
+    const answerVotes: { answerId: string; votes: number } = {
+      answerId: "",
+      votes: 0,
+    };
     const totalVotes = faker.number.int({ min: 0, max: 200 });
     transactions.push(
       ctx.prisma.poll.update({
@@ -174,30 +178,34 @@ export const seedVotes = async (ctx: Context) => {
         data: {
           vote: {
             createMany: {
-              data: Array.from({ length: totalVotes }, () => ({
-                answerId:
-                  // @ts-expect-error
-                  poll.answers[Math.floor(Math.random() * poll.answers.length)]
-                    .id,
-                userId:
-                  ctx.users[Math.floor(Math.random() * ctx.users.length)].id,
-              })),
+              data: (() => {
+                // @ts-expect-error
+                const randomAnswer =
+                  poll.answers[Math.floor(Math.random() * poll.answers.length)];
+                answerVotes.answerId = randomAnswer.id;
+                answerVotes.votes = totalVotes;
+                return Array.from({ length: totalVotes }, () => ({
+                  answerId: randomAnswer.id,
+                  userId:
+                    ctx.users[Math.floor(Math.random() * ctx.users.length)].id,
+                }));
+              })(),
             },
           },
           totalVotes: { increment: totalVotes },
         },
+      }),
+      ctx.prisma.answer.update({
+        where: {
+          id: answerVotes.answerId,
+        },
+        data: {
+          votes: {
+            increment: answerVotes.votes,
+          },
+        },
       })
     );
-    // transactions.push(
-    //   ctx.prisma.answer.update({
-    //     where: {
-    //       id: answerId,
-    //     },
-    //     data: {
-    //       votes: { increment: 1 },
-    //     },
-    //   })
-    // );
   }
   await ctx.prisma.$transaction(transactions);
   const totalVotes = await ctx.prisma.vote.count();
