@@ -1,10 +1,10 @@
-import { zValidator } from "@hono/zod-validator";
 import { apiUrls } from "@pollify/config";
 import { Hono } from "hono";
 import httpError from "http-errors";
 import { z } from "zod";
 
 import { requireAuth } from "../middlewares/require-auth";
+import { zValidator } from "../middlewares/validator";
 import { withAuth } from "../middlewares/with-auth";
 import { withCache } from "../middlewares/with-cache";
 import {

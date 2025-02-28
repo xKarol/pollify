@@ -1,4 +1,3 @@
-import { zValidator } from "@hono/zod-validator";
 import { apiUrls } from "@pollify/config";
 import { hasUserPermission } from "@pollify/lib";
 import { Plan, type Answer } from "@pollify/prisma/client";
@@ -13,6 +12,7 @@ import { z } from "zod";
 import { getGeoData } from "../lib/geoip";
 import { redis } from "../lib/redis";
 import { ua } from "../lib/useragent";
+import { zValidator } from "../middlewares/validator";
 import { withAuth } from "../middlewares/with-auth";
 import { withCache } from "../middlewares/with-cache";
 import { withPagination } from "../middlewares/with-pagination";

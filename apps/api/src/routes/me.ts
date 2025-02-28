@@ -1,10 +1,10 @@
-import { zValidator } from "@hono/zod-validator";
 import { apiUrls } from "@pollify/config";
 import type { User } from "@pollify/types";
 import { UserValidator } from "@pollify/validations";
 import { Hono } from "hono";
 
 import { requireAuth } from "../middlewares/require-auth";
+import { zValidator } from "../middlewares/validator";
 import { withAuth } from "../middlewares/with-auth";
 import { withPagination } from "../middlewares/with-pagination";
 import { withSorting } from "../middlewares/with-sorting";

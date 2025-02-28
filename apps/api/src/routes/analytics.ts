@@ -1,4 +1,3 @@
-import { zValidator } from "@hono/zod-validator";
 import { Parser } from "@json2csv/plainjs";
 import { apiUrls } from "@pollify/config";
 import { hasUserPermission } from "@pollify/lib";
@@ -9,6 +8,7 @@ import httpError from "http-errors";
 import { z } from "zod";
 
 import { requireAuth } from "../middlewares/require-auth";
+import { zValidator } from "../middlewares/validator";
 import { withAnalyticsParams } from "../middlewares/with-analytics-params";
 import { withAuth } from "../middlewares/with-auth";
 import {

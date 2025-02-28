@@ -1,8 +1,8 @@
-import { zValidator } from "@hono/zod-validator";
 import { apiUrls } from "@pollify/config";
 import { Hono } from "hono";
 import { z } from "zod";
 
+import { zValidator } from "../middlewares/validator";
 import { generateQRCode } from "../services/qr";
 
 const qr = new Hono().get(
