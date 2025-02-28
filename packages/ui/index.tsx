@@ -15,6 +15,7 @@ export * from "./components/radio-group";
 export * from "./components/select";
 export * from "./components/sheet";
 export * from "./components/tabs";
+export * from "./components/toggle-group";
 export * from "./components/badge";
 export * from "./components/tooltip";
 export * from "./components/avatar";

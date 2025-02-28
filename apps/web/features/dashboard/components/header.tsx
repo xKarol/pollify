@@ -22,7 +22,7 @@ export default function Header({
           <p className="text-sm font-medium text-neutral-600">{description}</p>
         ) : null}
       </div>
-      {ActionComponent}
+      <div className="flex space-x-2">{ActionComponent}</div>
     </div>
   );
 }

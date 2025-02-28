@@ -1,4 +1,5 @@
 import { zValidator } from "@hono/zod-validator";
+import { Parser } from "@json2csv/plainjs";
 import { apiUrls } from "@pollify/config";
 import { hasUserPermission } from "@pollify/lib";
 import type { Plan } from "@pollify/prisma/client";
@@ -11,8 +12,8 @@ import { requireAuth } from "../middlewares/require-auth";
 import { withAnalyticsParams } from "../middlewares/with-analytics-params";
 import { withAuth } from "../middlewares/with-auth";
 import {
-  getPollTopCountriesAnalytics,
-  getPollTopDevicesAnalytics,
+  getPollCountriesAnalytics,
+  getPollDevicesAnalytics,
   getPollVotesAnalytics,
 } from "../services/tinybird";
 
@@ -30,7 +31,7 @@ const analytics = new Hono()
 
       checkPermissions(analytics.dateFrom, analytics.dateTo, user.plan);
 
-      const { data } = await getPollVotesAnalytics({
+      const data = await getPollVotesAnalytics({
         pollId,
         ownerId: user.id,
         ...analytics,
@@ -39,7 +40,7 @@ const analytics = new Hono()
     }
   )
   .get(
-    apiUrls.polls.analytics.getTopDevices,
+    apiUrls.polls.analytics.getDevices,
     withAuth,
     requireAuth,
     zValidator("query", z.object({ pollId: z.string().optional() })),
@@ -51,27 +52,17 @@ const analytics = new Hono()
 
       checkPermissions(analytics.dateFrom, analytics.dateTo, user.plan);
 
-      const { data: rawData } = await getPollTopDevicesAnalytics({
+      const data = await getPollDevicesAnalytics({
         pollId,
         ownerId: user.id,
         ...analytics,
       });
 
-      const data = {
-        mobile: rawData.find((d) => d.device === "mobile")?.total || 0,
-        tablet: rawData.find((d) => d.device === "tablet")?.total || 0,
-        desktop: rawData.find((d) => d.device === "desktop")?.total || 0,
-      };
-
-      const sortedData = Object.entries(data)
-        .sort(([, a], [, b]) => b - a)
-        .reduce((r, [k, v]) => ({ ...r, [k]: v }), {}) as typeof data;
-
-      return c.json(sortedData);
+      return c.json(data);
     }
   )
   .get(
-    apiUrls.polls.analytics.getTopCountries,
+    apiUrls.polls.analytics.getCountries,
     withAuth,
     requireAuth,
     zValidator("query", z.object({ pollId: z.string().optional() })),
@@ -83,16 +74,87 @@ const analytics = new Hono()
 
       checkPermissions(analytics.dateFrom, analytics.dateTo, user.plan);
 
-      const { data: rawData } = await getPollTopCountriesAnalytics({
+      const data = await getPollCountriesAnalytics({
         pollId,
         ownerId: user.id,
         ...analytics,
       });
 
-      const data = rawData.filter(
-        (countryData) => countryData.country_code.length === 2
-      );
+      return c.json(data);
+    }
+  )
+  .get(
+    apiUrls.polls.analytics.export,
+    withAuth,
+    requireAuth,
+    zValidator("query", z.object({ pollId: z.string().optional() })),
+    zValidator(
+      "query",
+      z.object({
+        type: z
+          .enum(["all", "devices", "countries", "votes"])
+          .optional()
+          .default("all"),
+        format: z.enum(["csv", "json"]).optional().default("csv"),
+      })
+    ),
+    withAnalyticsParams,
+    async (c) => {
+      const { pollId, type, format } = c.req.valid("query");
+      const analytics = c.get("analytics");
+      const { session: user } = c.get("user");
+      const fileName = `analytics${
+        pollId ? `_${pollId}` : ""
+      }_${type}.${format}`;
 
+      checkPermissions(analytics.dateFrom, analytics.dateTo, user.plan);
+
+      let data: unknown = undefined;
+      switch (type) {
+        case "votes": {
+          data = await getPollVotesAnalytics({
+            pollId,
+            ownerId: user.id,
+            ...analytics,
+          });
+          break;
+        }
+        case "devices": {
+          data = await getPollDevicesAnalytics({
+            pollId,
+            ownerId: user.id,
+            ...analytics,
+          });
+          break;
+        }
+        case "countries": {
+          data = await getPollCountriesAnalytics({
+            pollId,
+            ownerId: user.id,
+            ...analytics,
+          });
+          break;
+        }
+      }
+
+      if (
+        !data ||
+        (Array.isArray(data)
+          ? data.length === 0
+          : Object.keys(data || {}).length === 0)
+      ) {
+        throw httpError("No available data to export.");
+      }
+
+      switch (format) {
+        case "csv": {
+          const parser = new Parser();
+          data = parser.parse(Array.isArray(data) ? data : [data]);
+        }
+      }
+
+      c.header("Content-Disposition", `attachment; filename="${fileName}"`);
+      // @ts-expect-error
       return c.json(data);
     }
   );

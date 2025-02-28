@@ -70,31 +70,50 @@ const topCountriesPipe = tinybird.buildPipe({
   }),
 });
 
-export const getPollVotesAnalytics: Analytics.Services["getUserPollVotes"] = (
-  params
+export const getPollVotesAnalytics = async (
+  params: Analytics.AnalyticsParams<{
+    groupBy: Analytics.GroupBy;
+  }>
 ) => {
-  return pollVotesPipe({
+  const response = await pollVotesPipe({
     poll_id: params.pollId,
     group_by: params.groupBy,
     ...transformParamsToSnakeCase(params),
   });
+  return response.data;
 };
 
-export const getPollTopDevicesAnalytics: Analytics.Services["getUserPollTopDevices"] =
-  (params) => {
-    return topDevicesPipe({
-      poll_id: params.pollId,
-      ...transformParamsToSnakeCase(params),
-    });
+export const getPollDevicesAnalytics = async (
+  params: Analytics.AnalyticsParams<Record<string, unknown>>
+) => {
+  const response = await topDevicesPipe({
+    poll_id: params.pollId,
+    ...transformParamsToSnakeCase(params),
+  });
+  const data = {
+    mobile: response.data.find((d) => d.device === "mobile")?.total || 0,
+    tablet: response.data.find((d) => d.device === "tablet")?.total || 0,
+    desktop: response.data.find((d) => d.device === "desktop")?.total || 0,
   };
 
-export const getPollTopCountriesAnalytics: Analytics.Services["getUserPollTopCountries"] =
-  (params) => {
-    return topCountriesPipe({
-      poll_id: params.pollId,
-      ...transformParamsToSnakeCase(params),
-    });
-  };
+  const sortedData = Object.entries(data)
+    .sort(([, a], [, b]) => b - a)
+    .reduce((r, [k, v]) => ({ ...r, [k]: v }), {}) as typeof data;
+  return sortedData;
+};
+
+export const getPollCountriesAnalytics = async (
+  params: Analytics.AnalyticsParams<Record<string, unknown>>
+) => {
+  const response = await topCountriesPipe({
+    poll_id: params.pollId,
+    ...transformParamsToSnakeCase(params),
+  });
+  const data = response.data.filter(
+    (countryData) => countryData.country_code.length === 2
+  );
+  return data;
+};
 
 function transformParamsToSnakeCase(params: Analytics.AnalyticsParams) {
   return {

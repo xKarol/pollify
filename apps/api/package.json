@@ -14,6 +14,7 @@
     "@chronark/zod-bird": "^0.3.10",
     "@hono/sentry": "^1.2.0",
     "@hono/zod-validator": "^0.4.3",
+    "@json2csv/plainjs": "^7.0.6",
     "@pollify/prisma": "workspace:*",
     "@upstash/redis": "^1.34.4",
     "axios": "^1.7.9",

@@ -21,8 +21,9 @@ export const apiUrls = {
     getLiveResults: (pollId) => `/polls/${pollId}/live` as const,
     analytics: {
       getVotes: "/polls/analytics/votes",
-      getTopDevices: "/polls/analytics/top-devices",
-      getTopCountries: "/polls/analytics/top-countries",
+      getDevices: "/polls/analytics/devices",
+      getCountries: "/polls/analytics/countries",
+      export: "/polls/analytics/export",
     },
   },
   payments: {

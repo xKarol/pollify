@@ -4,13 +4,13 @@ import { queryOptions, useQuery } from "@tanstack/react-query";
 import { client } from "../../../services/api";
 import type { HookQueryOptions } from "../../../types";
 
-const $get = client.api.polls.analytics["top-devices"].$get;
+const $get = client.api.polls.analytics.devices.$get;
 
 export const getUserPollTopDevicesKey = ({
   interval,
   pollId,
 }: Analytics.ClientAnalyticsParams) =>
-  ["analytics.top-devices", { interval, pollId }] as const;
+  ["analytics.devices", { interval, pollId }] as const;
 
 export const getUserPollTopDevicesOptions = (
   params: Analytics.ClientAnalyticsParams,

@@ -5,6 +5,7 @@ import React from "react";
 import { useHasPermission } from "../../../hooks/use-has-permission";
 import {
   AnalyticsCard,
+  AnalyticsExportDialog,
   AnalyticsIntervalSelect,
   Header,
   TopCountries,
@@ -27,11 +28,14 @@ const AnalyticsPage = () => {
         <Header
           heading="Analytics"
           ActionComponent={
-            <AnalyticsIntervalSelect
-              hasBasicPlan={hasBasicPlan}
-              onValueChange={setInterval}
-              value={analyticsParams.interval}
-            />
+            <>
+              <AnalyticsExportDialog />
+              <AnalyticsIntervalSelect
+                hasBasicPlan={hasBasicPlan}
+                onValueChange={setInterval}
+                value={analyticsParams.interval}
+              />
+            </>
           }
         />
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">

@@ -10,6 +10,7 @@ import { useHasPermission } from "../../../hooks/use-has-permission";
 import { usePoll } from "../../../hooks/use-poll";
 import {
   AnalyticsCard,
+  AnalyticsExportDialog,
   AnalyticsIntervalSelect,
   Header,
   TopCountries,
@@ -50,11 +51,14 @@ const PollAnalyticsPage = () => {
             heading="Analytics"
             description={isSuccess ? `Poll: ${data.question}` : ""}
             ActionComponent={
-              <AnalyticsIntervalSelect
-                hasBasicPlan={hasBasicPlan}
-                onValueChange={setInterval}
-                value={analyticsParams.interval}
-              />
+              <>
+                <AnalyticsExportDialog />
+                <AnalyticsIntervalSelect
+                  hasBasicPlan={hasBasicPlan}
+                  onValueChange={setInterval}
+                  value={analyticsParams.interval}
+                />
+              </>
             }
           />
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
