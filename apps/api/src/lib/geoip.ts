@@ -1,5 +1,3 @@
-import axios from "axios";
-
 type GeoData = {
   ip: string;
   version: string;
@@ -30,6 +28,7 @@ type GeoData = {
 };
 
 export const getGeoData = async (ip: string): Promise<GeoData> => {
-  const { data } = await axios.get(`https://ipapi.co/${ip}/json/`);
-  return data;
+  const response = await fetch(`https://ipapi.co/${ip}/json/`);
+  if (!response.ok) throw new Error("IP lookup failed");
+  return response.json();
 };

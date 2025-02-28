@@ -1,6 +1,7 @@
 import { apiUrls } from "@pollify/config";
 import { prisma } from "@pollify/prisma/edge";
-import { Hono, type Context } from "hono";
+import type { Context } from "hono";
+import { Hono } from "hono/quick";
 
 import { stripe } from "../lib/stripe";
 import { getPlanNameFromPriceId, PaymentMetdata } from "../services/payments";

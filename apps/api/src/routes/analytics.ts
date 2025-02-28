@@ -3,7 +3,7 @@ import { apiUrls } from "@pollify/config";
 import { hasUserPermission } from "@pollify/lib";
 import type { Plan } from "@pollify/prisma/client";
 import dayjs from "dayjs";
-import { Hono } from "hono";
+import { Hono } from "hono/quick";
 import httpError from "http-errors";
 import { z } from "zod";
 

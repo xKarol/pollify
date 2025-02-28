@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { Hono } from "hono";
+import { Hono } from "hono/quick";
 import { testClient } from "hono/testing";
 import { expect, test } from "vitest";
 

@@ -1,5 +1,5 @@
 import { apiUrls } from "@pollify/config";
-import { Hono } from "hono";
+import { Hono } from "hono/quick";
 import { z } from "zod";
 
 import { zValidator } from "../middlewares/validator";

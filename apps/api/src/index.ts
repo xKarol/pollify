@@ -1,11 +1,11 @@
 import { parseEnv } from "./config/env";
 
 import { sentry } from "@hono/sentry";
-import { Hono } from "hono";
 import { rateLimiter } from "hono-rate-limiter";
 // import { serveStatic } from "hono/bun";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
+import { Hono } from "hono/quick";
 import { secureHeaders } from "hono/secure-headers";
 
 import { corsConfig } from "./config/cors";

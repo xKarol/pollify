@@ -1,5 +1,5 @@
 import { apiUrls } from "@pollify/config";
-import { Hono } from "hono";
+import { Hono } from "hono/quick";
 import httpError from "http-errors";
 import { z } from "zod";
 

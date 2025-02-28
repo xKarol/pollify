@@ -1,4 +1,4 @@
-import { Hono } from "hono";
+import { Hono } from "hono/quick";
 
 import analytics from "./analytics";
 import healthCheck from "./health-check";

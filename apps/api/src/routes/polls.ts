@@ -4,7 +4,7 @@ import { Plan, type Answer } from "@pollify/prisma/client";
 import prisma from "@pollify/prisma/edge";
 import type { Poll } from "@pollify/types";
 import { PollValidator } from "@pollify/validations";
-import { Hono } from "hono";
+import { Hono } from "hono/quick";
 import { streamSSE } from "hono/streaming";
 import httpError from "http-errors";
 import { z } from "zod";
