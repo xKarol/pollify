@@ -3,7 +3,7 @@ import type { ErrorHandler } from "hono";
 import { captureError } from "../utils/capture-error";
 
 export const errorHandler: ErrorHandler = (err, c) => {
-  // c.get("sentry").captureException(err);
+  c.get("sentry").captureException(err);
   const capturedError = captureError(err);
   const status = capturedError.statusCode;
 
