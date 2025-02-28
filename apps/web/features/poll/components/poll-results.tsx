@@ -2,6 +2,8 @@ import { cn } from "@pollify/lib";
 import { CheckCircle2Icon } from "lucide-react";
 import React from "react";
 
+import { nFormatter } from "../../../utils/misc";
+
 type PollResultsProps = {
   selectedOptionId: string | undefined;
   totalVotes: number;
@@ -33,7 +35,9 @@ export const PollResults = ({
               className="bg-border group-data-[selected='true']:bg-primary absolute left-0 top-0 -z-10 size-full origin-left scale-x-[--percent] transition-transform duration-500 ease-in-out"></div>
             <div className="flex w-full items-center justify-between font-medium lg:text-lg">
               <div className="flex items-center space-x-2">
-                <span>{option.text}</span>
+                <span>
+                  {option.text} · {nFormatter(option.votes)} votes
+                </span>
                 <CheckCircle2Icon
                   size={20}
                   className="group-data-[selected='false']:hidden"
