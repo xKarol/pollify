@@ -1,6 +1,6 @@
 import { parseEnv } from "./config/env";
 
-import { sentry } from "@hono/sentry";
+// import { sentry } from "@hono/sentry";
 import { Hono } from "hono";
 import { rateLimiter } from "hono-rate-limiter";
 // import { serveStatic } from "hono/bun";
@@ -16,12 +16,12 @@ import { getIP } from "./utils/get-ip";
 parseEnv(process.env);
 
 const app = new Hono()
-  .use(
-    "*",
-    sentry({
-      dsn: process.env.SENTRY_DSN,
-    })
-  )
+  // .use(
+  //   "*",
+  //   sentry({
+  //     dsn: process.env.SENTRY_DSN,
+  //   })
+  // )
   .use(cors(corsConfig))
   .use(secureHeaders())
   .use(logger())
