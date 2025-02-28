@@ -18,6 +18,8 @@ module.exports = {
   rules: {
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/consistent-type-imports": "warn",
+    "turbo/no-undeclared-env-vars": "off",
+    "@typescript-eslint/no-explicit-any": "off",
   },
   settings: {
     next: {

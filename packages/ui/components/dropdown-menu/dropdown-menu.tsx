@@ -102,7 +102,7 @@ const DropdownMenuCheckboxItem = React.forwardRef<
     {...props}>
     <span className="absolute left-2 flex size-3.5 items-center justify-center">
       <DropdownMenuPrimitive.ItemIndicator>
-        <Check className="h-4 w-4" />
+        <Check size={16} />
       </DropdownMenuPrimitive.ItemIndicator>
     </span>
     {children}

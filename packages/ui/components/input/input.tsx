@@ -26,7 +26,7 @@ export interface InputProps
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ variant, LeftIcon, RightIcon, className, type, ...props }, ref) => {
     return (
-      <div className="relative flex items-center [&>svg:first-child]:absolute [&>svg:first-child]:left-2 [&>svg:first-child]:top-1/2 [&>svg:first-child]:-translate-y-1/2 [&>svg:last-child]:absolute [&>svg:last-child]:right-2 [&>svg:last-child]:top-1/2 [&>svg:last-child]:-translate-y-1/2 [&>svg]:h-4 [&>svg]:w-4 [&>svg]:cursor-pointer">
+      <div className="relative flex items-center [&>svg:first-child]:absolute [&>svg:first-child]:left-2 [&>svg:first-child]:top-1/2 [&>svg:first-child]:-translate-y-1/2 [&>svg:last-child]:absolute [&>svg:last-child]:right-2 [&>svg:last-child]:top-1/2 [&>svg:last-child]:-translate-y-1/2 [&>svg]:size-4 [&>svg]:cursor-pointer">
         {LeftIcon}
         <input
           type={type}
