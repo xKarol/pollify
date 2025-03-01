@@ -79,12 +79,24 @@ export default function LoginPage() {
           </Alert>
         ) : null}
         <h1 className="mb-16 text-center text-3xl font-medium">Log In</h1>
-        <AuthProvider
-          variant="google"
-          isLoading={isLoading.google}
-          onClick={() => signIn({ provider: "google" })}
-        />
-        <Separator className="mb-8 mt-12" />
+        <div className="flex flex-col space-y-2">
+          <AuthProvider
+            variant="google"
+            isLoading={isLoading.google}
+            onClick={() => signIn({ provider: "google" })}
+          />
+          <AuthProvider
+            variant="apple"
+            isLoading={isLoading.apple}
+            onClick={() => signIn({ provider: "apple" })}
+          />
+          <AuthProvider
+            variant="facebook"
+            isLoading={isLoading.facebook}
+            onClick={() => signIn({ provider: "facebook" })}
+          />
+        </div>
+        <Separator className="my-8" />
         <div className="flex flex-col space-y-16">
           <div className="flex flex-col justify-center">
             <Form {...form}>

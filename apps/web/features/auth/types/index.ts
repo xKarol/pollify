@@ -1,1 +1,1 @@
-export type Providers = "google" | "credentials";
+export type Providers = "google" | "apple" | "facebook" | "credentials";

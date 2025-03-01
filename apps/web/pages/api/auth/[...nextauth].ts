@@ -2,7 +2,9 @@ import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { db } from "@pollify/db/edge";
 import type { NextApiRequest, NextApiResponse } from "next";
 import NextAuth, { type NextAuthOptions } from "next-auth";
+import AppleProvider from "next-auth/providers/apple";
 import CredentialsProvider from "next-auth/providers/credentials";
+import FacebookProvider from "next-auth/providers/facebook";
 import GoogleProvider from "next-auth/providers/google";
 
 import { routes } from "../../../config/routes";
@@ -21,6 +23,14 @@ export const getAuthOptions = (req: NextApiRequest): NextAuthOptions => ({
     GoogleProvider({
       clientId: process.env.GOOGLE_OAUTH_ID!,
       clientSecret: process.env.GOOGLE_OAUTH_SECRET!,
+    }),
+    FacebookProvider({
+      clientId: process.env.FACEBOOK_OAUTH_ID!,
+      clientSecret: process.env.FACEBOOK_OAUTH_SECRET!,
+    }),
+    AppleProvider({
+      clientId: process.env.APPLE_OAUTH_ID!,
+      clientSecret: process.env.APPLE_OAUTH_SECRET!,
     }),
     CredentialsProvider({
       name: "Credentials",

@@ -13,6 +13,8 @@ export type AuthProviderProps = { variant: AuthProviders } & Omit<
 
 const variantIcons: Record<AuthProviders, JSX.Element> = {
   google: <Icon.Google />,
+  apple: <Icon.Apple2 />,
+  facebook: <Icon.Facebook2 />,
 };
 
 export default function AuthProvider({
@@ -23,16 +25,12 @@ export default function AuthProvider({
 }: AuthProviderProps) {
   return (
     <LoadingButton
-      isLoading={false}
+      isLoading={isLoading}
       type="button"
       variant="secondary"
-      className={cn(
-        "space-x-4 rounded-xl bg-[#d9d9d9] py-5 hover:bg-[#d9d9d9]/80 dark:bg-[#262626] dark:text-white dark:hover:bg-[#262626]/50",
-        isLoading && "animate-pulse opacity-75 [&_svg:last-child]:hidden",
-        className
-      )}
+      className={cn("space-x-4 rounded-xl py-5 [&_svg]:size-4", className)}
       {...props}>
-      {variantIcons[variant]}
+      {isLoading ? null : variantIcons[variant]}
       <span>
         Continue with <span className="capitalize">{variant}</span>
       </span>
