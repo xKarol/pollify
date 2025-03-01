@@ -28,7 +28,7 @@ Pollify is a web app designed to make creating and sharing polls easy, interacti
 ![Turborepo](https://img.shields.io/badge/Turborepo-%230F0813.svg?style=for-the-badge&logo=Turborepo&logoColor=white)
 ![Tailwindcss](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![ShadcnUI](https://img.shields.io/badge/shadcn%2Fui-000000?style=for-the-badge&logo=shadcnui&logoColor=white)
-![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
+![Drizzle](https://img.shields.io/badge/drizzle-C5F74F?style=for-the-badge&logo=drizzle&logoColor=black)
 ![Zod](https://img.shields.io/badge/Zod-000000?style=for-the-badge&logo=zod&logoColor=3068B7)
 ![Stripe](https://img.shields.io/badge/Stripe-626CD9?style=for-the-badge&logo=Stripe&logoColor=white)
 ![ReactQuery](https://img.shields.io/badge/React_Query-FF4154?style=for-the-badge&logo=ReactQuery&logoColor=white)
@@ -57,10 +57,10 @@ The project is organized as a monorepo using Turborepo, with the following struc
   - [/web](./apps/web)
 - `/packages`
   - [/config](./packages/config)
+  - [/db](./packages/db)
   - [/eslint-config-custom](./packages/eslint-config-custom)
   - [/lib](./packages/lib)
   - [/prettier-config](./packages/prettier-config)
-  - [/prisma](./packages/prisma)
   - [/tsconfig](./packages/tsconfig)
   - [/types](./packages/types)
   - [/ui](./packages/ui)
@@ -88,10 +88,11 @@ The project is organized as a monorepo using Turborepo, with the following struc
    docker compose up -d
    ```
 
-5. Sync prisma schema
+5. Initialize Database & Seed
 
    ```bash
    bun turbo run db:push
+   bun turbo run db:seed
    ```
 
 6. Run the app

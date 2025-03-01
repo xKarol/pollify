@@ -1,7 +1,9 @@
-import { Poll } from "@pollify/prisma/client";
-import { prisma } from "@pollify/prisma/edge";
+import { db } from "@pollify/db/edge";
+import { answers, polls, users, votes } from "@pollify/db/schema";
+import type { Poll } from "@pollify/db/types";
 import type { PaginationParams, SortingParams } from "@pollify/types";
 import { CreatePollData, SortPollFields } from "@pollify/types/poll";
+import { asc, desc, eq, sql } from "drizzle-orm";
 
 export const getPollList = async ({
   page = 1,
@@ -12,25 +14,30 @@ export const getPollList = async ({
 }: PaginationParams & {
   skip: number;
 } & SortingParams<SortPollFields>) => {
-  const response = await prisma.poll.findMany({
-    skip: skip,
-    take: limit + 1,
-    where: {
-      isPublic: true,
-    },
-    orderBy: {
-      [sortBy]: orderBy,
-    },
-    include: {
+  const query = db
+    .select({
+      id: polls.id,
+      question: polls.question,
+      userId: polls.userId,
+      totalVotes: polls.totalVotes,
+      isPublic: polls.isPublic,
+      requireRecaptcha: polls.requireRecaptcha,
+      createdAt: polls.createdAt,
+      updatedAt: polls.updatedAt,
       user: {
-        select: {
-          id: true,
-          name: true,
-          image: true,
-        },
+        id: users.id,
+        name: users.name,
+        image: users.image,
       },
-    },
-  });
+    })
+    .from(polls)
+    .where(eq(polls.isPublic, true))
+    .leftJoin(users, eq(polls.userId, users.id))
+    .orderBy(orderBy === "asc" ? asc(polls[sortBy]) : desc(polls[sortBy]))
+    .offset(skip)
+    .limit(limit + 1);
+
+  const response = await query;
 
   return {
     data: response.slice(0, limit),
@@ -39,14 +46,12 @@ export const getPollList = async ({
 };
 
 export const getPoll = async (pollId: string) => {
-  const response = await prisma.poll.findUnique({
-    where: {
-      id: pollId,
-    },
-    include: {
+  const response = await db.query.polls.findFirst({
+    where: (field, { eq }) => eq(field.id, pollId),
+    with: {
       answers: true,
       user: {
-        select: {
+        columns: {
           id: true,
           name: true,
           image: true,
@@ -58,43 +63,41 @@ export const getPoll = async (pollId: string) => {
 };
 
 export const getPollVotes = async (pollId: string) => {
-  const response = await prisma.answer.findMany({
-    where: {
-      pollId: pollId,
-    },
-  });
-  return response;
+  return db.select().from(answers).where(eq(answers.pollId, pollId));
 };
 
 export const createPoll = async (data: CreatePollData) => {
-  const response = await prisma.poll.create({
-    data: {
-      userId: data.userId,
-      question: data.question,
-      isPublic: data.isPublic,
-      requireRecaptcha: data.requireRecaptcha,
-      answers: {
-        createMany: { data: data.answers },
-      },
-    },
+  return db.transaction(async (tx) => {
+    const [newPoll] = await tx
+      .insert(polls)
+      .values({
+        userId: data.userId,
+        question: data.question,
+        isPublic: data.isPublic,
+        requireRecaptcha: data.requireRecaptcha,
+      })
+      .returning();
+
+    await tx
+      .insert(answers)
+      .values(data.answers.map((a) => ({ ...a, pollId: newPoll.id })));
+
+    return newPoll;
   });
-  return response;
 };
 
 export const updatePoll = async (pollId: string, data: Poll) => {
-  const response = await prisma.poll.update({
-    where: { id: pollId },
-    data: {
-      ...data,
-    },
-  });
-  return response;
+  const [updated] = await db
+    .update(polls)
+    .set(data)
+    .where(eq(polls.id, pollId))
+    .returning();
+
+  return updated;
 };
 
 export const deletePoll = async (pollId: string) => {
-  await prisma.poll.delete({
-    where: { id: pollId },
-  });
+  await db.delete(polls).where(eq(polls.id, pollId));
 };
 
 export const votePoll = async ({
@@ -106,83 +109,66 @@ export const votePoll = async ({
   pollId: string;
   answerId: string;
 }) => {
-  await prisma.poll.update({
-    where: { id: pollId },
-    data: {
-      totalVotes: {
-        increment: 1,
-      },
-      answers: {
-        update: {
-          where: {
-            id: answerId,
-          },
-          data: { votes: { increment: 1 } },
-        },
-      },
-    },
+  return db.transaction(async (tx) => {
+    await tx
+      .update(polls)
+      .set({ totalVotes: sql`${polls.totalVotes} + 1` })
+      .where(eq(polls.id, pollId));
+
+    await tx
+      .update(answers)
+      .set({ votes: sql`${answers.votes} + 1` })
+      .where(eq(answers.id, answerId));
+
+    const [newVote] = await tx
+      .insert(votes)
+      .values({ userId, pollId, answerId })
+      .returning();
+
+    return newVote;
   });
-  const response = await prisma.vote.create({
-    data: {
-      userId: userId,
-      pollId,
-      answerId,
-    },
-  });
-  return response;
 };
 
 export const getPollVoters = async (pollId: string) => {
-  const users = await prisma.vote.findMany({
-    take: 10,
-    where: {
-      pollId,
-    },
-    distinct: ["userId"],
-    select: {
+  const results = await db
+    .selectDistinctOn([votes.userId], {
       user: {
-        select: {
-          id: true,
-          name: true,
-          image: true,
-        },
+        id: users.id,
+        name: users.name,
+        image: users.image,
       },
-    },
-  });
+    })
+    .from(votes)
+    .where(eq(votes.pollId, pollId))
+    .leftJoin(users, eq(votes.userId, users.id))
+    .limit(10);
 
-  return users
-    .filter((data) => data.user !== null)
-    .map(({ user }) => user as NonNullable<typeof user>);
+  return results.filter((r) => r.user !== null).map((r) => r.user!);
 };
 
 export const getPollAnswer = async (answerId: string) => {
-  const answer = await prisma.answer.findUnique({
-    where: {
-      id: answerId,
-    },
-  });
-  return answer;
+  const [result] = await db
+    .select()
+    .from(answers)
+    .where(eq(answers.id, answerId));
+
+  return result;
 };
 
 export const getPollVote = async (voteId: string) => {
-  const vote = await prisma.vote.findUnique({
-    where: {
-      id: voteId,
-    },
-  });
-  return vote;
+  const [result] = await db.select().from(votes).where(eq(votes.id, voteId));
+
+  return result;
 };
 
 export const getPollUserSelection = async (userId: string, pollId: string) => {
-  const vote = await prisma.vote.findFirst({
-    where: {
-      pollId,
-      userId,
-    },
-    select: {
+  const response = await db.query.votes.findFirst({
+    where: (field, { eq, and }) =>
+      and(eq(field.userId, userId), eq(field.pollId, pollId)),
+    with: {
       answer: true,
     },
   });
 
-  return vote?.answer;
+  return response?.answer;
 };

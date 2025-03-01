@@ -11,9 +11,6 @@ jobs:
       - name: Install Dependencies
         run: bun install
 
-      - name: Generate prisma types
-        run: bun run turbo run db:generate
-
       - name: Type Check
         run: bun run typecheck
 

@@ -1,11 +1,8 @@
-import type { Prisma } from "@pollify/types";
+import type { Plans } from "@pollify/db/types";
 
-const plans: Prisma.Plan[] = ["FREE", "BASIC", "PRO"];
+const plans: Plans[] = ["free", "basic", "pro"];
 
-export function hasUserPermission(
-  planName: Prisma.Plan,
-  currentPlan: Prisma.Plan
-) {
+export function hasUserPermission(planName: Plans, currentPlan: Plans) {
   if (plans.indexOf(currentPlan) >= plans.indexOf(planName)) return true;
   return false;
 }

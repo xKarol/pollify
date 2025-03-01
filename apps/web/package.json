@@ -12,10 +12,10 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@auth/drizzle-adapter": "^1.8.0",
     "@hookform/resolvers": "^4.1.0",
-    "@next-auth/prisma-adapter": "^1.0.7",
     "@pollify/api": "workspace:*",
-    "@pollify/prisma": "workspace:*",
+    "@pollify/db": "workspace:*",
     "@pollify/ui": "workspace:*",
     "@pollify/validations": "workspace:*",
     "@radix-ui/react-accordion": "^1.2.3",

@@ -19,7 +19,7 @@ import { BaseLayout } from "../layouts";
 const AnalyticsPage = () => {
   const [, setInterval] = useQueryState("interval");
   const { hasPermission } = useHasPermission();
-  const hasBasicPlan = hasPermission("BASIC");
+  const hasBasicPlan = hasPermission("basic");
   const analyticsParams = useAnalyticsParams();
 
   return (

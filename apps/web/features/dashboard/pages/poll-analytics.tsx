@@ -24,7 +24,7 @@ import { BaseLayout } from "../layouts";
 const PollAnalyticsPage = () => {
   const [, setInterval] = useQueryState("interval");
   const { hasPermission } = useHasPermission();
-  const hasBasicPlan = hasPermission("BASIC");
+  const hasBasicPlan = hasPermission("basic");
   const analyticsParams = useAnalyticsParams();
   const router = useRouter();
   const pollId = router.query.pollId as string;

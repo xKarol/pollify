@@ -123,7 +123,7 @@ export default function Page() {
                   <div className="text-accent mb-2 flex items-center text-xs">
                     <Avatar
                       className="size-5"
-                      src={poll.user?.image}
+                      src={poll.user?.image || ""}
                       alt={`${poll.user?.name || "guest"}'s profile`}>
                       {poll.user?.name[0]}
                     </Avatar>

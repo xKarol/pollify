@@ -11,9 +11,6 @@ jobs:
       - name: Install Dependencies
         run: bun install
 
-      - name: Generate prisma types
-        run: bun run turbo run db:generate
-
       - name: Test
         env:
           PORT: 3000

@@ -92,7 +92,7 @@ export const Poll = ({
             </h1>
             <div className="flex flex-wrap items-center space-x-2">
               <Avatar
-                src={data.user?.image}
+                src={data.user?.image || ""}
                 className="border-border size-6 border">
                 {data.user?.name[0]}
               </Avatar>
@@ -154,7 +154,7 @@ export const Poll = ({
                   <Avatar
                     key={voter.id}
                     alt={`${voter.name} voter`}
-                    src={voter.image}
+                    src={voter.image || ""}
                     className="border-border size-8 border">
                     {voter.name[0]}
                   </Avatar>

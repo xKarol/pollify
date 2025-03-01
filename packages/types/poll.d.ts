@@ -1,4 +1,11 @@
-import type { Poll, Answer, User, Vote } from "@pollify/prisma/client";
+import type {
+  Poll,
+  InsertPoll,
+  Answer,
+  InsertAnswer,
+  User,
+  Vote,
+} from "@pollify/db/types";
 
 import type {
   PaginationParams,
@@ -6,12 +13,11 @@ import type {
   SortingParams,
 } from "./global.d.ts";
 
-export type CreatePollData = {
-  userId?: string;
-  question: string;
-  answers: Pick<Answer, "text">[];
-  isPublic?: boolean;
-  requireRecaptcha?: boolean;
+export type CreatePollData = Pick<
+  InsertPoll,
+  "userId" | "question" | "isPublic" | "requireRecaptcha"
+> & {
+  answers: Pick<InsertAnswer, "text">[];
 };
 
 export type DeletePollData = {

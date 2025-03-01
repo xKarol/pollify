@@ -1,4 +1,4 @@
-import type { Plan } from "@pollify/prisma/client";
+import type { Plans } from "@pollify/db/types";
 import type { Stripe } from "stripe";
 
 export type PaymentCycle = Extract<
@@ -8,7 +8,7 @@ export type PaymentCycle = Extract<
 
 export type PlanData = {
   productId: string;
-  name: Plan;
+  name: Plans;
   prices: {
     id: string;
     interval: Stripe.Price.Recurring.Interval;

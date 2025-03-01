@@ -1,4 +1,4 @@
-import type { Answer, User, Vote, Poll } from "@pollify/prisma/client";
+import type { Answer, User, Vote, Poll } from "@pollify/db/types";
 
 import type {
   PaginationParams,

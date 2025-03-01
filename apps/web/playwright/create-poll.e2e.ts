@@ -3,10 +3,10 @@ import { expect } from "@playwright/test";
 import { routes } from "../config/routes";
 import { test } from "./fixtures";
 
-test.beforeEach(({ poll }) => poll.deleteAll());
+test.beforeEach(({ polls }) => polls.deleteAll());
 
 test.describe("Create Poll", () => {
-  test("should create poll", async ({ page, prisma }) => {
+  test("should create poll", async ({ page, db }) => {
     await page.goto(routes.CREATE_POLL);
 
     await page.getByPlaceholder("Your question...").fill("test question");
@@ -19,9 +19,10 @@ test.describe("Create Poll", () => {
 
     await page.getByTestId("toast-success").waitFor();
 
-    const pollData = await prisma.poll.findFirstOrThrow({
-      include: { answers: true },
+    const pollData = await db.query.polls.findFirst({
+      with: { answers: true },
     });
+    if (!pollData) throw new Error("Not found poll.");
 
     expect(pollData.answers.length).toBe(3);
     expect(pollData.isPublic).toBeFalsy();

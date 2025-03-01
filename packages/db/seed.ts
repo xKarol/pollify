@@ -1,4 +1,3 @@
-import { PrismaClient } from "@prisma/client";
 import { gray } from "colorette";
 import ms from "ms";
 import ora from "ora";
@@ -10,8 +9,6 @@ import {
   seedUsers,
   seedVotes,
 } from "./seed.utils";
-
-const prisma = new PrismaClient();
 
 async function main() {
   const ctx = getContext();
@@ -42,14 +39,14 @@ async function main() {
   const time = Math.round(performance.now() - start);
   ctx.spinner.succeed(`Finished seeding in ${gray(ms(time))}`);
   console.log();
+  return ctx;
 }
 
 main()
-  .then(async () => {
-    await prisma.$disconnect();
+  .then(() => {
+    process.exit(0);
   })
   .catch(async (e) => {
     console.error(e);
-    await prisma.$disconnect();
     process.exit(1);
   });

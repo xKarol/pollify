@@ -1,4 +1,4 @@
-import type { Answer, Poll } from "@pollify/prisma/client";
+import type { Answer, Poll } from "@pollify/db/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useLocalStorage } from "react-use";
 

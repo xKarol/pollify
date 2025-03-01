@@ -1,5 +1,5 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { prisma } from "@pollify/prisma";
+import { DrizzleAdapter } from "@auth/drizzle-adapter";
+import { db } from "@pollify/db/edge";
 import type { NextApiRequest, NextApiResponse } from "next";
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -11,7 +11,7 @@ import { defaultCookies } from "../../../lib/default-cookies";
 const isSecure = process.env.NODE_ENV === "production";
 
 export const getAuthOptions = (req: NextApiRequest): NextAuthOptions => ({
-  adapter: PrismaAdapter(prisma),
+  adapter: DrizzleAdapter(db),
   cookies: defaultCookies(isSecure),
   useSecureCookies: isSecure,
   session: {
@@ -42,9 +42,8 @@ export const getAuthOptions = (req: NextApiRequest): NextAuthOptions => ({
       },
     }),
   ],
-
   callbacks: {
-    async signIn({ user }) {
+    async signIn({ user, profile }) {
       if (!user.timeZone) {
         const timeZone = req.headers["x-vercel-ip-timezone"] as string;
         user.timeZone = timeZone || process.env.TZ;
@@ -52,9 +51,16 @@ export const getAuthOptions = (req: NextApiRequest): NextAuthOptions => ({
           user.timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         }
       }
+
+      // @ts-ignore
+      user.plan = "free";
+      // @ts-ignore
+      user.clockType = 12;
+      // @ts-ignore
+      profile.user = user;
       return true;
     },
-    async jwt({ token, trigger, user }) {
+    async jwt({ token, trigger, user, profile }) {
       switch (trigger) {
         case "signIn":
         case "signUp": {
@@ -62,9 +68,10 @@ export const getAuthOptions = (req: NextApiRequest): NextAuthOptions => ({
         }
         case "update": {
           if (typeof token.email !== "string") break;
-          const userData = await prisma.user.findFirst({
-            where: { email: token.email },
-            select: {
+
+          const userData = await db.query.users.findFirst({
+            where: (fields, { eq }) => eq(fields.email, token.email!),
+            columns: {
               id: true,
               email: true,
               name: true,
@@ -73,10 +80,12 @@ export const getAuthOptions = (req: NextApiRequest): NextAuthOptions => ({
               clockType: true,
             },
           });
+
           if (!userData) break;
           token.email = userData.email;
           token.name = userData.name;
           token.plan = userData.plan;
+          // @ts-ignore
           token.timeZone = userData.timeZone;
           token.clockType = userData.clockType as 12 | 24;
           break;
@@ -84,8 +93,10 @@ export const getAuthOptions = (req: NextApiRequest): NextAuthOptions => ({
       }
 
       return {
-        ...token,
         ...user,
+        ...token,
+        // @ts-ignore
+        ...profile?.user,
         id: token.sub || user.id,
         image: token.picture || (user.image as string),
       };

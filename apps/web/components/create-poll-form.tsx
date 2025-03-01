@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MAX_POLL_OPTIONS } from "@pollify/config";
+import type { Plans } from "@pollify/db/types";
 import { cn } from "@pollify/lib";
-import type { Plan } from "@pollify/prisma/client";
 import type { Poll } from "@pollify/types";
 import {
   Button,
@@ -163,7 +163,7 @@ export const CreatePollForm = ({
               description="Allow anyone to view and vote"
             />
             <PollOptionField
-              requiredPlan={"BASIC"}
+              requiredPlan={"basic"}
               control={form.control}
               disabled={disabled}
               name="requireRecaptcha"
@@ -191,7 +191,7 @@ export const CreatePollForm = ({
 type PollOptionFieldProps = {
   IconElement: JSX.Element;
   heading: string;
-  requiredPlan?: Plan;
+  requiredPlan?: Plans;
   description: string;
 } & Omit<React.ComponentProps<typeof FormField<FormValues>>, "render">;
 
@@ -199,7 +199,7 @@ function PollOptionField({
   IconElement,
   heading,
   description,
-  requiredPlan = "FREE",
+  requiredPlan = "free",
   disabled,
   ...props
 }: PollOptionFieldProps) {

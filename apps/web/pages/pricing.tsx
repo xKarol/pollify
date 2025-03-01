@@ -57,16 +57,6 @@ export const getServerSideProps = (async ({ res }) => {
   const response = await client.api.payments.plans.$get();
   const plans = await response.json();
 
-  if (typeof Bun !== "undefined") {
-    console.log("Running in Bun");
-  }
-  if (
-    typeof process !== "undefined" &&
-    process.versions &&
-    process.versions.node
-  ) {
-    console.log("Running in Node.js");
-  }
   res.setHeader(
     "Cache-Control",
     "public, s-maxage=86400, stale-while-revalidate=3600"

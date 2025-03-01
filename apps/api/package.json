@@ -15,7 +15,7 @@
     "@hono/sentry": "^1.2.0",
     "@hono/zod-validator": "^0.4.3",
     "@json2csv/plainjs": "^7.0.6",
-    "@pollify/prisma": "workspace:*",
+    "@pollify/db": "workspace:*",
     "@upstash/redis": "^1.34.4",
     "currency-symbol-map": "^5.1.0",
     "dayjs": "^1.11.13",

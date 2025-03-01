@@ -1,7 +1,7 @@
 import { Parser } from "@json2csv/plainjs";
 import { apiUrls } from "@pollify/config";
+import type { Plans } from "@pollify/db/types";
 import { hasUserPermission } from "@pollify/lib";
-import type { Plan } from "@pollify/prisma/client";
 import dayjs from "dayjs";
 import { Hono } from "hono/quick";
 import httpError from "http-errors";
@@ -159,10 +159,10 @@ const analytics = new Hono()
     }
   );
 
-function checkPermissions(dateFrom: number, dateTo: number, plan: Plan) {
+function checkPermissions(dateFrom: number, dateTo: number, plan: Plans) {
   if (
     dayjs(dateTo).diff(dateFrom, "year") >= 1 &&
-    !hasUserPermission("BASIC", plan)
+    !hasUserPermission("basic", plan)
   ) {
     throw httpError.Forbidden("Basic plan or higher is required.");
   }

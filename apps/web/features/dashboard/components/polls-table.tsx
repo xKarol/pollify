@@ -1,5 +1,5 @@
+import type { Poll } from "@pollify/db/types";
 import { cn } from "@pollify/lib";
-import type { Poll } from "@pollify/prisma/client";
 import {
   Badge,
   DropdownMenu,

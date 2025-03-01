@@ -1,7 +1,7 @@
 import { apiUrls } from "@pollify/config";
+import { db } from "@pollify/db/edge";
+import { type Answer } from "@pollify/db/types";
 import { hasUserPermission } from "@pollify/lib";
-import { Plan, type Answer } from "@pollify/prisma/client";
-import prisma from "@pollify/prisma/edge";
 import type { Poll } from "@pollify/types";
 import { PollValidator } from "@pollify/validations";
 import { Hono } from "hono/quick";
@@ -63,7 +63,7 @@ const polls = new Hono()
 
           const data = cacheData ? cacheData : await getPoll(pollId);
 
-          if (data === null) {
+          if (!data) {
             throw httpError.NotFound();
           }
 
@@ -112,10 +112,10 @@ const polls = new Hono()
     async (c) => {
       const payload = c.req.valid("json");
       const { isLoggedIn, session: user } = c.get("user");
-      const userPlan = isLoggedIn ? user.plan : Plan.FREE;
+      const userPlan = isLoggedIn ? user.plan : "free";
 
       if (payload?.requireRecaptcha === true) {
-        const hasPermission = hasUserPermission(Plan.BASIC, userPlan);
+        const hasPermission = hasUserPermission("basic", userPlan);
         if (!hasPermission)
           throw httpError.Forbidden(
             "Basic plan or higher is required to use reCAPTCHA option."
@@ -123,7 +123,7 @@ const polls = new Hono()
       }
 
       if (payload.answers.length > 6) {
-        const hasPermission = hasUserPermission(Plan.BASIC, userPlan);
+        const hasPermission = hasUserPermission("basic", userPlan);
         if (!hasPermission)
           throw httpError.Forbidden(
             "Basic plan or higher is required to create more than 6 answers."
@@ -158,16 +158,19 @@ const polls = new Hono()
       const { reCaptchaToken } = c.req.valid("json");
       const { session: user } = c.get("user");
 
-      const poll = await prisma.poll.findUnique({
-        where: { id: pollId },
-        select: { requireRecaptcha: true, userId: true },
+      const data = await db.query.polls.findFirst({
+        where: (polls, { eq }) => eq(polls.id, pollId),
+        columns: {
+          requireRecaptcha: true,
+          userId: true,
+        },
       });
 
-      if (!poll) {
+      if (!data) {
         throw httpError.NotFound();
       }
 
-      if (poll.requireRecaptcha) {
+      if (data.requireRecaptcha) {
         const { success } = await verifyReCaptcha(reCaptchaToken!);
         if (!success) throw new Error("Invalid reCAPTCHA verification.");
       }
@@ -187,7 +190,7 @@ const polls = new Hono()
       await Analytics.sendPollVoteData({
         user_id: user?.id,
         poll_id: pollId,
-        owner_id: poll.userId || undefined,
+        owner_id: data.userId || undefined,
         vote_id: vote.id,
         answer_id: answerId,
         timestamp: new Date().toISOString(),

@@ -1,3 +1,4 @@
+import type { Plans } from "@pollify/db/types";
 import getSymbolFromCurrency from "currency-symbol-map";
 import type Stripe from "stripe";
 
@@ -92,5 +93,5 @@ export const getPlanNameFromPriceId = async (priceId: string) => {
   const price = await stripe.prices.retrieve(priceId);
   const productId = price.product as string;
   const product = await stripe.products.retrieve(productId);
-  return product.name;
+  return product.name as Plans;
 };

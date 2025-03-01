@@ -1,10 +1,10 @@
 import { apiUrls } from "@pollify/config";
-import { prisma } from "@pollify/prisma/edge";
 import type { Context } from "hono";
 import { Hono } from "hono/quick";
 
 import { stripe } from "../lib/stripe";
 import { getPlanNameFromPriceId, PaymentMetdata } from "../services/payments";
+import { updateUserData } from "../services/user";
 
 const webhooks = new Hono().post(
   apiUrls.webhooks.stripe,
@@ -24,11 +24,8 @@ const webhooks = new Hono().post(
 
         const planName = await getPlanNameFromPriceId(priceId);
 
-        // TODO import service function
-        await prisma.user.update({
-          where: { id: userId },
-          // @ts-expect-error
-          data: { plan: planName },
+        await updateUserData(userId, {
+          plan: planName,
         });
         break;
       }
@@ -36,10 +33,8 @@ const webhooks = new Hono().post(
       case "customer.subscription.deleted": {
         const { userId } = event.data.object.metadata as PaymentMetdata;
 
-        // TODO import service function
-        await prisma.user.update({
-          where: { id: userId },
-          data: { plan: "FREE" },
+        await updateUserData(userId, {
+          plan: "free",
         });
         break;
       }

@@ -1,19 +1,19 @@
 /* eslint-disable no-empty-pattern */
 import { test as base } from "@playwright/test";
 
-import { createPollFixture } from "./poll";
-import { createPrismaFixture } from "./prisma";
+import { createDatabaseFixture } from "./db";
+import { createPollsFixture } from "./polls";
 
 export type Fixtures = {
-  prisma: ReturnType<typeof createPrismaFixture>;
-  poll: ReturnType<typeof createPollFixture>;
+  db: ReturnType<typeof createDatabaseFixture>;
+  polls: ReturnType<typeof createPollsFixture>;
 };
 
 export const test = base.extend<Fixtures>({
-  prisma: async ({}, use) => {
-    await use(createPrismaFixture());
+  db: async ({}, use) => {
+    await use(createDatabaseFixture());
   },
-  poll: async ({}, use) => {
-    await use(createPollFixture());
+  polls: async ({}, use) => {
+    await use(createPollsFixture());
   },
 });

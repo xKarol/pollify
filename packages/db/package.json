@@ -1,23 +1,21 @@
 {
-  "name": "@pollify/prisma",
+  "name": "@pollify/db",
   "version": "0.0.0",
   "license": "MIT",
   "main": "./index.ts",
   "module": "./index.ts",
   "types": "./index.ts",
   "exports": {
-    ".": "./index.ts",
     "./edge": "./edge.ts",
-    "./client": "./client.ts"
+    "./schema": "./schema/index.ts",
+    "./types": "./types.ts"
   },
   "scripts": {
-    "db:generate": "prisma generate",
-    "db:studio": "prisma studio",
-    "db:push": "prisma db push",
-    "db:seed": "prisma db seed"
-  },
-  "prisma": {
-    "seed": "bun run ./seed.ts"
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio",
+    "db:push": "drizzle-kit push",
+    "db:seed": "bun run ./seed.ts"
   },
   "devDependencies": {
     "@faker-js/faker": "^9.5.0",
@@ -25,16 +23,17 @@
     "@types/lodash.shuffle": "^4.2.9",
     "@types/ms": "^2.1.0",
     "colorette": "^2.0.20",
+    "drizzle-kit": "^0.30.5",
     "he": "^1.2.0",
     "lodash.shuffle": "^4.2.0"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4",
-    "@prisma/adapter-neon": "^6.4.0",
-    "@prisma/client": "^6.4.0",
+    "@paralleldrive/cuid2": "^2.2.2",
+    "drizzle-orm": "^0.40.0",
+    "drizzle-seed": "^0.3.1",
     "ms": "^2.1.3",
     "ora": "^8.2.0",
-    "prisma": "^6.4.0",
-    "ws": "^8.18.0"
+    "pg": "^8.13.3"
   }
 }
