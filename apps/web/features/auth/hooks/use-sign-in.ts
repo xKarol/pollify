@@ -8,6 +8,8 @@ import type { Providers } from "../types";
 const initialLoadingData: Record<Providers, boolean> = {
   credentials: false,
   google: false,
+  facebook: false,
+  apple: false,
 };
 
 export const useSignIn = (
