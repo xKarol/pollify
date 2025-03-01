@@ -1,14 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Alert,
-  AlertTitle,
-  Input,
-  LoadingButton,
-  Separator,
-} from "@pollify/ui";
+import { Input, LoadingButton, Separator } from "@pollify/ui";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import {
@@ -36,11 +31,7 @@ const credentialsSchema = z.object({
 
 export default function LoginPage() {
   const router = useRouter();
-  const {
-    mutateAsync: signIn,
-    isLoading,
-    error,
-  } = useSignIn({
+  const { mutateAsync: signIn, isLoading } = useSignIn({
     redirectUrl: router.query.redirect as string | undefined,
   });
   const form = useForm<FormValues>({
@@ -62,22 +53,13 @@ export default function LoginPage() {
       });
       form.reset();
     } catch (error) {
-      form.setError("root", { message: getErrorMessage(error) });
+      toast.error(getErrorMessage(error));
     }
   });
 
   return (
     <div className="container">
       <div className="mx-auto my-16 flex max-w-[360px] flex-col">
-        {error || form.formState.errors.root?.message ? (
-          <Alert variant="error" className="mb-8">
-            <AlertTitle>
-              {error
-                ? getErrorMessage(error) || form.formState.errors.root?.message
-                : null}
-            </AlertTitle>
-          </Alert>
-        ) : null}
         <h1 className="mb-16 text-center text-3xl font-medium">Log In</h1>
         <div className="flex flex-col space-y-2">
           <AuthProvider
