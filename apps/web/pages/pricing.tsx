@@ -116,7 +116,7 @@ export default function PricingPage({
                       features={planFeatures[plan.planName.toLowerCase()]}
                       description={plan.description}
                       variant={
-                        plan.planName === "Pro" ? "recommended" : "default"
+                        plan.planName === "Basic" ? "recommended" : "default"
                       }
                       planName={plan.planName}
                       priceId={price.id}
