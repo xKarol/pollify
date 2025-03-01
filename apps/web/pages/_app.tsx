@@ -2,6 +2,7 @@ import { TooltipProvider, Toaster } from "@pollify/ui";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { NextPage } from "next";
 import { SessionProvider } from "next-auth/react";
 import { DefaultSeo } from "next-seo";
@@ -64,6 +65,7 @@ export default function MyApp({
               <div>
                 <Toaster />
               </div>
+              <SpeedInsights />
               <Analytics />
               <ReactQueryDevtools initialIsOpen={false} />
               {showDevtools && (
