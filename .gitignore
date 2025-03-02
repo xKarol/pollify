@@ -29,6 +29,11 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
+# env symlinks
+!apps/web/.env
+!apps/api/.env
+!packages/db/.env
+
 # turbo
 .turbo
 
