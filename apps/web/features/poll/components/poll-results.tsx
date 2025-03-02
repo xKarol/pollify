@@ -28,10 +28,10 @@ export const PollResults = ({
           <li
             key={option.id}
             data-selected={selectedOptionId === option.id}
-            className="bg-foreground border-border text-accent group relative overflow-hidden rounded-xl border p-4 data-[selected='true']:border-none data-[selected='true']:bg-[#98FB98]/20 data-[selected='true']:text-black lg:rounded-2xl lg:p-5">
+            className="bg-foreground border-border text-accent group relative z-10 overflow-hidden rounded-xl border p-4 data-[selected='true']:border-none data-[selected='true']:bg-[#98FB98]/20 data-[selected='true']:text-black lg:rounded-2xl lg:p-5">
             <div
               // @ts-ignore
-              style={{ "--percent": percent }}
+              style={{ "--percent": percent / 100 }}
               className="bg-border group-data-[selected='true']:bg-primary absolute left-0 top-0 -z-10 size-full origin-left scale-x-[--percent] transition-transform duration-500 ease-in-out"></div>
             <div className="flex w-full items-center justify-between font-medium lg:text-lg">
               <div className="flex items-center space-x-2">
