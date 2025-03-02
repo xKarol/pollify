@@ -1,5 +1,5 @@
 import { cn } from "@pollify/lib";
-import { Avatar, Button, Logo, ScrollArea } from "@pollify/ui";
+import { Avatar, Button, Logo, ScrollArea, Skeleton } from "@pollify/ui";
 import type { Session } from "next-auth";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
@@ -33,6 +33,7 @@ type HeaderContextValue = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isOpen: boolean;
   session: Session | null;
+  status: "authenticated" | "loading" | "unauthenticated";
 };
 
 const HeaderContext = React.createContext<HeaderContextValue>(
@@ -50,26 +51,30 @@ const useHeaderContext = () => {
 
 type HeaderProps = Omit<
   React.ComponentProps<typeof HeaderRoot>,
-  "children" | "session"
+  "children" | "session" | "status"
 >;
 
 export default function Header({ className, ...rest }: HeaderProps) {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   return (
-    <HeaderRoot session={session} className={cn(className)} {...rest}>
+    <HeaderRoot
+      session={session}
+      status={status}
+      className={cn(className)}
+      {...rest}>
       <HeaderLogo />
       <HeaderNavigation />
     </HeaderRoot>
   );
 }
 
-type HeaderRootProps = {
-  session: Session | null;
-} & React.ComponentPropsWithoutRef<"header">;
+type HeaderRootProps = Pick<HeaderContextValue, "status" | "session"> &
+  React.ComponentPropsWithoutRef<"header">;
 
 export function HeaderRoot({
   session,
+  status,
   className,
   children,
   ...rest
@@ -78,7 +83,7 @@ export function HeaderRoot({
   useLockBodyScroll(isOpen);
 
   return (
-    <HeaderContext.Provider value={{ isOpen, setIsOpen, session }}>
+    <HeaderContext.Provider value={{ isOpen, status, setIsOpen, session }}>
       <header
         className={cn(
           "bg-background sticky left-0 right-0 top-0 z-50 h-[4.5rem]",
@@ -120,7 +125,7 @@ function HeaderLink({
 }
 
 export function HeaderNavigation() {
-  const { isOpen, session } = useHeaderContext();
+  const { isOpen, session, status } = useHeaderContext();
   return (
     <>
       {isOpen ? <MobileNavigationMenu /> : null}
@@ -133,7 +138,9 @@ export function HeaderNavigation() {
           ))}
         </ul>
 
-        {session?.user ? (
+        {status === "loading" ? (
+          <Skeleton className="h-8 w-20" />
+        ) : session?.user ? (
           <ProfileMenu
             trigger={
               <Avatar
