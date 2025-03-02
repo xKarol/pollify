@@ -8,10 +8,10 @@ export default function BaseLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   return (
     <>
-      <HeaderRoot session={session}>
+      <HeaderRoot session={session} status={status}>
         <HeaderLogo />
       </HeaderRoot>
       <main>{children}</main>
