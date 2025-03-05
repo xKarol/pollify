@@ -103,7 +103,7 @@ export default function PricingPage({
               <TabsTrigger value="year">Annualy</TabsTrigger>
               <TabsTrigger value="month">Monthly</TabsTrigger>
             </TabsList>
-            <div className="flex flex-wrap justify-center space-x-8">
+            <div className="flex flex-wrap justify-center md:space-x-8">
               {plans.map((plan) => {
                 return plan.prices.map((price) => (
                   <TabsContent
