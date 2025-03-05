@@ -103,13 +103,13 @@ export default function PricingPage({
               <TabsTrigger value="year">Annualy</TabsTrigger>
               <TabsTrigger value="month">Monthly</TabsTrigger>
             </TabsList>
-            <div className="flex space-x-8">
+            <div className="flex flex-wrap justify-center space-x-8">
               {plans.map((plan) => {
                 return plan.prices.map((price) => (
                   <TabsContent
                     key={`${plan.planName}.${price.interval}`}
                     value={price.interval}
-                    className="mt-12 w-full md:max-w-[calc((100%/2)-1rem)] xl:max-w-[calc((100%/3)-1rem)]">
+                    className="mt-12 w-full md:max-w-[calc((100%/2)-2rem)] xl:max-w-[calc((100%/3)-2rem)]">
                     <PricingCard
                       className="h-full"
                       // @ts-expect-error
