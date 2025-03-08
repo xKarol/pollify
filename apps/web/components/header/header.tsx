@@ -224,7 +224,7 @@ function MobileNavigationMenu({
   );
 }
 
-type HamburgerMenuProps = React.ComponentPropsWithoutRef<"div">;
+type HamburgerMenuProps = React.ComponentPropsWithoutRef<"button">;
 
 function HamburgerMenu({ className, ...rest }: HamburgerMenuProps) {
   const { setIsOpen, isOpen } = useHeaderContext();
@@ -235,7 +235,8 @@ function HamburgerMenu({ className, ...rest }: HamburgerMenuProps) {
   }, [isDesktop, setIsOpen]);
 
   return (
-    <div
+    <button
+      type="button"
       onClick={() => setIsOpen((current) => !current)}
       className={cn("relative flex h-3 w-[1.75rem] cursor-pointer", className)}
       {...rest}>
@@ -250,6 +251,6 @@ function HamburgerMenu({ className, ...rest }: HamburgerMenuProps) {
           "absolute bottom-0 h-0.5 w-full rounded bg-black transition-transform dark:bg-white",
           isOpen && "top-1/2 w-full -translate-y-1/2 rotate-45"
         )}></div>
-    </div>
+    </button>
   );
 }
