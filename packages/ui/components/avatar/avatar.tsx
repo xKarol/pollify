@@ -1,5 +1,6 @@
 import { cn } from "@pollify/lib";
 import * as AvatarPrimitive from "@radix-ui/react-avatar";
+import Image from "next/image";
 import * as React from "react";
 
 const Avatar = React.forwardRef<
@@ -11,7 +12,18 @@ const Avatar = React.forwardRef<
 >(({ src, alt, className, children, ...props }, ref) => (
   <AvatarRoot ref={ref} className={className} {...props}>
     <AvatarImage src={src} alt={alt} />
-    <AvatarFallback>{children}</AvatarFallback>
+    <AvatarFallback className="relative">
+      {children ? (
+        children
+      ) : (
+        <Image
+          src="/default-avatar.svg"
+          alt="avatar"
+          className="size-full"
+          fill
+        />
+      )}
+    </AvatarFallback>
   </AvatarRoot>
 ));
 Avatar.displayName = "Avatar";
