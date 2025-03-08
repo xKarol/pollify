@@ -21,7 +21,7 @@ const MyVotesPage = () => {
 
   return (
     <BaseLayout>
-      <Header heading="Your votes" />
+      <Header heading="My votes" />
 
       <div>
         {error && <div>{getErrorMessage(error)}</div>}

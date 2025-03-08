@@ -25,6 +25,7 @@
     "@radix-ui/react-toggle-group": "^1.1.2",
     "@radix-ui/react-tooltip": "^1.0.7",
     "lucide-react": "^0.475.0",
+    "recharts": "^2.15.1",
     "sonner": "^2.0.1"
   },
   "devDependencies": {

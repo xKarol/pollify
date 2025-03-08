@@ -19,7 +19,7 @@ const intervals: Record<
 } as const;
 
 export default function useAnalyticsQueryParams() {
-  const [interval] = useQueryState("interval", {
+  const [interval, setInterval] = useQueryState("interval", {
     defaultValue: DEFAULT_ANALYTICS_INTERVAL,
   });
 
@@ -30,8 +30,12 @@ export default function useAnalyticsQueryParams() {
         : DEFAULT_ANALYTICS_INTERVAL
     ) as Analytics.Interval;
 
-    // @ts-expect-error
-    const [, groupBy] = intervals[interval];
+    // update interval when is not valid
+    if (interval !== validInterval) {
+      setInterval(validInterval);
+    }
+
+    const [, groupBy] = intervals[validInterval];
     const { dateFrom, dateTo } = calculateDate(interval);
 
     return {
@@ -40,7 +44,7 @@ export default function useAnalyticsQueryParams() {
       groupBy: groupBy as Analytics.GroupBy,
       interval: validInterval,
     };
-  }, [interval]);
+  }, [interval, setInterval]);
 
   return params;
 }

@@ -47,7 +47,7 @@ function AnalyticsExportDialog() {
       <DialogTrigger asChild>
         <Button variant="outline" className="rounded-xl px-3">
           <Icon.Download size={16} />
-          <span>Export</span>
+          <span className="hidden sm:block">Export</span>
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -55,7 +55,7 @@ function AnalyticsExportDialog() {
           <DialogTitle>Export data</DialogTitle>
 
           <div className="flex flex-col space-y-4 py-8">
-            <div className="flex flex-col space-y-1">
+            <div className="flex flex-col space-y-2">
               <span className="text-accent text-sm">Type</span>
               <ToggleGroup
                 variant="outline"
@@ -77,7 +77,7 @@ function AnalyticsExportDialog() {
                 </ToggleGroupItem>
               </ToggleGroup>
             </div>
-            <div className="flex flex-col space-y-1">
+            <div className="flex flex-col space-y-2">
               <span className="text-accent text-sm">Format</span>
               <ToggleGroup
                 variant="outline"

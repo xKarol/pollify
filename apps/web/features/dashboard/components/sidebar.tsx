@@ -1,3 +1,4 @@
+import { cn } from "@pollify/lib";
 import { Icon, Logo, Skeleton } from "@pollify/ui";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
@@ -44,8 +45,8 @@ export default function SidebarContainer({ className, ...props }: Props) {
   const isLoggedIn = status === "authenticated";
 
   return (
-    <Sidebar className={className} {...props}>
-      <Logo variant="text" className="mb-4 h-8" />
+    <Sidebar className={cn("z-50", className)} {...props}>
+      <Logo variant="text" className="mb-6" />
       <div className="flex flex-1 flex-col justify-between">
         <SidebarNavigationList>
           {sidebarLinks.map((link) => (
@@ -67,7 +68,7 @@ export default function SidebarContainer({ className, ...props }: Props) {
               avatarUrl={session.user.image}
             />
           ) : (
-            <Skeleton className="h-9 w-full bg-neutral-200" />
+            <Skeleton className="bg-border h-9 w-full" />
           )}
           <SidebarNavigationLink
             IconElement={<Icon.LogOut />}

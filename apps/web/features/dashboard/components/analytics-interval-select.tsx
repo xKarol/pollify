@@ -1,4 +1,3 @@
-import { DEFAULT_ANALYTICS_INTERVAL } from "@pollify/config";
 import {
   Icon,
   Select,
@@ -25,12 +24,10 @@ function AnalyticsIntervalSelect({
   hasBasicPlan,
 }: AnalyticsIntervalSelectProps) {
   return (
-    <Select
-      onValueChange={onValueChange}
-      defaultValue={value || DEFAULT_ANALYTICS_INTERVAL}>
+    <Select onValueChange={onValueChange} value={value}>
       <SelectTrigger className="min-w-[180px] max-w-max">
         <div className="flex items-center space-x-2">
-          <Icon.Calendar className="h-4 w-4" />
+          <Icon.Calendar size={16} />
           <SelectValue placeholder="Select a interval" />
         </div>
       </SelectTrigger>

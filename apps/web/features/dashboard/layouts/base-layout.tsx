@@ -30,11 +30,11 @@ export default function BaseLayout({ className, children, ...props }: Props) {
         />
 
         <SheetContent side="left" className="w-fit p-0">
-          <Sidebar className="pt-12" />
+          <Sidebar />
         </SheetContent>
       </Sheet>
       <Sidebar className={cn("hidden md:flex", isOpen && "hidden")} />
-      <div className="container mt-12 flex max-w-7xl flex-1 flex-col space-y-6 py-12 md:mt-0">
+      <div className="container mt-12 flex max-w-7xl flex-1 flex-col space-y-6 pb-6 md:mt-0">
         {children}
       </div>
     </main>

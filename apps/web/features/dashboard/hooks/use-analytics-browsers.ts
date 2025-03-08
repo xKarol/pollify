@@ -4,21 +4,21 @@ import { queryOptions, useQuery } from "@tanstack/react-query";
 import { client } from "../../../services/api";
 import type { HookQueryOptions } from "../../../types";
 
-const $get = client.api.polls.analytics.countries.$get;
+const $get = client.api.polls.analytics.browsers.$get;
 
-export const getUserPollTopCountriesKey = ({
+export const getUserPollBrowsersKey = ({
   interval,
   pollId,
 }: Analytics.ClientAnalyticsParams) =>
-  ["analytics.countries", { interval, pollId }] as const;
+  ["analytics.browsers", { interval, pollId }] as const;
 
-export const getUserPollTopCountriesOptions = (
+export const getUserPollBrowsersOptions = (
   params: Analytics.ClientAnalyticsParams,
   options?: HookQueryOptions<typeof $get>
 ) => {
   return queryOptions({
     ...options,
-    queryKey: getUserPollTopCountriesKey({
+    queryKey: getUserPollBrowsersKey({
       interval: params.interval,
       pollId: params.pollId,
     }),
@@ -30,6 +30,6 @@ export const getUserPollTopCountriesOptions = (
 };
 
 // hook
-export const useAnalyticsTopCountries = (
-  ...args: Parameters<typeof getUserPollTopCountriesOptions>
-) => useQuery(getUserPollTopCountriesOptions(...args));
+export const useAnalyticsBrowsers = (
+  ...args: Parameters<typeof getUserPollBrowsersOptions>
+) => useQuery(getUserPollBrowsersOptions(...args));

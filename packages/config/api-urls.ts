@@ -22,6 +22,7 @@ export const apiUrls = {
     analytics: {
       getVotes: "/polls/analytics/votes",
       getDevices: "/polls/analytics/devices",
+      getBrowsers: "/polls/analytics/browsers",
       getCountries: "/polls/analytics/countries",
       export: "/polls/analytics/export",
     },

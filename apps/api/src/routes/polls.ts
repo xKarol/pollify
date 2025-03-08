@@ -17,6 +17,7 @@ import { withAuth } from "../middlewares/with-auth";
 import { withCache } from "../middlewares/with-cache";
 import { withPagination } from "../middlewares/with-pagination";
 import { withSorting } from "../middlewares/with-sorting";
+import * as Analytics from "../services/analytics";
 import {
   getPollList,
   getPoll,
@@ -28,7 +29,6 @@ import {
   getPollAnswer,
 } from "../services/polls";
 import { verifyReCaptcha } from "../services/recaptcha";
-import * as Analytics from "../services/tinybird";
 import { getIP } from "../utils/get-ip";
 
 const polls = new Hono()
@@ -178,7 +178,7 @@ const polls = new Hono()
       const vote = await votePoll({ userId: user?.id, pollId, answerId });
 
       const ip = getIP(c.req);
-      const geo = await getGeoData(ip!).catch(() => null);
+      const geo = await getGeoData(ip!).catch(() => undefined);
       const userAgent = c.req.header("user-agent") || "";
       ua.setUA(userAgent).getResult();
 
@@ -194,6 +194,7 @@ const polls = new Hono()
         vote_id: vote.id,
         answer_id: answerId,
         timestamp: new Date().toISOString(),
+        ua: userAgent,
         browser: ua.getBrowser().name,
         browser_version: ua.getBrowser().version,
         os: ua.getOS().name,
@@ -201,10 +202,10 @@ const polls = new Hono()
         device: ua.getDevice().type,
         device_model: ua.getDevice().model,
         device_vendor: ua.getDevice().vendor,
-        country_code: geo?.country_code,
-        country_name: geo?.country_name,
-        latitude: geo?.latitude,
-        longitude: geo?.longitude,
+        country_name: geo?.country,
+        country_code: geo?.countryCode,
+        latitude: geo?.lat,
+        longitude: geo?.lon,
         region: geo?.region,
       }).catch((e) => {
         // TODO use logger here

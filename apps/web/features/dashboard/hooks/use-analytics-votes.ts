@@ -6,19 +6,19 @@ import type { HookQueryOptions } from "../../../types";
 
 const $get = client.api.polls.analytics.votes.$get;
 
-export const getUserPollsVotesKey = ({
+export const getAnalyticsVotesKey = ({
   interval,
   pollId,
 }: Analytics.ClientAnalyticsParams) =>
   ["analytics.votes", { interval, pollId }] as const;
 
-export const getUserPollsVotesOptions = (
+export const getAnalyticsVotesOptions = (
   params: Analytics.ClientAnalyticsParams,
   options?: HookQueryOptions<typeof $get>
 ) => {
   return queryOptions({
     ...options,
-    queryKey: getUserPollsVotesKey({
+    queryKey: getAnalyticsVotesKey({
       interval: params.interval,
       pollId: params.pollId,
     }),
@@ -31,5 +31,5 @@ export const getUserPollsVotesOptions = (
 
 // hook
 export const useAnalyticsVotes = (
-  ...args: Parameters<typeof getUserPollsVotesOptions>
-) => useQuery(getUserPollsVotesOptions(...args));
+  ...args: Parameters<typeof getAnalyticsVotesOptions>
+) => useQuery(getAnalyticsVotesOptions(...args));

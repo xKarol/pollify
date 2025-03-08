@@ -17,7 +17,14 @@ const envSchema = z.object({
   UPSTASH_REDIS_REST_URL: z.string(),
   UPSTASH_REDIS_REST_TOKEN: z.string(),
   STRIPE_WEBHOOK_SECRET: z.string(),
+  STRIPE_SECRET_API_KEY: z.string(),
+  RECAPTCHA_SECRET_TOKEN: z.string(),
   SENTRY_DSN: z.string().optional(),
+  TINYBIRD_TOKEN: z.string(),
+  TINYBIRD_VOTES_PIPE_ID: z.string(),
+  TINYBIRD_DEVICES_PIPE_ID: z.string(),
+  TINYBIRD_COUNTRIES_PIPE_ID: z.string(),
+  TINYBIRD_BROWSERS_PIPE_ID: z.string(),
 });
 
 export const parseEnv = (env: NodeJS.ProcessEnv) => {

@@ -3,6 +3,7 @@ import { apiUrls } from "@pollify/config";
 import type { Plans } from "@pollify/db/types";
 import { hasUserPermission } from "@pollify/lib";
 import dayjs from "dayjs";
+import { Context } from "hono";
 import { Hono } from "hono/quick";
 import httpError from "http-errors";
 import { z } from "zod";
@@ -12,10 +13,11 @@ import { zValidator } from "../middlewares/validator";
 import { withAnalyticsParams } from "../middlewares/with-analytics-params";
 import { withAuth } from "../middlewares/with-auth";
 import {
-  getPollCountriesAnalytics,
-  getPollDevicesAnalytics,
-  getPollVotesAnalytics,
-} from "../services/tinybird";
+  getBrowsersAnalytics,
+  getCountriesAnalytics,
+  getDevicesAnalytics,
+  getVotesAnalytics,
+} from "../services/analytics";
 
 const analytics = new Hono()
   .get(
@@ -31,7 +33,7 @@ const analytics = new Hono()
 
       checkPermissions(analytics.dateFrom, analytics.dateTo, user.plan);
 
-      const data = await getPollVotesAnalytics({
+      const data = await getVotesAnalytics({
         pollId,
         ownerId: user.id,
         ...analytics,
@@ -52,7 +54,29 @@ const analytics = new Hono()
 
       checkPermissions(analytics.dateFrom, analytics.dateTo, user.plan);
 
-      const data = await getPollDevicesAnalytics({
+      const data = await getDevicesAnalytics({
+        pollId,
+        ownerId: user.id,
+        ...analytics,
+      });
+
+      return c.json(data);
+    }
+  )
+  .get(
+    apiUrls.polls.analytics.getBrowsers,
+    withAuth,
+    requireAuth,
+    zValidator("query", z.object({ pollId: z.string().optional() })),
+    withAnalyticsParams,
+    async (c) => {
+      const { pollId } = c.req.valid("query");
+      const analytics = c.get("analytics");
+      const { session: user } = c.get("user");
+
+      checkPermissions(analytics.dateFrom, analytics.dateTo, user.plan);
+
+      const data = await getBrowsersAnalytics({
         pollId,
         ownerId: user.id,
         ...analytics,
@@ -74,7 +98,7 @@ const analytics = new Hono()
 
       checkPermissions(analytics.dateFrom, analytics.dateTo, user.plan);
 
-      const data = await getPollCountriesAnalytics({
+      const data = await getCountriesAnalytics({
         pollId,
         ownerId: user.id,
         ...analytics,
@@ -109,52 +133,56 @@ const analytics = new Hono()
 
       checkPermissions(analytics.dateFrom, analytics.dateTo, user.plan);
 
-      let data: unknown = undefined;
+      let data: unknown[] = [];
       switch (type) {
         case "votes": {
-          data = await getPollVotesAnalytics({
+          const res = await getVotesAnalytics({
             pollId,
             ownerId: user.id,
             ...analytics,
           });
+          data = res.data;
           break;
         }
         case "devices": {
-          data = await getPollDevicesAnalytics({
+          const res = await getDevicesAnalytics({
             pollId,
             ownerId: user.id,
             ...analytics,
           });
+          data = res.data;
           break;
         }
         case "countries": {
-          data = await getPollCountriesAnalytics({
+          const res = await getCountriesAnalytics({
             pollId,
             ownerId: user.id,
             ...analytics,
           });
+          data = res.data;
           break;
         }
       }
 
-      if (
-        !data ||
-        (Array.isArray(data)
-          ? data.length === 0
-          : Object.keys(data || {}).length === 0)
-      ) {
+      if (data.length === 0) {
         throw httpError("No available data to export.");
       }
 
+      c.header("Content-Disposition", `attachment; filename="${fileName}"`);
+
       switch (format) {
+        case "json": {
+          return c.json(data);
+        }
         case "csv": {
           const parser = new Parser();
-          data = parser.parse(Array.isArray(data) ? data : [data]);
+          // @ts-expect-error
+          data = parser.parse(data);
+          c.header("Content-Type", "text/csv;charset=utf-8;");
+          return c.body(data.toString());
         }
       }
 
-      c.header("Content-Disposition", `attachment; filename="${fileName}"`);
-      // @ts-expect-error
       return c.json(data);
     }
   );

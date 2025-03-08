@@ -27,7 +27,7 @@ const MyPollsPage = () => {
   return (
     <BaseLayout>
       <Header
-        heading="Your polls"
+        heading="My polls"
         ActionComponent={
           <DynamicCreatePollDialog>
             <Button>

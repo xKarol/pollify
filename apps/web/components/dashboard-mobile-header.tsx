@@ -16,13 +16,13 @@ export function DashboardMobileHeader({
   return (
     <header
       className={cn(
-        "dark:bg-background container fixed left-0 right-0 top-0 flex max-w-5xl items-center border border-neutral-200/50 bg-neutral-100 py-2 dark:border-neutral-800/50",
+        "border-border bg-background container fixed left-0 right-0 top-0 z-50 flex max-w-5xl items-center border py-2",
         className
       )}
       {...props}>
       <Button
         variant="text"
-        className="rounded p-2 hover:bg-neutral-200 dark:hover:bg-neutral-700"
+        className="hover:bg-border rounded-lg p-4"
         onClick={onOpen}
         asChild>
         {MenuComponent}

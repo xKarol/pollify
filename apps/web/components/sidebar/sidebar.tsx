@@ -12,7 +12,7 @@ export default function Sidebar({
   return (
     <aside
       className={cn(
-        "dark:bg-background sticky left-0 top-0 flex h-[100dvh] min-w-[220px] flex-col border-r border-neutral-200/50 bg-neutral-100 px-2 py-4 dark:border-neutral-800/50",
+        "bg-foreground sticky left-0 top-0 z-50 flex h-[100dvh] min-w-64 flex-col px-3 py-6",
         className
       )}
       {...props}>
@@ -44,8 +44,8 @@ export function SidebarNavigationLink<T extends React.ElementType = "div">({
   return (
     <Component
       className={cn(
-        "flex cursor-pointer items-center space-x-2 rounded p-2 text-sm font-medium text-neutral-800 transition-colors hover:bg-neutral-200 hover:text-black dark:text-neutral-200 hover:dark:bg-neutral-800 hover:dark:text-white [&_svg]:h-4 [&_svg]:w-4",
-        isActive && "bg-neutral-200 dark:bg-neutral-800",
+        "hover:bg-border flex cursor-pointer items-center space-x-2 rounded-xl p-2 text-sm font-medium transition-colors [&_svg]:size-4",
+        isActive && "bg-border",
         className
       )}
       {...props}>
@@ -72,7 +72,7 @@ export function SidebarNavigationList<T extends React.ElementType = "nav">({
   >) {
   const Component = as || "nav";
   return (
-    <Component className={cn("space-y-[0.125rem]", className)} {...props}>
+    <Component className={cn("space-y-0.5", className)} {...props}>
       {children}
     </Component>
   );
@@ -92,7 +92,7 @@ export function SidebarProfile({
   return (
     <div
       className={cn(
-        "flex cursor-pointer items-center space-x-2 rounded p-2 text-sm font-medium text-neutral-800 transition-colors hover:bg-neutral-200 hover:text-black dark:text-neutral-200 hover:dark:bg-neutral-800 hover:dark:text-white",
+        "flex items-center space-x-2 p-2 text-sm font-medium",
         className
       )}
       {...props}>

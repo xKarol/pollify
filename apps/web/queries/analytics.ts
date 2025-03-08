@@ -1,24 +1,24 @@
 import {
-  getUserPollTopCountriesKey,
-  getUserPollTopCountriesOptions,
-} from "../features/dashboard/hooks/use-analytics-top-countries";
+  getUserPollCountriesKey,
+  getUserPollCountriesOptions,
+} from "../features/dashboard/hooks/use-analytics-countries";
 import {
-  getUserPollTopDevicesKey,
-  getUserPollTopDevicesOptions,
-} from "../features/dashboard/hooks/use-analytics-top-devices";
+  getAnalyticsDevicesKey,
+  getAnalyticsDevicesOptions,
+} from "../features/dashboard/hooks/use-analytics-devices";
 import {
-  getUserPollsVotesKey,
-  getUserPollsVotesOptions,
+  getAnalyticsVotesKey,
+  getAnalyticsVotesOptions,
 } from "../features/dashboard/hooks/use-analytics-votes";
 
 export const analyticsKeys = {
-  getUserPollsVotes: getUserPollsVotesKey,
-  getUserPollTopDevices: getUserPollTopDevicesKey,
-  getUserPollTopCountries: getUserPollTopCountriesKey,
+  getUserPollsVotes: getAnalyticsVotesKey,
+  getUserPollTopDevices: getAnalyticsDevicesKey,
+  getUserPollTopCountries: getUserPollCountriesKey,
 };
 
 export const analyticsOptions = {
-  getUserPollsVotes: getUserPollsVotesOptions,
-  getUserPollTopDevices: getUserPollTopDevicesOptions,
-  getUserPollTopCountries: getUserPollTopCountriesOptions,
+  getUserPollsVotes: getAnalyticsVotesOptions,
+  getUserPollTopDevices: getAnalyticsDevicesOptions,
+  getUserPollTopCountries: getUserPollCountriesOptions,
 } satisfies Record<keyof typeof analyticsKeys, unknown>;
