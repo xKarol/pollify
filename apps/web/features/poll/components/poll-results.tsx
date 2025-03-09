@@ -37,13 +37,15 @@ export const PollResults = ({
                 className="bg-border group-data-[selected='true']:bg-primary absolute left-0 top-0 -z-10 size-full origin-left scale-x-[--percent] transition-transform duration-500 ease-in-out"></div>
               <div className="flex w-full items-center justify-between font-medium lg:text-lg">
                 <div className="flex items-center space-x-2">
-                  <span>
-                    {option.text} · {nFormatter(option.votes)} votes
+                  <span className="*:inline">
+                    <span>
+                      {option.text} · {nFormatter(option.votes)} votes
+                    </span>
+                    <CheckCircle2Icon
+                      size={20}
+                      className="ml-2 group-data-[selected='false']:hidden"
+                    />
                   </span>
-                  <CheckCircle2Icon
-                    size={20}
-                    className="group-data-[selected='false']:hidden"
-                  />
                 </div>
                 <span>{percent.toFixed(0)}%</span>
               </div>
