@@ -45,7 +45,9 @@ export default function TopBrowsers({ ...props }: TopBrowsersProps) {
               <Image
                 width={16}
                 height={12}
-                src={`/browsers/${browser_name.toLowerCase()}.png`}
+                src={`/browsers/${browser_name
+                  .replaceAll(" ", "-")
+                  .toLowerCase()}.png`}
                 alt={`${browser_name} browser`}
               />
             }

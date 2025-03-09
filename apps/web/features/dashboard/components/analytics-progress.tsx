@@ -38,7 +38,9 @@ const AnalyticsProgress = ({
         }}
         className="bg-primary/5 absolute left-0 top-0 -z-10 size-full origin-left scale-x-[--percent] transition-transform"></div>
       <div className="flex items-center space-x-2">
-        {leftIcon}
+        <div className="relative flex h-3 w-4 items-center justify-center">
+          {leftIcon}
+        </div>
         <span>{text}</span>
       </div>
 
